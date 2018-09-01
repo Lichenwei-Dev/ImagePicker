@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/iv_actionBar_back"
         android:gravity="center"
-        android:text="图片选择器"
+        android:text="@string/image_picker"
         android:textColor="@color/text_color_white"
         android:textSize="18sp" />
 
@@ -37,7 +37,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
-        android:text="确定"
+        android:text="@string/confirm"
         android:textColor="@color/text_color_white"
         android:textSize="14sp" />
 

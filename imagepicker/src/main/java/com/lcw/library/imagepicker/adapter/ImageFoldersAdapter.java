@@ -55,7 +55,7 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
             holder.mFolderName.setText(folderName);
         }
 
-        holder.mImageSize.setText(String.format("%d张", imageSize));
+        holder.mImageSize.setText(String.format(mContext.getString(R.string.image_num), imageSize));
 
         if (mCurrentImageFolderIndex == position) {
             holder.mImageFolderCheck.setVisibility(View.VISIBLE);

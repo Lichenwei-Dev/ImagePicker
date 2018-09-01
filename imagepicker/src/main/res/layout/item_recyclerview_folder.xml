@@ -33,7 +33,7 @@
             android:ellipsize="end"
             android:maxLength="12"
             android:singleLine="true"
-            android:text="所有图片"
+            android:text="@string/all_images"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="6dp"
-            android:text="132张"
+            android:text="@string/image_num"
             android:textColor="@android:color/darker_gray"
             android:textSize="12sp" />
     </LinearLayout>

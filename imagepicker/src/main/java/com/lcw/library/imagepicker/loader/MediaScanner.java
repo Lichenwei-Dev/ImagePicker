@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.WorkerThread;
 
+import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.ImageFolder;
 import com.lcw.library.imagepicker.data.ImageFile;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
@@ -87,7 +88,7 @@ public class MediaScanner {
                 if (imageFolderList.size() > 0) {
                     mMediaLoadCallback.loadMediaSuccess(imageFolderList);
                 } else {
-                    mMediaLoadCallback.loadMediaFailed("没有扫描到图片");
+                    mMediaLoadCallback.loadMediaFailed(mContext.getString(R.string.scanner_image_no_found));
                 }
             }
         }
@@ -106,7 +107,7 @@ public class MediaScanner {
         Map<Integer, ImageFolder> mediaFolderMap = new HashMap<>();
 
         //添加全部图片的文件夹
-        ImageFolder allImageFolder = new ImageFolder(ALL_IMAGES_FOLDER, "全部图片", imageFileList.get(0).getImagePath(), imageFileList);
+        ImageFolder allImageFolder = new ImageFolder(ALL_IMAGES_FOLDER, mContext.getString(R.string.all_images), imageFileList.get(0).getImagePath(), imageFileList);
         mediaFolderMap.put(ALL_IMAGES_FOLDER, allImageFolder);
 
         //添加其他的图片文件夹

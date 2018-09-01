@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,8 +23,8 @@ import com.lcw.library.imagepicker.data.ImageFile;
 import com.lcw.library.imagepicker.data.ImageFolder;
 import com.lcw.library.imagepicker.executors.CommonExecutor;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
-import com.lcw.library.imagepicker.task.MediaLoadTask;
 import com.lcw.library.imagepicker.manager.SelectionManager;
+import com.lcw.library.imagepicker.task.MediaLoadTask;
 import com.lcw.library.imagepicker.view.ImageFolderPopupWindow;
 
 import java.util.ArrayList;
@@ -112,7 +111,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
      */
     private void initView() {
 
-        mProgressDialog = ProgressDialog.show(this, null, "正在扫描图片..");
+        mProgressDialog = ProgressDialog.show(this, null, getString(R.string.scanner_image));
 
         mTvTitle = findViewById(R.id.tv_actionBar_title);
         if (!TextUtils.isEmpty(mTitle)) {
@@ -258,24 +257,24 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
             if (addSuccess) {
                 mImagePickerAdapter.notifyItemChanged(position);
             } else {
-                Toast.makeText(this, String.format("最多选择%d张图片", mMaxCount), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
             }
         }
         //改变确定按钮UI
         int selectCount = SelectionManager.getInstance().getSelectIds().size();
         if (selectCount == 0) {
             mTvCommit.setEnabled(false);
-            mTvCommit.setText("确定");
+            mTvCommit.setText(getString(R.string.confirm));
             return;
         }
         if (selectCount < mMaxCount) {
             mTvCommit.setEnabled(true);
-            mTvCommit.setText(String.format("确定（%d/%d）", selectCount, mMaxCount));
+            mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
             return;
         }
         if (selectCount == mMaxCount) {
             mTvCommit.setEnabled(true);
-            mTvCommit.setText(String.format("确定（%d/%d）", selectCount, mMaxCount));
+            mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
             return;
         }
     }
