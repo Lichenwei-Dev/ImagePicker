@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/iv_actionBar_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:src="@mipmap/icon_actionbar_back" />
+
+    <TextView
+        android:id="@+id/tv_actionBar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/iv_actionBar_back"
+        android:gravity="center"
+        android:text="图片选择器"
+        android:textColor="@color/text_color_white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_actionBar_commit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/selector_bt_commit"
+        android:enabled="false"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text="确定"
+        android:textColor="@color/text_color_white"
+        android:textSize="14sp" />
+
+</RelativeLayout>
