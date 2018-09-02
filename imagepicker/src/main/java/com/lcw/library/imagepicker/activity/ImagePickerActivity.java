@@ -1,8 +1,14 @@
 package com.lcw.library.imagepicker.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,8 +31,10 @@ import com.lcw.library.imagepicker.executors.CommonExecutor;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
 import com.lcw.library.imagepicker.manager.SelectionManager;
 import com.lcw.library.imagepicker.task.MediaLoadTask;
+import com.lcw.library.imagepicker.utils.Utils;
 import com.lcw.library.imagepicker.view.ImageFolderPopupWindow;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,12 +67,14 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
      */
     private TextView mTvTitle;
     private TextView mTvCommit;
+    private TextView mTvImageTime;
     private RecyclerView mRecyclerView;
     private TextView mTvImageFolders;
     private ImageFolderPopupWindow mImageFolderPopupWindow;
     private ProgressDialog mProgressDialog;
     private RelativeLayout mRlBottom;
 
+    private GridLayoutManager mGridLayoutManager;
     private ImagePickerAdapter mImagePickerAdapter;
 
     //图片列表/文件夹数据源
@@ -74,6 +84,17 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     //表示屏幕亮暗
     private static final int LIGHT_OFF = 0;
     private static final int LIGHT_ON = 1;
+
+
+    private Handler mMyHandler = new Handler();
+
+    private Runnable mHideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hideImageTime();
+        }
+    };
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,8 +139,10 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
             mTvTitle.setText(mTitle);
         }
         mTvCommit = findViewById(R.id.tv_actionBar_commit);
+        mTvImageTime = findViewById(R.id.tv_image_time);
         mRecyclerView = findViewById(R.id.rv_main_images);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        mGridLayoutManager = new GridLayoutManager(this, 4);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
         mImageFileList = new ArrayList<>();
         mImagePickerAdapter = new ImagePickerAdapter(this, mImageFileList, mSelectionMode);
         mImagePickerAdapter.setOnItemClickListener(this);
@@ -163,6 +186,21 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
                 }
             }
         });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                updateImageTime();
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                updateImageTime();
+            }
+        });
+
     }
 
     /**
@@ -209,6 +247,33 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         });
 
         CommonExecutor.getInstance().execute(mediaLoadTask);
+    }
+
+    private boolean isShowTime;
+
+    private void hideImageTime() {
+        if (isShowTime) {
+            isShowTime = false;
+            ObjectAnimator.ofFloat(mTvImageTime, "alpha", 1, 0).setDuration(300).start();
+        }
+    }
+
+    private void showImageTime() {
+        if (!isShowTime) {
+            isShowTime = true;
+            ObjectAnimator.ofFloat(mTvImageTime, "alpha", 0, 1).setDuration(300).start();
+        }
+    }
+
+    private void updateImageTime() {
+        int position = mGridLayoutManager.findFirstVisibleItemPosition();
+        ImageFile imageFile = mImageFileList.get(position);
+        String time = Utils.getImageTime(imageFile.getImageDateToken());
+        mTvImageTime.setText(time);
+        showImageTime();
+        mMyHandler.removeCallbacks(mHideRunnable);
+        mMyHandler.postDelayed(mHideRunnable, 1500);
+
     }
 
     /**

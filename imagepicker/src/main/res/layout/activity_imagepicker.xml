@@ -32,13 +32,28 @@
 
     </RelativeLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_main_images"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_main_bottom"
-        android:layout_below="@id/layout_actionBar" />
+        android:layout_below="@id/layout_actionBar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_main_images"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_image_time"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@color/text_bg_gray"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="2018/08"
+            android:textColor="@color/text_color_white"
+            android:visibility="visible" />
+    </RelativeLayout>
 
 
 </RelativeLayout>
