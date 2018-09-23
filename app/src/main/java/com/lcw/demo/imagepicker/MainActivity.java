@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.bt_select_images).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImagePicker.getInstance().setImageLoader(new GlideLoader()).showCamera(true).setMaxCount(9).start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
+                ImagePicker.getInstance().setImageLoader(new GlideLoader()).showCamera(false).setMaxCount(9).start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
             }
         });
 

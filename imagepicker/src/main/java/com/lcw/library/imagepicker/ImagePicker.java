@@ -125,6 +125,8 @@ public class ImagePicker {
     public void start(Activity activity, int requestCode) {
         if (checkPermission(activity)) {
             Intent intent = new Intent(activity, ImagePickerActivity.class);
+            intent.putExtra(ImagePickerActivity.EXTRA_TITLE, mTitle);
+            intent.putExtra(ImagePickerActivity.EXTRA_SAVE_STATE, mSaveState);
             intent.putExtra(ImagePickerActivity.EXTRA_SHOW_CAMERA, mShowCamera);
             intent.putExtra(ImagePickerActivity.EXTRA_MAX_COUNT, mMaxCount);
             activity.startActivityForResult(intent, requestCode);

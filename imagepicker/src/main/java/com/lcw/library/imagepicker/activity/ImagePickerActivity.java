@@ -1,14 +1,10 @@
 package com.lcw.library.imagepicker.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,7 +30,6 @@ import com.lcw.library.imagepicker.task.MediaLoadTask;
 import com.lcw.library.imagepicker.utils.Utils;
 import com.lcw.library.imagepicker.view.ImageFolderPopupWindow;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +52,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     public static final String EXTRA_MAX_COUNT = "maxCount";
     public static final String EXTRA_SAVE_STATE = "saveState";
     private String mTitle;
-    private boolean mShowCamera;
+    private boolean isShowCamera;
     private int mMaxCount;
     private boolean mSaveState;
     private int mSelectionMode;
@@ -84,6 +79,8 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     //表示屏幕亮暗
     private static final int LIGHT_OFF = 0;
     private static final int LIGHT_ON = 1;
+
+    private boolean isShowTime;
 
 
     private Handler mMyHandler = new Handler();
@@ -113,7 +110,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
      */
     private void initConfig() {
         mTitle = getIntent().getStringExtra(EXTRA_TITLE);
-        mShowCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, false);
+        isShowCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, false);
         mMaxCount = getIntent().getIntExtra(EXTRA_MAX_COUNT, 1);
         mSaveState = getIntent().getBooleanExtra(EXTRA_SAVE_STATE, false);
         if (!mSaveState) {
@@ -144,7 +141,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         mGridLayoutManager = new GridLayoutManager(this, 4);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         mImageFileList = new ArrayList<>();
-        mImagePickerAdapter = new ImagePickerAdapter(this, mImageFileList, mSelectionMode);
+        mImagePickerAdapter = new ImagePickerAdapter(this, mImageFileList, isShowCamera, mSelectionMode);
         mImagePickerAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mImagePickerAdapter);
         mRlBottom = findViewById(R.id.rl_main_bottom);
@@ -249,8 +246,10 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         CommonExecutor.getInstance().execute(mediaLoadTask);
     }
 
-    private boolean isShowTime;
 
+    /**
+     * 隐藏时间
+     */
     private void hideImageTime() {
         if (isShowTime) {
             isShowTime = false;
@@ -258,6 +257,9 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         }
     }
 
+    /**
+     * 显示时间
+     */
     private void showImageTime() {
         if (!isShowTime) {
             isShowTime = true;
@@ -265,14 +267,22 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         }
     }
 
+    /**
+     * 更新时间
+     */
     private void updateImageTime() {
         int position = mGridLayoutManager.findFirstVisibleItemPosition();
-        ImageFile imageFile = mImageFileList.get(position);
-        String time = Utils.getImageTime(imageFile.getImageDateToken());
-        mTvImageTime.setText(time);
-        showImageTime();
-        mMyHandler.removeCallbacks(mHideRunnable);
-        mMyHandler.postDelayed(mHideRunnable, 1500);
+        ImageFile imageFile = mImagePickerAdapter.getImageFile(position);
+        if (imageFile != null) {
+            if (mTvImageTime.getVisibility() != View.VISIBLE) {
+                mTvImageTime.setVisibility(View.VISIBLE);
+            }
+            String time = Utils.getImageTime(imageFile.getImageDateToken());
+            mTvImageTime.setText(time);
+            showImageTime();
+            mMyHandler.removeCallbacks(mHideRunnable);
+            mMyHandler.postDelayed(mHideRunnable, 1500);
+        }
 
     }
 
@@ -315,8 +325,14 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
      */
     @Override
     public void onImageCheck(View view, int position) {
+        if (isShowCamera) {
+            if (position == 0) {
+                showCamera();
+                return;
+            }
+        }
         //执行选中/取消操作
-        ImageFile imageFile = mImageFileList.get(position);
+        ImageFile imageFile = mImagePickerAdapter.getImageFile(position);
         if (imageFile != null) {
             boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imageFile);
             if (addSuccess) {
@@ -342,6 +358,13 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
             mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
             return;
         }
+    }
+
+    /**
+     * 跳转相机拍照
+     */
+    private void showCamera() {
+        Toast.makeText(this, "showCamera", Toast.LENGTH_SHORT).show();
     }
 
     /**

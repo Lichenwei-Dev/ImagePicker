@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lcw.library.imagepicker.view.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sfl_item_camera"
+    android:layout_width="90dp"
+    android:layout_height="90dp"
+    android:background="@color/colorPrimary"
+    android:padding="1dp">
+
+    <com.lcw.library.imagepicker.view.SquareImageView
+        android:id="@+id/iv_item_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_image_camera" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="14dp"
+        android:text="拍摄图片"
+        android:textColor="@color/text_color_white"
+        android:textSize="14sp" />
+
+</com.lcw.library.imagepicker.view.SquareFrameLayout>

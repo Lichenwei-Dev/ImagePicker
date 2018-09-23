@@ -8,8 +8,8 @@
         android:id="@+id/iv_item_image"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_image_default" />
+        android:background="@mipmap/icon_image_default"
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/iv_item_check"
