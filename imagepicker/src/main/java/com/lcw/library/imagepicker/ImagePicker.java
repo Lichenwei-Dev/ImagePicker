@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.lcw.library.imagepicker.activity.ImagePickerActivity;
 import com.lcw.library.imagepicker.utils.ImageLoader;
 
+import java.util.ArrayList;
+
 /**
  * 统一调用入口
  * Create by: chenWei.li
@@ -27,7 +29,7 @@ public class ImagePicker {
     private String mTitle;
     private boolean mShowCamera;
     private int mMaxCount;
-    private boolean mSaveState;
+    private ArrayList<String> mImagePaths;
 
     private ImageLoader mImageLoader;
 
@@ -86,16 +88,6 @@ public class ImagePicker {
         return mImagePicker;
     }
 
-    /**
-     * 是否保存选中状态
-     *
-     * @param saveState
-     * @return
-     */
-    public ImagePicker saveState(boolean saveState) {
-        this.mSaveState = saveState;
-        return mImagePicker;
-    }
 
     /**
      * 设置图片加载器
@@ -107,6 +99,13 @@ public class ImagePicker {
         this.mImageLoader = imageLoader;
         return mImagePicker;
     }
+
+
+    public ImagePicker setImagePaths(ArrayList<String> imagePaths) {
+        this.mImagePaths = imagePaths;
+        return mImagePicker;
+    }
+
 
     /**
      * 获取图片加载器
@@ -126,9 +125,9 @@ public class ImagePicker {
         if (checkPermission(activity)) {
             Intent intent = new Intent(activity, ImagePickerActivity.class);
             intent.putExtra(ImagePickerActivity.EXTRA_TITLE, mTitle);
-            intent.putExtra(ImagePickerActivity.EXTRA_SAVE_STATE, mSaveState);
             intent.putExtra(ImagePickerActivity.EXTRA_SHOW_CAMERA, mShowCamera);
             intent.putExtra(ImagePickerActivity.EXTRA_MAX_COUNT, mMaxCount);
+            intent.putExtra(ImagePickerActivity.EXTRA_IMAGE_PATHS, mImagePaths);
             activity.startActivityForResult(intent, requestCode);
         } else {
             Toast.makeText(activity, "当前没有读取存储卡的权限", Toast.LENGTH_SHORT).show();

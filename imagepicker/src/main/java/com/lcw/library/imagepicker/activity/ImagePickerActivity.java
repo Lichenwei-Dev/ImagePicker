@@ -56,12 +56,12 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_SHOW_CAMERA = "showCamera";
     public static final String EXTRA_MAX_COUNT = "maxCount";
-    public static final String EXTRA_SAVE_STATE = "saveState";
+    public static final String EXTRA_IMAGE_PATHS = "imagePaths";
     private String mTitle;
     private boolean isShowCamera;
     private int mMaxCount;
-    private boolean mSaveState;
     private int mSelectionMode;
+    private List<String> mImagePaths;
 
     /**
      * 界面UI
@@ -78,15 +78,17 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     private GridLayoutManager mGridLayoutManager;
     private ImagePickerAdapter mImagePickerAdapter;
 
-    //图片列表/文件夹数据源
+    //图片数据源
     private List<ImageFile> mImageFileList;
+    //文件夹数据源
     private List<ImageFolder> mImageFolderList;
+
+    //是否显示时间
+    private boolean isShowTime;
 
     //表示屏幕亮暗
     private static final int LIGHT_OFF = 0;
     private static final int LIGHT_ON = 1;
-    //是否显示时间
-    private boolean isShowTime;
 
     private Handler mMyHandler = new Handler();
     private Runnable mHideRunnable = new Runnable() {
@@ -121,15 +123,17 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         mTitle = getIntent().getStringExtra(EXTRA_TITLE);
         isShowCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, false);
         mMaxCount = getIntent().getIntExtra(EXTRA_MAX_COUNT, 1);
-        mSaveState = getIntent().getBooleanExtra(EXTRA_SAVE_STATE, false);
-        if (!mSaveState) {
-            SelectionManager.getInstance().removeAll();
-        }
         SelectionManager.getInstance().setMaxCount(mMaxCount);
         if (mMaxCount > 1) {
             mSelectionMode = SELECT_MODE_MULTI;
         } else {
             mSelectionMode = SELECT_MODE_SINGLE;
+        }
+        mImagePaths = getIntent().getStringArrayListExtra(EXTRA_IMAGE_PATHS);
+        if (mImagePaths == null) {
+            SelectionManager.getInstance().removeAll();
+        } else {
+            SelectionManager.getInstance().addImagePathsToSelectList(mImagePaths);
         }
     }
 

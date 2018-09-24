@@ -9,20 +9,11 @@ package com.lcw.library.imagepicker.data;
  */
 public class ImageFile {
 
-    private Integer imageId;
     private String imagePath;
     private String imageMime;
     private Integer imageFolderId;
     private String imageFolderName;
     private long imageDateToken;
-
-    public Integer getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(Integer imageId) {
-        this.imageId = imageId;
-    }
 
     public String getImagePath() {
         return imagePath;

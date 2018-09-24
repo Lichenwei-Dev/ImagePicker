@@ -3,6 +3,7 @@ package com.lcw.library.imagepicker.manager;
 import com.lcw.library.imagepicker.data.ImageFile;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -66,6 +67,23 @@ public class SelectionManager {
                 return mSelectImagePaths.add(imagePath);
             } else {
                 return false;
+            }
+        }
+    }
+
+    /**
+     * 添加图片到选择集合
+     *
+     * @param imagePaths
+     */
+    public void addImagePathsToSelectList(List<String> imagePaths) {
+        if (imagePaths != null) {
+            removeAll();
+            for (int i = 0; i < imagePaths.size(); i++) {
+                String imagePath = imagePaths.get(i);
+                if (!mSelectImagePaths.contains(imagePath) && mSelectImagePaths.size() < mMaxCount) {
+                    mSelectImagePaths.add(imagePath);
+                }
             }
         }
     }
