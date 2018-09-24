@@ -3,13 +3,19 @@ package com.lcw.library.imagepicker.activity;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
@@ -30,6 +36,8 @@ import com.lcw.library.imagepicker.task.MediaLoadTask;
 import com.lcw.library.imagepicker.utils.Utils;
 import com.lcw.library.imagepicker.view.ImageFolderPopupWindow;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -360,11 +368,33 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         }
     }
 
+    private String mFilePath;
+    private static final int REQUEST_CODE_CAPTURE = 1000;
+
     /**
      * 跳转相机拍照
      */
     private void showCamera() {
-        Toast.makeText(this, "showCamera", Toast.LENGTH_SHORT).show();
+        mFilePath = Environment.getExternalStorageDirectory().getPath() + "/IMG_" + System.currentTimeMillis() + ".jpg";
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= 24) {
+            uri = FileProvider.getUriForFile(this, "com.lcw.library.imagepicker.provider", new File(mFilePath));
+        } else {
+            uri = Uri.fromFile(new File(mFilePath));
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, REQUEST_CODE_CAPTURE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_CAPTURE) {
+                //通知媒体库刷新
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + mFilePath)));
+            }
+        }
     }
 
     /**

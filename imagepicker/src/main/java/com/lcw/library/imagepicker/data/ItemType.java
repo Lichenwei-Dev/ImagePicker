@@ -1,6 +1,7 @@
 package com.lcw.library.imagepicker.data;
 
 /**
+ * 列表Item类型
  * Create by: chenWei.li
  * Date: 2018/9/23
  * Time: 上午1:58
