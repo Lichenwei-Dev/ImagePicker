@@ -18,7 +18,6 @@ import com.lcw.library.imagepicker.manager.SelectionManager;
 import com.lcw.library.imagepicker.view.SquareFrameLayout;
 import com.lcw.library.imagepicker.view.SquareImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -110,14 +109,13 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else {
             ImageHolder imageHolder = (ImageHolder) holder;
             ImageFile imageFile = getImageFile(position);
-            Integer imageId = imageFile.getImageId();
             String imagePath = imageFile.getImagePath();
 
             //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
             if (mSelectionMode == ImagePickerActivity.SELECT_MODE_MULTI) {
                 //多选状态
                 imageHolder.mImageCheck.setVisibility(View.VISIBLE);
-                if (SelectionManager.getInstance().isImageSelect(imageId)) {
+                if (SelectionManager.getInstance().isImageSelect(imagePath)) {
                     imageHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
                     imageHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
                 } else {

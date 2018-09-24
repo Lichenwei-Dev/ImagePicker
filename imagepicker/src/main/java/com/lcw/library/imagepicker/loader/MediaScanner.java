@@ -8,8 +8,8 @@ import android.provider.MediaStore;
 import android.support.annotation.WorkerThread;
 
 import com.lcw.library.imagepicker.R;
-import com.lcw.library.imagepicker.data.ImageFolder;
 import com.lcw.library.imagepicker.data.ImageFile;
+import com.lcw.library.imagepicker.data.ImageFolder;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
 
 import java.util.ArrayList;
@@ -33,7 +33,6 @@ public class MediaScanner {
      */
     public static final Uri SCAN_IMAGE_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     private static final String[] PROJECTION = {
-            MediaStore.Images.Media._ID,
             MediaStore.Images.Media.DATA,
             MediaStore.Images.Media.MIME_TYPE,
             MediaStore.Images.Media.BUCKET_ID,
@@ -65,15 +64,13 @@ public class MediaScanner {
         Cursor cursor = contentResolver.query(SCAN_IMAGE_URI, PROJECTION, SELECTION, SELECTION_ARGS, ORDER);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                Integer imageId = cursor.getInt(0);
-                String imagePath = cursor.getString(1);
-                String imageMime = cursor.getString(2);
-                Integer imageFolderId = cursor.getInt(3);
-                String imageFolderName = cursor.getString(4);
-                long imageDateToken = cursor.getLong(5);
+                String imagePath = cursor.getString(0);
+                String imageMime = cursor.getString(1);
+                Integer imageFolderId = cursor.getInt(2);
+                String imageFolderName = cursor.getString(3);
+                long imageDateToken = cursor.getLong(4);
 
                 ImageFile imageFile = new ImageFile();
-                imageFile.setImageId(imageId);
                 imageFile.setImagePath(imagePath);
                 imageFile.setImageMime(imageMime);
                 imageFile.setImageFolderId(imageFolderId);

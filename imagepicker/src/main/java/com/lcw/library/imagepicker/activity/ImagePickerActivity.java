@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
@@ -37,7 +36,6 @@ import com.lcw.library.imagepicker.utils.Utils;
 import com.lcw.library.imagepicker.view.ImageFolderPopupWindow;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,12 +85,10 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     //表示屏幕亮暗
     private static final int LIGHT_OFF = 0;
     private static final int LIGHT_ON = 1;
-
+    //是否显示时间
     private boolean isShowTime;
 
-
     private Handler mMyHandler = new Handler();
-
     private Runnable mHideRunnable = new Runnable() {
         @Override
         public void run() {
@@ -100,6 +96,11 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         }
     };
 
+    /**
+     * 拍照相关
+     */
+    private String mFilePath;
+    private static final int REQUEST_CODE_CAPTURE = 1000;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,8 +111,8 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         initView();
         initListener();
         getData();
-    }
 
+    }
 
     /**
      * 初始化配置
@@ -154,7 +155,6 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         mRecyclerView.setAdapter(mImagePickerAdapter);
         mRlBottom = findViewById(R.id.rl_main_bottom);
         mTvImageFolders = findViewById(R.id.tv_main_imageFolders);
-
 
     }
 
@@ -233,7 +233,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
                                 setLightMode(LIGHT_ON);
                             }
                         });
-
+                        updateCommitButton();
                         mProgressDialog.cancel();
                     }
                 });
@@ -335,6 +335,11 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     public void onImageCheck(View view, int position) {
         if (isShowCamera) {
             if (position == 0) {
+                int selectCount = SelectionManager.getInstance().getSelectPaths().size();
+                if (selectCount == mMaxCount) {
+                    Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 showCamera();
                 return;
             }
@@ -342,15 +347,24 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         //执行选中/取消操作
         ImageFile imageFile = mImagePickerAdapter.getImageFile(position);
         if (imageFile != null) {
-            boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imageFile);
+            String imagePath = imageFile.getImagePath();
+            boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imagePath);
             if (addSuccess) {
                 mImagePickerAdapter.notifyItemChanged(position);
             } else {
                 Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
             }
         }
+
+        updateCommitButton();
+    }
+
+    /**
+     * 更新确认按钮状态
+     */
+    private void updateCommitButton() {
         //改变确定按钮UI
-        int selectCount = SelectionManager.getInstance().getSelectIds().size();
+        int selectCount = SelectionManager.getInstance().getSelectPaths().size();
         if (selectCount == 0) {
             mTvCommit.setEnabled(false);
             mTvCommit.setText(getString(R.string.confirm));
@@ -368,9 +382,6 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         }
     }
 
-    private String mFilePath;
-    private static final int REQUEST_CODE_CAPTURE = 1000;
-
     /**
      * 跳转相机拍照
      */
@@ -385,16 +396,6 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         }
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, REQUEST_CODE_CAPTURE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_CAPTURE) {
-                //通知媒体库刷新
-                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + mFilePath)));
-            }
-        }
     }
 
     /**
@@ -417,6 +418,32 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         mImagePickerAdapter.notifyDataSetChanged();
 
         mImageFolderPopupWindow.dismiss();
+    }
+
+    /**
+     * 拍照回调
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_CAPTURE) {
+                //通知媒体库刷新
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + mFilePath)));
+                //添加到选中集合
+                SelectionManager.getInstance().addImageToSelectList(mFilePath);
+
+                List<String> list = new ArrayList<>();
+                list.add(mFilePath);
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra(ImagePicker.EXTRA_RESULT, (ArrayList<String>) list);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
     }
 
 

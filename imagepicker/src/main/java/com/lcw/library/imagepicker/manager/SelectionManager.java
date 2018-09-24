@@ -16,7 +16,6 @@ public class SelectionManager {
 
     private static volatile SelectionManager mSelectionManager;
 
-    private Set<Integer> mSelectImageIds = new HashSet<>();
     private Set<String> mSelectImagePaths = new HashSet<>();
 
     private int mMaxCount = 1;
@@ -45,15 +44,6 @@ public class SelectionManager {
     }
 
     /**
-     * 获取当前所选图片集合id
-     *
-     * @return
-     */
-    public Set<Integer> getSelectIds() {
-        return mSelectImageIds;
-    }
-
-    /**
      * 获取当前所选图片集合path
      *
      * @return
@@ -65,19 +55,15 @@ public class SelectionManager {
     /**
      * 添加/移除图片到选择集合
      *
-     * @param imageFile
+     * @param imagePath
      * @return
      */
-    public boolean addImageToSelectList(ImageFile imageFile) {
-        int imageId = imageFile.getImageId();
-        String imagePath = imageFile.getImagePath();
-        if (mSelectImageIds.contains(imageId)) {
-            mSelectImagePaths.remove(imagePath);
-            return mSelectImageIds.remove(imageId);
+    public boolean addImageToSelectList(String imagePath) {
+        if (mSelectImagePaths.contains(imagePath)) {
+            return mSelectImagePaths.remove(imagePath);
         } else {
-            if (mSelectImageIds.size() < mMaxCount) {
-                mSelectImagePaths.add(imagePath);
-                return mSelectImageIds.add(imageId);
+            if (mSelectImagePaths.size() < mMaxCount) {
+                return mSelectImagePaths.add(imagePath);
             } else {
                 return false;
             }
@@ -88,11 +74,11 @@ public class SelectionManager {
     /**
      * 判断当前图片是否被选择
      *
-     * @param imageId
+     * @param imagePath
      * @return
      */
-    public boolean isImageSelect(Integer imageId) {
-        if (mSelectImageIds.contains(imageId)) {
+    public boolean isImageSelect(String imagePath) {
+        if (mSelectImagePaths.contains(imagePath)) {
             return true;
         } else {
             return false;
@@ -104,7 +90,6 @@ public class SelectionManager {
      */
     public void removeAll() {
         mSelectImagePaths.clear();
-        mSelectImageIds.clear();
     }
 
 }
