@@ -9,4 +9,5 @@
     <string name="image_num">%d张</string>
     <string name="scanner_image_no_found">没有扫描到图片</string>
     <string name="all_images">全部图片</string>
+    <string name="take_photo">全部图片</string>
 </resources>

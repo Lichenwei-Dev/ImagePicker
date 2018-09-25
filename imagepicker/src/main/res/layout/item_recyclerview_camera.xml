@@ -10,16 +10,16 @@
         android:id="@+id/iv_item_image"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
         android:src="@mipmap/icon_image_camera" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="14dp"
-        android:text="拍摄图片"
+        android:layout_gravity="center"
+        android:layout_marginTop="22dp"
+        android:text="@string/take_photo"
         android:textColor="@color/text_color_white"
         android:textSize="14sp" />
 
