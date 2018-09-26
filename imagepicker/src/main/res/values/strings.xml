@@ -9,5 +9,6 @@
     <string name="image_num">%d张</string>
     <string name="scanner_image_no_found">没有扫描到图片</string>
     <string name="all_images">全部图片</string>
-    <string name="take_photo">全部图片</string>
+    <string name="take_photo">拍摄图片</string>
+    <string name="permission_tip">当前没有读取存储卡或拍照权限</string>
 </resources>

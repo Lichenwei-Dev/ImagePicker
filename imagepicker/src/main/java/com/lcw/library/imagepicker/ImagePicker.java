@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class ImagePicker {
 
-    public static final String EXTRA_RESULT = "selectItems";
+    public static final String EXTRA_SELECT_IMAGES = "selectItems";
 
     private static volatile ImagePicker mImagePicker;
 
@@ -130,7 +130,7 @@ public class ImagePicker {
             intent.putExtra(ImagePickerActivity.EXTRA_IMAGE_PATHS, mImagePaths);
             activity.startActivityForResult(intent, requestCode);
         } else {
-            Toast.makeText(activity, "当前没有读取存储卡的权限", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, activity.getString(R.string.permission_tip), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -141,7 +141,7 @@ public class ImagePicker {
      * @return
      */
     private boolean checkPermission(Context context) {
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
 
 

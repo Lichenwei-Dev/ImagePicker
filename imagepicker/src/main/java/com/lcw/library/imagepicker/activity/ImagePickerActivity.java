@@ -180,7 +180,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
             public void onClick(View v) {
                 ArrayList<String> list = new ArrayList<>(SelectionManager.getInstance().getSelectPaths());
                 Intent intent = new Intent();
-                intent.putStringArrayListExtra(ImagePicker.EXTRA_RESULT, list);
+                intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, list);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -443,7 +443,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
                 List<String> list = new ArrayList<>();
                 list.add(mFilePath);
                 Intent intent = new Intent();
-                intent.putStringArrayListExtra(ImagePicker.EXTRA_RESULT, (ArrayList<String>) list);
+                intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, (ArrayList<String>) list);
                 setResult(RESULT_OK, intent);
                 finish();
             }
