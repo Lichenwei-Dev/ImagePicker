@@ -130,7 +130,11 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
             //加载图片
-            ImagePicker.getInstance().getImageLoader().loadImage(imageHolder.mImageView, imagePath);
+            try {
+                ImagePicker.getInstance().getImageLoader().loadImage(imageHolder.mImageView, imagePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             //设置点击事件监听
             if (mOnItemClickListener != null) {

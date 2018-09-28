@@ -112,7 +112,10 @@ public class ImagePicker {
      *
      * @return
      */
-    public ImageLoader getImageLoader() {
+    public ImageLoader getImageLoader() throws Exception {
+        if (mImageLoader == null) {
+            throw new Exception("imageLoader is null");
+        }
         return mImageLoader;
     }
 

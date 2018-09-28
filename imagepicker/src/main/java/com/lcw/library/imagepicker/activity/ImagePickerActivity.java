@@ -440,8 +440,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
                 //添加到选中集合
                 SelectionManager.getInstance().addImageToSelectList(mFilePath);
 
-                List<String> list = new ArrayList<>();
-                list.add(mFilePath);
+                List<String> list =  new ArrayList<>(SelectionManager.getInstance().getSelectPaths());
                 Intent intent = new Intent();
                 intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, (ArrayList<String>) list);
                 setResult(RESULT_OK, intent);

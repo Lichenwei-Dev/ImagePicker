@@ -63,7 +63,11 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
             holder.mImageFolderCheck.setVisibility(View.GONE);
         }
         //加载图片
-        ImagePicker.getInstance().getImageLoader().loadImage(holder.mImageCover, folderCover);
+        try {
+            ImagePicker.getInstance().getImageLoader().loadImage(holder.mImageCover, folderCover);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (mImageFolderChangeListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
