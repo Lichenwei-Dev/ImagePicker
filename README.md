@@ -8,7 +8,8 @@
 ### 在项目下的build.gradle文件中引入（注意gradle的版本）：
 ```
 compile 'com.lcw.library:imagepicker:1.0.1'//gradle版本在3.0以下引入
-implementation 'com.lcw.library:imagepicker:1.0.1'////gradle版本在3.0以上引入
+
+implementation 'com.lcw.library:imagepicker:1.0.1'//gradle版本在3.0以上引入
 ```
 
 ### 调用方式非常简单，只需要简单一行代码：
@@ -37,7 +38,7 @@ public class GlideLoader implements ImageLoader {
 
     @Override
     public void loadImage(ImageView imageView, String imagePah) {
-        //小图加载
+        //小图加载，这里以Glide图片加载框架为例
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_image_default)
@@ -48,7 +49,7 @@ public class GlideLoader implements ImageLoader {
 }
 ```
 
-## 其他
+###  其他
 根据业务的需求，有时候我们在选择一部分图片后，再次跳转图片选择器的时候，需要去保存已经勾选的图片，这边也提供了对应的方法，只需要把onActivityResult返回的图片路径List集合，重新设置进来即可，代码如下：
 ```
     ImagePicker.getInstance()
@@ -59,9 +60,8 @@ public class GlideLoader implements ImageLoader {
                         .setImageLoader(new GlideLoader())
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
  ```
- 
 
-版本持续迭代，未完待续。。。欢迎star
+版本会持续迭代完善，未完待续。。。（欢迎Star，欢迎Fork）
 
  
 
