@@ -2,6 +2,12 @@
 
 #### 注意开发细节，尽可能的做到加载速度最快，目前支持图片单选，多选，多文件夹切换，自定义图片加载器等功能。
 
+#### 效果图：
+![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot1.png)
+![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot2.png)
+![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot3.png)
+
+
 
 ### 使用方法：
 
@@ -49,7 +55,7 @@ public class GlideLoader implements ImageLoader {
 }
 ```
 
-### 最后别忘了权限，6.0以后需要动态申请，本Library不提供，需要自行处理
+### 最后别忘了权限，6.0以后需要动态申请，由于国内各大厂商机型存在差异化，需要处理一些兼容上的问题，也有比较成熟的开源库，为了简洁，本Library不提供此功能，需要开发者自行处理
 ```
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -68,7 +74,7 @@ public class GlideLoader implements ImageLoader {
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
  ```
 
-版本会持续迭代完善，未完待续。。。（欢迎Star，欢迎Fork）
+版本会持续迭代，未完待续。。。（欢迎Star，欢迎Fork）
 
  
 
