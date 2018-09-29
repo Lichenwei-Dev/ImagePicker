@@ -5,7 +5,7 @@ publish {
     userOrg = 'lichenwei'
     groupId = 'com.lcw.library'
     artifactId = 'imagepicker'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     desc = 'Android image picker library'
     website = 'https://github.com/Lichenwei-Dev/ImagePicker'
 }

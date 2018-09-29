@@ -17,6 +17,7 @@ public class GlideLoader implements ImageLoader {
 
     @Override
     public void loadImage(ImageView imageView, String imagePah) {
+        //小图加载
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_image_default)
@@ -26,11 +27,13 @@ public class GlideLoader implements ImageLoader {
 
     @Override
     public void loadPreImage(ImageView imageView, String imagePath) {
+        //大图加载
 
     }
 
     @Override
     public void clearMemoryCache() {
+        //清理缓存
 
     }
 }

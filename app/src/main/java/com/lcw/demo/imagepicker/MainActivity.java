@@ -25,7 +25,13 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.bt_select_images).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImagePicker.getInstance().setImageLoader(new GlideLoader()).showCamera(true).setMaxCount(9).setImagePaths(mImagePaths).start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
+                ImagePicker.getInstance()
+                        .setTitle("标题")
+                        .showCamera(true)
+                        .setMaxCount(9)
+                        .setImagePaths(mImagePaths)
+                        .setImageLoader(new GlideLoader())
+                        .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
             }
         });
 

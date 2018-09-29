@@ -49,6 +49,13 @@ public class GlideLoader implements ImageLoader {
 }
 ```
 
+### 最后别忘了权限，6.0以后需要动态申请，本Library不提供，需要自行处理
+```
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+```
+
 ###  其他
 根据业务的需求，有时候我们在选择一部分图片后，再次跳转图片选择器的时候，需要去保存已经勾选的图片，这边也提供了对应的方法，只需要把onActivityResult返回的图片路径List集合，重新设置进来即可，代码如下：
 ```
