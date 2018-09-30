@@ -21,9 +21,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity" />
+        <!--图片选择器的主Activity-->
+        <activity
+            android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity"
+            android:screenOrientation="portrait" />
 
 
+        <!-- Android 7.0 文件共享配置，必须配置 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.lcw.library.imagepicker.provider"
