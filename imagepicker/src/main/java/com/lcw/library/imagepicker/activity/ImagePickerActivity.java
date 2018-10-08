@@ -325,8 +325,20 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
      */
     @Override
     public void onImageClick(View view, int position) {
-        // TODO: 2018/8/25 进行大图预览
-        onImageCheck(view, position);
+        if (mImageFileList != null) {
+            ArrayList<String> imagePathList = new ArrayList<>();
+            for (int i = 0; i < mImageFileList.size(); i++) {
+                imagePathList.add(mImageFileList.get(i).getImagePath());
+            }
+            Intent intent = new Intent(this, ImagePreActivity.class);
+            if (isShowCamera) {
+                intent.putExtra(ImagePreActivity.IMAGE_POSITION, position - 1);
+            } else {
+                intent.putExtra(ImagePreActivity.IMAGE_POSITION, position);
+            }
+            intent.putStringArrayListExtra(ImagePreActivity.IMAGE_LIST, imagePathList);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -440,7 +452,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
                 //添加到选中集合
                 SelectionManager.getInstance().addImageToSelectList(mFilePath);
 
-                List<String> list =  new ArrayList<>(SelectionManager.getInstance().getSelectPaths());
+                List<String> list = new ArrayList<>(SelectionManager.getInstance().getSelectPaths());
                 Intent intent = new Intent();
                 intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, (ArrayList<String>) list);
                 setResult(RESULT_OK, intent);

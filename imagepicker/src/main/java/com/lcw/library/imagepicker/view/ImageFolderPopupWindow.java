@@ -60,7 +60,7 @@ public class ImageFolderPopupWindow extends PopupWindow {
         setContentView(view);
         int[] screenSize = Utils.getScreenSize(mContext);
         setWidth(screenSize[0]);
-        setHeight((int) (screenSize[1] * 0.65));
+        setHeight((int) (screenSize[1] * 0.6));
         setBackgroundDrawable(new ColorDrawable());
         setOutsideTouchable(true);
         setFocusable(true);

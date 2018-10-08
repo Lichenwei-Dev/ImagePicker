@@ -26,6 +26,9 @@ implementation 'com.lcw.library:imagepicker:1.0.1'
         <activity
             android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity"
             android:screenOrientation="portrait" />
+         <activity
+            android:name="com.lcw.library.imagepicker.activity.ImagePreActivity"
+            android:screenOrientation="portrait" />
 ...
 </application>
 
@@ -116,6 +119,7 @@ public class GlideLoader implements ImageLoader {
                         .setImageLoader(new GlideLoader())
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
  ```
+
 
 
 版本会持续迭代，未完待续。。。（欢迎Star，欢迎Fork）

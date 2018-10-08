@@ -148,7 +148,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 imageHolder.mImageCheck.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mOnItemClickListener.onImageClick(view, position);
+                        mOnItemClickListener.onImageCheck(view, position);
                     }
                 });
             }

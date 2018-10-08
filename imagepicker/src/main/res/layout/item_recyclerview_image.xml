@@ -17,6 +17,7 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:padding="5dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/icon_image_checked" />
 
 

@@ -16,18 +16,21 @@ import com.lcw.library.imagepicker.utils.ImageLoader;
 public class GlideLoader implements ImageLoader {
 
     @Override
-    public void loadImage(ImageView imageView, String imagePah) {
+    public void loadImage(ImageView imageView, String imagePath) {
         //小图加载
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_image_default)
                 .error(R.mipmap.icon_image_error);
-        Glide.with(imageView.getContext()).load(imagePah).apply(options).into(imageView);
+        Glide.with(imageView.getContext()).load(imagePath).apply(options).into(imageView);
     }
 
     @Override
     public void loadPreImage(ImageView imageView, String imagePath) {
         //大图加载
+        RequestOptions options = new RequestOptions()
+                .error(R.mipmap.icon_image_error);
+        Glide.with(imageView.getContext()).load(imagePath).apply(options).into(imageView);
 
     }
 
