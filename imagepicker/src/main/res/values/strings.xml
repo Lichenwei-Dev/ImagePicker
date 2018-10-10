@@ -11,4 +11,5 @@
     <string name="all_images">全部图片</string>
     <string name="take_photo">拍摄图片</string>
     <string name="permission_tip">当前没有读取存储卡或拍照权限</string>
+    <string name="image_select">选择</string>
 </resources>

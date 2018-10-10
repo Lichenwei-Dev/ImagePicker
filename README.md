@@ -6,16 +6,16 @@
 ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot1.png)
 ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot2.png)
 ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot3.png)
-
+![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot4.png)
 
 ### 使用方式:
 1、在项目下的build.gradle文件中引入（注意gradle的版本）：
 ```
 //gradle版本在3.0以下引入此行
-compile 'com.lcw.library:imagepicker:1.1.0'
+compile 'com.lcw.library:imagepicker:1.1.1'
 
 //gradle版本在3.0以上引入此行
-implementation 'com.lcw.library:imagepicker:1.1.0'
+implementation 'com.lcw.library:imagepicker:1.1.1'
 ```
 
 2、然后需要在AndroidManifest.xml里声明组件：
