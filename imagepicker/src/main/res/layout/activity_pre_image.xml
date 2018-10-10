@@ -1,17 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_black"
-    android:orientation="vertical">
+    android:background="@color/bg_black">
 
     <include
         android:id="@+id/layout_actionBar"
         layout="@layout/include_layout_actionbar" />
 
+    <RelativeLayout
+        android:id="@+id/rl_main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#303030"
+        android:gravity="right"
+        android:paddingRight="16dp">
+
+        <LinearLayout
+            android:id="@+id/ll_pre_select"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_item_check"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="6dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/icon_image_checked" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="选择"
+                android:textColor="@color/text_color_white"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
     <com.lcw.library.imagepicker.view.HackyViewPager
         android:id="@+id/vp_main_preImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rl_main_bottom"
+        android:layout_below="@id/layout_actionBar" />
 
-</LinearLayout>
+
+</RelativeLayout>

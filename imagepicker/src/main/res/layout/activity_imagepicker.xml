@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
     android:orientation="vertical">
 
     <include
@@ -41,13 +40,14 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_main_images"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@android:color/black" />
 
         <TextView
             android:id="@+id/tv_image_time"
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:background="@color/bg_black"
+            android:background="@color/text_bg_gray"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
             android:textColor="@color/text_color_white"

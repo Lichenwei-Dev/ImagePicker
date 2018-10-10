@@ -26,6 +26,7 @@ implementation 'com.lcw.library:imagepicker:1.1.0'
         <activity
             android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity"
             android:screenOrientation="portrait" />
+  <!--图片大图预览-->
          <activity
             android:name="com.lcw.library.imagepicker.activity.ImagePreActivity"
             android:screenOrientation="portrait" />

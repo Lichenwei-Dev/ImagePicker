@@ -45,6 +45,14 @@ public class SelectionManager {
     }
 
     /**
+     * 获取当前设置最大选择数
+     * @return
+     */
+    public int getMaxCount() {
+        return this.mMaxCount;
+    }
+
+    /**
      * 获取当前所选图片集合path
      *
      * @return

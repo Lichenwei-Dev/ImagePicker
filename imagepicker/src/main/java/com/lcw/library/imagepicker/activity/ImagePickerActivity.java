@@ -5,13 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -46,7 +43,7 @@ import java.util.List;
  * Time: 上午1:10
  * Email: lichenwei.me@foxmail.com
  */
-public class ImagePickerActivity extends AppCompatActivity implements ImagePickerAdapter.OnItemClickListener, ImageFoldersAdapter.OnImageFolderChangeListener {
+public class ImagePickerActivity extends BaseActivity implements ImagePickerAdapter.OnItemClickListener, ImageFoldersAdapter.OnImageFolderChangeListener {
 
     /**
      * 启动参数
@@ -104,17 +101,12 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     private String mFilePath;
     private static final int REQUEST_CODE_CAPTURE = 1000;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_imagepicker);
-
-        initConfig();
-        initView();
-        initListener();
-        getData();
-
+    protected int bindLayout() {
+        return R.layout.activity_imagepicker;
     }
+
 
     /**
      * 初始化配置
@@ -137,10 +129,14 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         }
     }
 
+
     /**
      * 初始化布局控件
      */
-    private void initView() {
+    @Override
+    protected void initView() {
+
+        initConfig();
 
         mProgressDialog = ProgressDialog.show(this, null, getString(R.string.scanner_image));
 
@@ -165,7 +161,8 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     /**
      * 初始化控件事件
      */
-    private void initListener() {
+    @Override
+    protected void initListener() {
 
         findViewById(R.id.iv_actionBar_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,11 +175,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         mTvCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> list = new ArrayList<>(SelectionManager.getInstance().getSelectPaths());
-                Intent intent = new Intent();
-                intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, list);
-                setResult(RESULT_OK, intent);
-                finish();
+                commitSelection();
             }
         });
 
@@ -215,7 +208,8 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     /**
      * 获取数据源
      */
-    private void getData() {
+    @Override
+    protected void getData() {
         MediaLoadTask mediaLoadTask = new MediaLoadTask(this, new MediaLoadCallback() {
             @Override
             public void loadMediaSuccess(final List<ImageFolder> imageFolderList) {
@@ -316,6 +310,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         getWindow().setAttributes(layoutParams);
     }
 
+    private static final int REQUEST_SELECT_IMAGES_CODE = 0x01;
 
     /**
      * 点击图片
@@ -337,7 +332,7 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
                 intent.putExtra(ImagePreActivity.IMAGE_POSITION, position);
             }
             intent.putStringArrayListExtra(ImagePreActivity.IMAGE_LIST, imagePathList);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_SELECT_IMAGES_CODE);
         }
     }
 
@@ -458,9 +453,31 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
                 setResult(RESULT_OK, intent);
                 finish();
             }
+
+            if (requestCode == REQUEST_SELECT_IMAGES_CODE) {
+                commitSelection();
+            }
         }
     }
 
+    /**
+     * 选择图片完毕，返回
+     */
+    private void commitSelection() {
+        ArrayList<String> list = new ArrayList<>(SelectionManager.getInstance().getSelectPaths());
+        Intent intent = new Intent();
+        intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, list);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mImagePickerAdapter.notifyDataSetChanged();
+        updateCommitButton();
+    }
 
     @Override
     public void onBackPressed() {
