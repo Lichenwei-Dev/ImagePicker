@@ -3,10 +3,12 @@
 #### 注意开发细节，尽可能的做到加载速度最快，目前支持图片单选，多选，多文件夹切换，自定义图片加载器等功能。
 
 #### 效果图：
-![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot1.png)
-![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot2.png)
-![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot3.png)
-![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot4.png)
+![效果图1](https://upload-images.jianshu.io/upload_images/2189443-52833f62e70ca1f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640)
+![效果图2](https://upload-images.jianshu.io/upload_images/2189443-655e1c356e0f955e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640)
+![效果图3](https://upload-images.jianshu.io/upload_images/2189443-cb4dad72c803017f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640)
+![效果图4](https://upload-images.jianshu.io/upload_images/2189443-1da4a1e21fab2e98.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640)
+
+
 
 ### 使用方式:
 1、在项目下的build.gradle文件中引入（注意gradle的版本）：
