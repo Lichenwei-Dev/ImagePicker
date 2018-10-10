@@ -320,6 +320,18 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     @Override
     public void onImageClick(View view, int position) {
+        if (isShowCamera) {
+            if (position == 0) {
+                int selectCount = SelectionManager.getInstance().getSelectPaths().size();
+                if (selectCount == mMaxCount) {
+                    Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                showCamera();
+                return;
+            }
+        }
+
         if (mImageFileList != null) {
             ArrayList<String> imagePathList = new ArrayList<>();
             for (int i = 0; i < mImageFileList.size(); i++) {
