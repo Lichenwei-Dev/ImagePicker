@@ -409,7 +409,13 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      * 跳转相机拍照
      */
     private void showCamera() {
-        mFilePath = Environment.getExternalStorageDirectory().getPath() + "/IMG_" + System.currentTimeMillis() + ".jpg";
+        //拍照存放路径
+        File fileDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
+        if (!fileDir.exists()) {
+            fileDir.mkdir();
+        }
+        mFilePath = fileDir.getAbsolutePath() + "/IMG_" + System.currentTimeMillis() + ".jpg";
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
