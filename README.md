@@ -14,10 +14,10 @@
 1、在项目下的build.gradle文件中引入（注意gradle的版本）：
 ```
 //gradle版本在3.0以下引入此行
-compile 'com.lcw.library:imagepicker:1.1.3'
+compile 'com.lcw.library:imagepicker:1.1.4'
 
 //gradle版本在3.0以上引入此行
-implementation 'com.lcw.library:imagepicker:1.1.3'
+implementation 'com.lcw.library:imagepicker:1.1.4'
 ```
 
 2、然后需要在AndroidManifest.xml里声明组件：
