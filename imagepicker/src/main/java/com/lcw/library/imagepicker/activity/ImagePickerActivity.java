@@ -332,20 +332,20 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             }
         }
 
-//        if (mImageFileList != null) {
-//            ArrayList<String> imagePathList = new ArrayList<>();
-//            for (int i = 0; i < mImageFileList.size(); i++) {
-//                imagePathList.add(mImageFileList.get(i).getImagePath());
-//            }
-//            Intent intent = new Intent(this, ImagePreActivity.class);
-//            if (isShowCamera) {
-//                intent.putExtra(ImagePreActivity.IMAGE_POSITION, position - 1);
-//            } else {
-//                intent.putExtra(ImagePreActivity.IMAGE_POSITION, position);
-//            }
-//            intent.putStringArrayListExtra(ImagePreActivity.IMAGE_LIST, imagePathList);
-//            startActivityForResult(intent, REQUEST_SELECT_IMAGES_CODE);
-//        }
+        if (mImageFileList != null) {
+            ArrayList<String> imagePathList = new ArrayList<>();
+            for (int i = 0; i < mImageFileList.size(); i++) {
+                imagePathList.add(mImageFileList.get(i).getImagePath());
+            }
+            Intent intent = new Intent(this, ImagePreActivity.class);
+            if (isShowCamera) {
+                intent.putExtra(ImagePreActivity.IMAGE_POSITION, position - 1);
+            } else {
+                intent.putExtra(ImagePreActivity.IMAGE_POSITION, position);
+            }
+            intent.putStringArrayListExtra(ImagePreActivity.IMAGE_LIST, imagePathList);
+            startActivityForResult(intent, REQUEST_SELECT_IMAGES_CODE);
+        }
     }
 
     /**
