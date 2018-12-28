@@ -39,7 +39,7 @@ public class MediaScanner {
             MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
             MediaStore.Images.Media.DATE_TAKEN
     };
-    private static final String SELECTION = MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?";
+    private static final String SELECTION = MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?";
     private static final String[] SELECTION_ARGS = new String[]{"image/jpeg", "image/png", "image/gif"};
     private static final String ORDER = MediaStore.Images.Media.DATE_TAKEN + " desc";
 

@@ -1,7 +1,5 @@
 package com.lcw.library.imagepicker.manager;
 
-import com.lcw.library.imagepicker.data.ImageFile;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
