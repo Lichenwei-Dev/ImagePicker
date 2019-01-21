@@ -13,10 +13,25 @@ import java.io.Serializable;
  */
 public interface ImageLoader extends Serializable {
 
+    /**
+     * 缩略图加载方案
+     *
+     * @param imageView
+     * @param imagePath
+     */
     void loadImage(ImageView imageView, String imagePath);
 
+    /**
+     * 大图加载方案
+     *
+     * @param imageView
+     * @param imagePath
+     */
     void loadPreImage(ImageView imageView, String imagePath);
 
+    /**
+     * 缓存管理
+     */
     void clearMemoryCache();
 
 }

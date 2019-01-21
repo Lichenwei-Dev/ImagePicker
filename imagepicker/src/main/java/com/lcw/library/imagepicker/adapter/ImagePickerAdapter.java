@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.activity.ImagePickerActivity;
-import com.lcw.library.imagepicker.data.ImageFile;
+import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.data.ItemType;
 import com.lcw.library.imagepicker.manager.SelectionManager;
 import com.lcw.library.imagepicker.view.SquareFrameLayout;
@@ -31,15 +31,15 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private Context mContext;
     private int mSelectionMode;
-    private List<ImageFile> mImageFileList;
+    private List<MediaFile> mMediaFileList;
     private boolean isShowCamera;
 
 
-    public ImagePickerAdapter(Context context, List<ImageFile> imageFiles, boolean isShowCamera, int selectionMode) {
+    public ImagePickerAdapter(Context context, List<MediaFile> mediaFiles, boolean isShowCamera, int selectionMode) {
         this.mContext = context;
         this.mSelectionMode = selectionMode;
         this.isShowCamera = isShowCamera;
-        this.mImageFileList = imageFiles;
+        this.mMediaFileList = mediaFiles;
     }
 
 
@@ -55,10 +55,10 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        if (mImageFileList == null) {
+        if (mMediaFileList == null) {
             return 0;
         }
-        return isShowCamera ? mImageFileList.size() + 1 : mImageFileList.size();
+        return isShowCamera ? mMediaFileList.size() + 1 : mMediaFileList.size();
     }
 
     /**
@@ -67,14 +67,14 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      * @param position
      * @return
      */
-    public ImageFile getImageFile(int position) {
+    public MediaFile getImageFile(int position) {
         if (isShowCamera) {
             if (position == 0) {
                 return null;
             }
-            return mImageFileList.get(position - 1);
+            return mMediaFileList.get(position - 1);
         }
-        return mImageFileList.get(position);
+        return mMediaFileList.get(position);
     }
 
 
@@ -108,8 +108,8 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         } else {
             ImageHolder imageHolder = (ImageHolder) holder;
-            ImageFile imageFile = getImageFile(position);
-            String imagePath = imageFile.getImagePath();
+            MediaFile mediaFile = getImageFile(position);
+            String imagePath = mediaFile.getPath();
 
             //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
             if (mSelectionMode == ImagePickerActivity.SELECT_MODE_MULTI) {

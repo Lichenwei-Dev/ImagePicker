@@ -3,7 +3,8 @@ package com.lcw.library.imagepicker.task;
 import android.content.Context;
 
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
-import com.lcw.library.imagepicker.loader.MediaScanner;
+import com.lcw.library.imagepicker.loader.ImageScanner;
+import com.lcw.library.imagepicker.loader.VideoScanner;
 
 /**
  * 媒体库扫描任务
@@ -14,17 +15,22 @@ import com.lcw.library.imagepicker.loader.MediaScanner;
  */
 public class MediaLoadTask implements Runnable {
 
-    private MediaScanner mMediaScanner;
+    private ImageScanner mImageScanner;
+//    private VideoScanner mVideoScanner;
 
     public MediaLoadTask(Context context, MediaLoadCallback mediaLoadCallback) {
-        mMediaScanner = new MediaScanner(context, mediaLoadCallback);
+        mImageScanner = new ImageScanner(context, mediaLoadCallback);
+//        mVideoScanner = new VideoScanner(context, mediaLoadCallback);
     }
 
     @Override
     public void run() {
-        if (mMediaScanner != null) {
-            mMediaScanner.scanMedia();
+        if (mImageScanner != null) {
+            mImageScanner.execute();
         }
+//        if (mVideoScanner != null) {
+//            mVideoScanner.execute();
+//        }
     }
 
 }

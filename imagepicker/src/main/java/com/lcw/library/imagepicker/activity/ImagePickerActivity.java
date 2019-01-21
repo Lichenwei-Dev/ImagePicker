@@ -23,8 +23,8 @@ import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.adapter.ImageFoldersAdapter;
 import com.lcw.library.imagepicker.adapter.ImagePickerAdapter;
-import com.lcw.library.imagepicker.data.ImageFile;
-import com.lcw.library.imagepicker.data.ImageFolder;
+import com.lcw.library.imagepicker.data.MediaFile;
+import com.lcw.library.imagepicker.data.MediaFolder;
 import com.lcw.library.imagepicker.executors.CommonExecutor;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
 import com.lcw.library.imagepicker.manager.SelectionManager;
@@ -76,9 +76,9 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     private ImagePickerAdapter mImagePickerAdapter;
 
     //图片数据源
-    private List<ImageFile> mImageFileList;
+    private List<MediaFile> mMediaFileList;
     //文件夹数据源
-    private List<ImageFolder> mImageFolderList;
+    private List<MediaFolder> mMediaFolderList;
 
     //是否显示时间
     private boolean isShowTime;
@@ -149,8 +149,8 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         mRecyclerView = findViewById(R.id.rv_main_images);
         mGridLayoutManager = new GridLayoutManager(this, 4);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
-        mImageFileList = new ArrayList<>();
-        mImagePickerAdapter = new ImagePickerAdapter(this, mImageFileList, isShowCamera, mSelectionMode);
+        mMediaFileList = new ArrayList<>();
+        mImagePickerAdapter = new ImagePickerAdapter(this, mMediaFileList, isShowCamera, mSelectionMode);
         mImagePickerAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mImagePickerAdapter);
         mRlBottom = findViewById(R.id.rl_main_bottom);
@@ -212,17 +212,17 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     protected void getData() {
         MediaLoadTask mediaLoadTask = new MediaLoadTask(this, new MediaLoadCallback() {
             @Override
-            public void loadMediaSuccess(final List<ImageFolder> imageFolderList) {
+            public void loadMediaSuccess(final List<MediaFolder> imageFolderList) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         //默认加载全部照片
-                        mImageFileList.addAll(imageFolderList.get(0).getImageFileList());
+                        mMediaFileList.addAll(imageFolderList.get(0).getMediaFileList());
                         mImagePickerAdapter.notifyDataSetChanged();
 
                         //图片文件夹数据
-                        mImageFolderList = new ArrayList<>(imageFolderList);
-                        mImageFolderPopupWindow = new ImageFolderPopupWindow(ImagePickerActivity.this, mImageFolderList);
+                        mMediaFolderList = new ArrayList<>(imageFolderList);
+                        mImageFolderPopupWindow = new ImageFolderPopupWindow(ImagePickerActivity.this, mMediaFolderList);
                         mImageFolderPopupWindow.setAnimationStyle(R.style.imageFolderAnimator);
                         mImageFolderPopupWindow.getAdapter().setOnImageFolderChangeListener(ImagePickerActivity.this);
                         mImageFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -278,12 +278,12 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     private void updateImageTime() {
         int position = mGridLayoutManager.findFirstVisibleItemPosition();
-        ImageFile imageFile = mImagePickerAdapter.getImageFile(position);
-        if (imageFile != null) {
+        MediaFile mediaFile = mImagePickerAdapter.getImageFile(position);
+        if (mediaFile != null) {
             if (mTvImageTime.getVisibility() != View.VISIBLE) {
                 mTvImageTime.setVisibility(View.VISIBLE);
             }
-            String time = Utils.getImageTime(imageFile.getImageDateToken());
+            String time = Utils.getImageTime(mediaFile.getDateToken());
             mTvImageTime.setText(time);
             showImageTime();
             mMyHandler.removeCallbacks(mHideRunnable);
@@ -332,10 +332,10 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             }
         }
 
-//        if (mImageFileList != null) {
+//        if (mMediaFileList != null) {
 //            ArrayList<String> imagePathList = new ArrayList<>();
-//            for (int i = 0; i < mImageFileList.size(); i++) {
-//                imagePathList.add(mImageFileList.get(i).getImagePath());
+//            for (int i = 0; i < mMediaFileList.size(); i++) {
+//                imagePathList.add(mMediaFileList.get(i).getImagePath());
 //            }
 //            Intent intent = new Intent(this, ImagePreActivity.class);
 //            if (isShowCamera) {
@@ -368,9 +368,9 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             }
         }
         //执行选中/取消操作
-        ImageFile imageFile = mImagePickerAdapter.getImageFile(position);
-        if (imageFile != null) {
-            String imagePath = imageFile.getImagePath();
+        MediaFile mediaFile = mImagePickerAdapter.getImageFile(position);
+        if (mediaFile != null) {
+            String imagePath = mediaFile.getPath();
             boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imagePath);
             if (addSuccess) {
                 mImagePickerAdapter.notifyItemChanged(position);
@@ -435,15 +435,15 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     @Override
     public void onImageFolderChange(View view, int position) {
-        ImageFolder imageFolder = mImageFolderList.get(position);
+        MediaFolder mediaFolder = mMediaFolderList.get(position);
         //更新当前文件夹名
-        String folderName = imageFolder.getFolderName();
+        String folderName = mediaFolder.getFolderName();
         if (!TextUtils.isEmpty(folderName)) {
             mTvImageFolders.setText(folderName);
         }
         //更新图片列表数据源
-        mImageFileList.clear();
-        mImageFileList.addAll(imageFolder.getImageFileList());
+        mMediaFileList.clear();
+        mMediaFileList.addAll(mediaFolder.getMediaFileList());
         mImagePickerAdapter.notifyDataSetChanged();
 
         mImageFolderPopupWindow.dismiss();

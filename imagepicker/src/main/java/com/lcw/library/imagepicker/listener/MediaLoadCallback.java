@@ -1,6 +1,6 @@
 package com.lcw.library.imagepicker.listener;
 
-import com.lcw.library.imagepicker.data.ImageFolder;
+import com.lcw.library.imagepicker.data.MediaFolder;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface MediaLoadCallback {
 
-    void loadMediaSuccess(List<ImageFolder> imageFolderList);
+    void loadMediaSuccess(List<MediaFolder> mediaFolderList);
 
     void loadMediaFailed(String msg);
 }

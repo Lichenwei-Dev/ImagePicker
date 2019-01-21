@@ -9,19 +9,19 @@ import java.util.ArrayList;
  * Time: 上午12:56
  * Email: lichenwei.me@foxmail.com
  */
-public class ImageFolder {
+public class MediaFolder {
 
     private int folderId;
     private String folderName;
     private String folderCover;
     private boolean isCheck;
-    private ArrayList<ImageFile> imageFileList;
+    private ArrayList<MediaFile> mediaFileList;
 
-    public ImageFolder(int folderId, String folderName, String folderCover, ArrayList<ImageFile> imageFileList) {
+    public MediaFolder(int folderId, String folderName, String folderCover, ArrayList<MediaFile> mediaFileList) {
         this.folderId = folderId;
         this.folderName = folderName;
         this.folderCover = folderCover;
-        this.imageFileList = imageFileList;
+        this.mediaFileList = mediaFileList;
     }
 
     public int getFolderId() {
@@ -56,12 +56,12 @@ public class ImageFolder {
         isCheck = check;
     }
 
-    public ArrayList<ImageFile> getImageFileList() {
-        return imageFileList;
+    public ArrayList<MediaFile> getMediaFileList() {
+        return mediaFileList;
     }
 
-    public void setImageFileList(ArrayList<ImageFile> imageFileList) {
-        this.imageFileList = imageFileList;
+    public void setMediaFileList(ArrayList<MediaFile> mediaFileList) {
+        this.mediaFileList = mediaFileList;
     }
 
 

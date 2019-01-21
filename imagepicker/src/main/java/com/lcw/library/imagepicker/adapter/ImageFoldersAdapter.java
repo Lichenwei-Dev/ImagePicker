@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.R;
-import com.lcw.library.imagepicker.data.ImageFolder;
+import com.lcw.library.imagepicker.data.MediaFolder;
 
 import java.util.List;
 
@@ -26,13 +26,13 @@ import java.util.List;
 public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<ImageFolder> mImageFolderList;
+    private List<MediaFolder> mMediaFolderList;
     private int mCurrentImageFolderIndex;
 
 
-    public ImageFoldersAdapter(Context context, List<ImageFolder> imageFolderList, int position) {
+    public ImageFoldersAdapter(Context context, List<MediaFolder> mediaFolderList, int position) {
         this.mContext = context;
-        this.mImageFolderList = imageFolderList;
+        this.mMediaFolderList = mediaFolderList;
         this.mCurrentImageFolderIndex = position;
     }
 
@@ -46,10 +46,10 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        final ImageFolder imageFolder = mImageFolderList.get(position);
-        String folderCover = imageFolder.getFolderCover();
-        String folderName = imageFolder.getFolderName();
-        int imageSize = imageFolder.getImageFileList().size();
+        final MediaFolder mediaFolder = mMediaFolderList.get(position);
+        String folderCover = mediaFolder.getFolderCover();
+        String folderName = mediaFolder.getFolderName();
+        int imageSize = mediaFolder.getMediaFileList().size();
 
         if (!TextUtils.isEmpty(folderName)) {
             holder.mFolderName.setText(folderName);
@@ -84,7 +84,7 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
 
     @Override
     public int getItemCount() {
-        return mImageFolderList == null ? 0 : mImageFolderList.size();
+        return mMediaFolderList == null ? 0 : mMediaFolderList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

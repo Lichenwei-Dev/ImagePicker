@@ -11,7 +11,7 @@ import android.widget.PopupWindow;
 
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.adapter.ImageFoldersAdapter;
-import com.lcw.library.imagepicker.data.ImageFolder;
+import com.lcw.library.imagepicker.data.MediaFolder;
 import com.lcw.library.imagepicker.utils.Utils;
 
 import java.util.List;
@@ -28,14 +28,14 @@ public class ImageFolderPopupWindow extends PopupWindow {
     private static final int DEFAULT_IMAGE_FOLDER_SELECT = 0;//默认选中文件夹
 
     private Context mContext;
-    private List<ImageFolder> mImageFolderList;
+    private List<MediaFolder> mMediaFolderList;
 
     private RecyclerView mRecyclerView;
     private ImageFoldersAdapter mImageFoldersAdapter;
 
-    public ImageFolderPopupWindow(Context context, List<ImageFolder> imageFolderList) {
+    public ImageFolderPopupWindow(Context context, List<MediaFolder> mediaFolderList) {
         this.mContext = context;
-        this.mImageFolderList = imageFolderList;
+        this.mMediaFolderList = mediaFolderList;
         initView();
 
     }
@@ -47,7 +47,7 @@ public class ImageFolderPopupWindow extends PopupWindow {
         View view = LayoutInflater.from(mContext).inflate(R.layout.window_image_folders, null);
         mRecyclerView = view.findViewById(R.id.rv_main_imageFolders);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mImageFoldersAdapter = new ImageFoldersAdapter(mContext, mImageFolderList, DEFAULT_IMAGE_FOLDER_SELECT);
+        mImageFoldersAdapter = new ImageFoldersAdapter(mContext, mMediaFolderList, DEFAULT_IMAGE_FOLDER_SELECT);
         mRecyclerView.setAdapter(mImageFoldersAdapter);
 
         initPopupWindow(view);
