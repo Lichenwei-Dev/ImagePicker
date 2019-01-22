@@ -14,6 +14,4 @@ import java.util.List;
 public interface MediaLoadCallback {
 
     void loadMediaSuccess(List<MediaFolder> mediaFolderList);
-
-    void loadMediaFailed(String msg);
 }

@@ -26,12 +26,12 @@ public class ImagePicker {
 
     private static volatile ImagePicker mImagePicker;
 
-    private String mTitle;
-    private boolean mShowCamera;
-    private boolean mShowImage = true;
-    private boolean mShowVideo = true;
-    private int mMaxCount;
-    private ArrayList<String> mImagePaths;
+    private String mTitle;//标题
+    private boolean mShowCamera;//是否显示拍照Item，默认不显示
+    private boolean mShowImage = true;//是否显示图片，默认显示
+    private boolean mShowVideo = true;//是否显示视频，默认显示
+    private int mMaxCount;//最大选择数量
+    private ArrayList<String> mImagePaths;//上一次选择的图片地址集合
 
     private ImageLoader mImageLoader;
 

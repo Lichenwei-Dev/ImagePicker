@@ -4,25 +4,26 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 /**
- * 正方形FrameLayout
+ * 正方形RelativeLayout
  * Create by: chenWei.li
  * Date: 2018/9/1
  * Time: 下午10:12
  * Email: lichenwei.me@foxmail.com
  */
-public class SquareFrameLayout extends FrameLayout {
+public class SquareRelativeLayout extends RelativeLayout {
 
-    public SquareFrameLayout(Context context) {
+    public SquareRelativeLayout(Context context) {
         this(context, null);
     }
 
-    public SquareFrameLayout(Context context, @Nullable AttributeSet attrs) {
+    public SquareRelativeLayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SquareFrameLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SquareRelativeLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

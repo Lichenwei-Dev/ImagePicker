@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.lcw.library.imagepicker.view.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sfl_item"
+<com.lcw.library.imagepicker.view.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/srl_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
@@ -10,17 +10,17 @@
         android:id="@+id/iv_item_image"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:src="@mipmap/icon_image_camera" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="22dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
         android:text="@string/take_photo"
         android:textColor="@color/text_color_white"
         android:textSize="14sp" />
 
-</com.lcw.library.imagepicker.view.SquareFrameLayout>
+</com.lcw.library.imagepicker.view.SquareRelativeLayout>

@@ -97,7 +97,7 @@ public class MediaHandler {
             mediaFolderMap.put(ALL_VIDEO_FOLDER, allVideoFolder);
         }
 
-        //全部图片
+        //对图片进行文件夹分类
         if (imageFileList != null && !imageFileList.isEmpty()) {
             int size = mediaFileList.size();
             //添加其他的图片文件夹

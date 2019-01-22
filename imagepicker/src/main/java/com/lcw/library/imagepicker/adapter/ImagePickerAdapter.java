@@ -17,19 +17,19 @@ import com.lcw.library.imagepicker.data.ItemType;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.manager.SelectionManager;
 import com.lcw.library.imagepicker.utils.Utils;
-import com.lcw.library.imagepicker.view.SquareFrameLayout;
 import com.lcw.library.imagepicker.view.SquareImageView;
+import com.lcw.library.imagepicker.view.SquareRelativeLayout;
 
 import java.util.List;
 
 /**
- * 图片列表适配器
+ * 列表适配器
  * Create by: chenWei.li
  * Date: 2018/8/23
  * Time: 上午1:18
  * Email: lichenwei.me@foxmail.com
  */
-public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.BaseHolder> {
 
     private Context mContext;
     private int mSelectionMode;
@@ -39,9 +39,9 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public ImagePickerAdapter(Context context, List<MediaFile> mediaFiles, boolean isShowCamera, int selectionMode) {
         this.mContext = context;
-        this.mSelectionMode = selectionMode;
-        this.isShowCamera = isShowCamera;
         this.mMediaFileList = mediaFiles;
+        this.isShowCamera = isShowCamera;
+        this.mSelectionMode = selectionMode;
     }
 
 
@@ -75,7 +75,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      * @param position
      * @return
      */
-    public MediaFile getImageFile(int position) {
+    public MediaFile getMediaFile(int position) {
         if (isShowCamera) {
             if (position == 0) {
                 return null;
@@ -88,7 +88,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (viewType == ItemType.ITEM_TYPE_CAMERA) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_camera, null);
@@ -105,91 +105,93 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return null;
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-
+    public void onBindViewHolder(@NonNull BaseHolder holder, final int position) {
         int itemType = getItemViewType(position);
-
+        MediaFile mediaFile = getMediaFile(position);
         switch (itemType) {
-            //相机Item
-            case ItemType.ITEM_TYPE_CAMERA:
-                CameraHolder cameraHolder = (CameraHolder) holder;
-                if (mOnItemClickListener != null) {
-                    cameraHolder.mSquareFrameLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mOnItemClickListener.onImageClick(view, position);
-                        }
-                    });
-                }
-                break;
             //图片、视频Item
             case ItemType.ITEM_TYPE_IMAGE:
-            case ItemType.ITEM_TYPE_VIDEO:
-                MediaHolder mediaHolder = (MediaHolder) holder;
-
-                MediaFile mediaFile = getImageFile(position);
-                String imagePath = mediaFile.getPath();
-
-                //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
-                if (mSelectionMode == ImagePickerActivity.SELECT_MODE_MULTI) {
-                    //多选状态
-                    mediaHolder.mImageCheck.setVisibility(View.VISIBLE);
-                    if (SelectionManager.getInstance().isImageSelect(imagePath)) {
-                        mediaHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
-                        mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
-                    } else {
-                        mediaHolder.mImageView.setColorFilter(null);
-                        mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
-                    }
-                } else {
-                    //单选状态
-                    mediaHolder.mImageCheck.setVisibility(View.GONE);
-                    mediaHolder.mImageView.setColorFilter(null);
-                    mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
-                }
-
-                try {
-                    ImagePicker.getInstance().getImageLoader().loadImage(mediaHolder.mImageView, imagePath);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                //如果是视频，需要显示视频时长
-                if (itemType == ItemType.ITEM_TYPE_VIDEO) {
-                    String duration = Utils.getVideoDuration(mediaFile.getDuration());
-                    ((VideoHolder) mediaHolder).mVideoDuration.setText(duration);
-                }
-
-                //设置点击事件监听
-                if (mOnItemClickListener != null) {
-                    mediaHolder.mImageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mOnItemClickListener.onImageClick(view, position);
-                        }
-                    });
-
-                    mediaHolder.mImageCheck.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mOnItemClickListener.onImageCheck(view, position);
-                        }
-                    });
-                }
-
+                bind((MediaHolder) holder, mediaFile);
                 break;
+            case ItemType.ITEM_TYPE_VIDEO:
+                bind((MediaHolder) holder, mediaFile);
+                break;
+            //相机Item
+            default:
+                break;
+        }
+        //设置点击事件监听
+        if (mOnItemClickListener != null) {
+            holder.mSquareRelativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mOnItemClickListener.onImageClick(view, position);
+                }
+            });
 
+            holder.mSquareRelativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mOnItemClickListener.onImageCheck(view, position);
+                }
+            });
+        }
+    }
+
+
+    /**
+     * 绑定数据（图片、视频）
+     *
+     * @param mediaHolder
+     * @param mediaFile
+     */
+    private void bind(MediaHolder mediaHolder, MediaFile mediaFile) {
+
+        String imagePath = mediaFile.getPath();
+
+        //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
+        if (mSelectionMode == ImagePickerActivity.SELECT_MODE_SINGLE) {
+            //单选状态
+            mediaHolder.mImageCheck.setVisibility(View.GONE);
+            mediaHolder.mImageView.setColorFilter(null);
+            mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
+        } else {
+            //多选状态
+            mediaHolder.mImageCheck.setVisibility(View.VISIBLE);
+            if (SelectionManager.getInstance().isImageSelect(imagePath)) {
+                mediaHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
+                mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
+            } else {
+                mediaHolder.mImageView.setColorFilter(null);
+                mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
+            }
         }
 
+        try {
+            ImagePicker.getInstance().getImageLoader().loadImage(mediaHolder.mImageView, imagePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (mediaHolder instanceof ImageHolder) {
+            // TODO: 2019/1/22  如果是图片且是gif，需要展示gif图标
+        }
+
+        if (mediaHolder instanceof VideoHolder) {
+            //如果是视频，需要显示视频时长
+            String duration = Utils.getVideoDuration(mediaFile.getDuration());
+            ((VideoHolder) mediaHolder).mVideoDuration.setText(duration);
+        }
 
     }
+
 
     /**
      * 图片Item
      */
     class ImageHolder extends MediaHolder {
-
         public ImageHolder(View itemView) {
             super(itemView);
         }
@@ -199,6 +201,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      * 视频Item
      */
     class VideoHolder extends MediaHolder {
+
         private TextView mVideoDuration;
 
         public VideoHolder(View itemView) {
@@ -210,7 +213,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     /**
      * 媒体Item
      */
-    class MediaHolder extends RecyclerView.ViewHolder {
+    class MediaHolder extends BaseHolder {
 
         public SquareImageView mImageView;
         public ImageView mImageCheck;
@@ -225,13 +228,22 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     /**
      * 相机Item
      */
-    class CameraHolder extends RecyclerView.ViewHolder {
-
-        private SquareFrameLayout mSquareFrameLayout;
-
+    class CameraHolder extends BaseHolder {
         public CameraHolder(View itemView) {
             super(itemView);
-            mSquareFrameLayout = itemView.findViewById(R.id.sfl_item);
+        }
+    }
+
+    /**
+     * 基础Item
+     */
+    class BaseHolder extends RecyclerView.ViewHolder {
+
+        public SquareRelativeLayout mSquareRelativeLayout;
+
+        public BaseHolder(View itemView) {
+            super(itemView);
+            mSquareRelativeLayout = itemView.findViewById(R.id.srl_item);
         }
     }
 

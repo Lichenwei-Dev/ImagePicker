@@ -117,7 +117,8 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     /**
      * 初始化配置
      */
-    private void initConfig() {
+    @Override
+    protected void initConfig() {
         mTitle = getIntent().getStringExtra(EXTRA_TITLE);
         isShowCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, false);
         isShowImage = getIntent().getBooleanExtra(EXTRA_SHOW_IMAGE, true);
@@ -144,16 +145,25 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     @Override
     protected void initView() {
 
-        initConfig();
-
         mProgressDialog = ProgressDialog.show(this, null, getString(R.string.scanner_image));
 
+        //顶部栏相关
         mTvTitle = findViewById(R.id.tv_actionBar_title);
-        if (!TextUtils.isEmpty(mTitle)) {
+        if (TextUtils.isEmpty(mTitle)) {
+            mTvTitle.setText(getString(R.string.image_picker));
+        } else {
             mTvTitle.setText(mTitle);
         }
         mTvCommit = findViewById(R.id.tv_actionBar_commit);
+
+        //滑动悬浮标题相关
         mTvImageTime = findViewById(R.id.tv_image_time);
+
+        //底部栏相关
+        mRlBottom = findViewById(R.id.rl_main_bottom);
+        mTvImageFolders = findViewById(R.id.tv_main_imageFolders);
+
+        //列表相关
         mRecyclerView = findViewById(R.id.rv_main_images);
         mGridLayoutManager = new GridLayoutManager(this, 4);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
@@ -161,13 +171,11 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         mImagePickerAdapter = new ImagePickerAdapter(this, mMediaFileList, isShowCamera, mSelectionMode);
         mImagePickerAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mImagePickerAdapter);
-        mRlBottom = findViewById(R.id.rl_main_bottom);
-        mTvImageFolders = findViewById(R.id.tv_main_imageFolders);
 
     }
 
     /**
-     * 初始化控件事件
+     * 初始化控件监听事件
      */
     @Override
     protected void initListener() {
@@ -221,21 +229,27 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
 
         Runnable mediaLoadTask = null;
 
+        //照片、视频全部加载
         if (isShowImage && isShowVideo) {
             mediaLoadTask = new MediaLoadTask(this, new MediaLoader());
         }
 
+        //只加载视频
         if (!isShowImage && isShowVideo) {
             mediaLoadTask = new VideoLoadTask(this, new MediaLoader());
         }
 
+        //只加载图片
         if (isShowImage && !isShowVideo) {
             mediaLoadTask = new ImageLoadTask(this, new MediaLoader());
         }
 
-        if (mediaLoadTask != null) {
-            CommonExecutor.getInstance().execute(mediaLoadTask);
+        //不符合以上场景，采用照片、视频全部加载
+        if (mediaLoadTask == null) {
+            mediaLoadTask = new MediaLoadTask(this, new MediaLoader());
         }
+
+        CommonExecutor.getInstance().execute(mediaLoadTask);
     }
 
     /**
@@ -268,17 +282,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
                 }
             });
         }
-
-        @Override
-        public void loadMediaFailed(final String msg) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(ImagePickerActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            });
-        }
     }
 
 
@@ -307,7 +310,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     private void updateImageTime() {
         int position = mGridLayoutManager.findFirstVisibleItemPosition();
-        MediaFile mediaFile = mImagePickerAdapter.getImageFile(position);
+        MediaFile mediaFile = mImagePickerAdapter.getMediaFile(position);
         if (mediaFile != null) {
             if (mTvImageTime.getVisibility() != View.VISIBLE) {
                 mTvImageTime.setVisibility(View.VISIBLE);
@@ -397,7 +400,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             }
         }
         //执行选中/取消操作
-        MediaFile mediaFile = mImagePickerAdapter.getImageFile(position);
+        MediaFile mediaFile = mImagePickerAdapter.getMediaFile(position);
         if (mediaFile != null) {
             String imagePath = mediaFile.getPath();
             boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imagePath);

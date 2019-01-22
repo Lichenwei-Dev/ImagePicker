@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lcw.library.imagepicker.view.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/srl_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="1dp">
@@ -21,4 +22,4 @@
         android:src="@mipmap/icon_image_checked" />
 
 
-</RelativeLayout>
+</com.lcw.library.imagepicker.view.SquareRelativeLayout>

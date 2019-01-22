@@ -48,6 +48,11 @@ public class ImagePreActivity extends BaseActivity {
     }
 
     @Override
+    protected void initConfig() {
+
+    }
+
+    @Override
     protected void initView() {
         mTvTitle = findViewById(R.id.tv_actionBar_title);
         mTvCommit = findViewById(R.id.tv_actionBar_commit);

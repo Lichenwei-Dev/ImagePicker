@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                         .setTitle("多图选择器")
                         .showCamera(true)
                         .showImage(true)
-                        .showVideo(false)
+                        .showVideo(true)
                         .setMaxCount(9)
                         .setImagePaths(mImagePaths)
                         .setImageLoader(new GlideLoader())
