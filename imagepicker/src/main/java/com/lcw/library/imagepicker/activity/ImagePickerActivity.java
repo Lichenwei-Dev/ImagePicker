@@ -28,7 +28,9 @@ import com.lcw.library.imagepicker.data.MediaFolder;
 import com.lcw.library.imagepicker.executors.CommonExecutor;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
 import com.lcw.library.imagepicker.manager.SelectionManager;
+import com.lcw.library.imagepicker.task.ImageLoadTask;
 import com.lcw.library.imagepicker.task.MediaLoadTask;
+import com.lcw.library.imagepicker.task.VideoLoadTask;
 import com.lcw.library.imagepicker.utils.Utils;
 import com.lcw.library.imagepicker.view.ImageFolderPopupWindow;
 
@@ -52,10 +54,14 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     public static final int SELECT_MODE_MULTI = 1;
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_SHOW_CAMERA = "showCamera";
+    public static final String EXTRA_SHOW_IMAGE = "showImage";
+    public static final String EXTRA_SHOW_VIDEO = "showVideo";
     public static final String EXTRA_MAX_COUNT = "maxCount";
     public static final String EXTRA_IMAGE_PATHS = "imagePaths";
     private String mTitle;
     private boolean isShowCamera;
+    private boolean isShowImage;
+    private boolean isShowVideo;
     private int mMaxCount;
     private int mSelectionMode;
     private List<String> mImagePaths;
@@ -114,6 +120,8 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     private void initConfig() {
         mTitle = getIntent().getStringExtra(EXTRA_TITLE);
         isShowCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, false);
+        isShowImage = getIntent().getBooleanExtra(EXTRA_SHOW_IMAGE, true);
+        isShowVideo = getIntent().getBooleanExtra(EXTRA_SHOW_VIDEO, true);
         mMaxCount = getIntent().getIntExtra(EXTRA_MAX_COUNT, 1);
         SelectionManager.getInstance().setMaxCount(mMaxCount);
         if (mMaxCount > 1) {
@@ -210,46 +218,67 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     @Override
     protected void getData() {
-        MediaLoadTask mediaLoadTask = new MediaLoadTask(this, new MediaLoadCallback() {
-            @Override
-            public void loadMediaSuccess(final List<MediaFolder> imageFolderList) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //默认加载全部照片
-                        mMediaFileList.addAll(imageFolderList.get(0).getMediaFileList());
-                        mImagePickerAdapter.notifyDataSetChanged();
 
-                        //图片文件夹数据
-                        mMediaFolderList = new ArrayList<>(imageFolderList);
-                        mImageFolderPopupWindow = new ImageFolderPopupWindow(ImagePickerActivity.this, mMediaFolderList);
-                        mImageFolderPopupWindow.setAnimationStyle(R.style.imageFolderAnimator);
-                        mImageFolderPopupWindow.getAdapter().setOnImageFolderChangeListener(ImagePickerActivity.this);
-                        mImageFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                setLightMode(LIGHT_ON);
-                            }
-                        });
-                        updateCommitButton();
-                        mProgressDialog.cancel();
-                    }
-                });
-            }
+        Runnable mediaLoadTask = null;
 
-            @Override
-            public void loadMediaFailed(final String msg) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(ImagePickerActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-            }
-        });
+        if (isShowImage && isShowVideo) {
+            mediaLoadTask = new MediaLoadTask(this, new MediaLoader());
+        }
 
-        CommonExecutor.getInstance().execute(mediaLoadTask);
+        if (!isShowImage && isShowVideo) {
+            mediaLoadTask = new VideoLoadTask(this, new MediaLoader());
+        }
+
+        if (isShowImage && !isShowVideo) {
+            mediaLoadTask = new ImageLoadTask(this, new MediaLoader());
+        }
+
+        if (mediaLoadTask != null) {
+            CommonExecutor.getInstance().execute(mediaLoadTask);
+        }
+    }
+
+    /**
+     * 处理媒体数据加载成功后的UI渲染
+     */
+    class MediaLoader implements MediaLoadCallback {
+
+        @Override
+        public void loadMediaSuccess(final List<MediaFolder> mediaFolderList) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //默认加载全部照片
+                    mMediaFileList.addAll(mediaFolderList.get(0).getMediaFileList());
+                    mImagePickerAdapter.notifyDataSetChanged();
+
+                    //图片文件夹数据
+                    mMediaFolderList = new ArrayList<>(mediaFolderList);
+                    mImageFolderPopupWindow = new ImageFolderPopupWindow(ImagePickerActivity.this, mMediaFolderList);
+                    mImageFolderPopupWindow.setAnimationStyle(R.style.imageFolderAnimator);
+                    mImageFolderPopupWindow.getAdapter().setOnImageFolderChangeListener(ImagePickerActivity.this);
+                    mImageFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            setLightMode(LIGHT_ON);
+                        }
+                    });
+                    updateCommitButton();
+                    mProgressDialog.cancel();
+                }
+            });
+        }
+
+        @Override
+        public void loadMediaFailed(final String msg) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(ImagePickerActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+        }
     }
 
 

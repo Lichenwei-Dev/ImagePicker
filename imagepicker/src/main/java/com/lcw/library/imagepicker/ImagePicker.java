@@ -28,6 +28,8 @@ public class ImagePicker {
 
     private String mTitle;
     private boolean mShowCamera;
+    private boolean mShowImage = true;
+    private boolean mShowVideo = true;
     private int mMaxCount;
     private ArrayList<String> mImagePaths;
 
@@ -73,6 +75,28 @@ public class ImagePicker {
      */
     public ImagePicker showCamera(boolean showCamera) {
         this.mShowCamera = showCamera;
+        return mImagePicker;
+    }
+
+    /**
+     * 是否展示图片
+     *
+     * @param showImage
+     * @return
+     */
+    public ImagePicker showImage(boolean showImage) {
+        this.mShowImage = showImage;
+        return mImagePicker;
+    }
+
+    /**
+     * 是否展示视频
+     *
+     * @param showVideo
+     * @return
+     */
+    public ImagePicker showVideo(boolean showVideo) {
+        this.mShowVideo = showVideo;
         return mImagePicker;
     }
 
@@ -131,6 +155,8 @@ public class ImagePicker {
             intent.putExtra(ImagePickerActivity.EXTRA_SHOW_CAMERA, mShowCamera);
             intent.putExtra(ImagePickerActivity.EXTRA_MAX_COUNT, mMaxCount);
             intent.putExtra(ImagePickerActivity.EXTRA_IMAGE_PATHS, mImagePaths);
+            intent.putExtra(ImagePickerActivity.EXTRA_SHOW_IMAGE, mShowImage);
+            intent.putExtra(ImagePickerActivity.EXTRA_SHOW_VIDEO, mShowVideo);
             activity.startActivityForResult(intent, requestCode);
         } else {
             Toast.makeText(activity, activity.getString(R.string.permission_tip), Toast.LENGTH_SHORT).show();

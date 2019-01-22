@@ -25,7 +25,7 @@
             android:drawablePadding="4dp"
             android:drawableRight="@mipmap/icon_album_index"
             android:gravity="center"
-            android:text="全部图片"
+            android:text="@string/all_media"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 

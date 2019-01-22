@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
                 ImagePicker.getInstance()
                         .setTitle("多图选择器")
                         .showCamera(true)
+                        .showImage(true)
+                        .showVideo(false)
                         .setMaxCount(9)
                         .setImagePaths(mImagePaths)
                         .setImageLoader(new GlideLoader())
