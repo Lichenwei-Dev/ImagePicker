@@ -37,8 +37,6 @@ public class MediaLoadTask implements Runnable {
         ArrayList<MediaFile> imageFileList = new ArrayList<>();
         //存放所有视频
         ArrayList<MediaFile> videoFileList = new ArrayList<>();
-        //存放所有照片/视频
-        ArrayList<MediaFile> mediaFileList = new ArrayList<>();
 
         if (mImageScanner != null) {
             imageFileList = mImageScanner.queryMedia();
@@ -47,11 +45,8 @@ public class MediaLoadTask implements Runnable {
             videoFileList = mVideoScanner.queryMedia();
         }
 
-        mediaFileList.addAll(imageFileList);
-        mediaFileList.addAll(videoFileList);
-
         if (mMediaLoadCallback != null) {
-            mMediaLoadCallback.loadMediaSuccess(MediaHandler.getMediaFolder(mContext, mediaFileList, videoFileList));
+            mMediaLoadCallback.loadMediaSuccess(MediaHandler.getMediaFolder(mContext, imageFileList, videoFileList));
         }
 
 

@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ImagePicker.getInstance()
-                        .setTitle("标题")
+                        .setTitle("多图选择器")
                         .showCamera(true)
                         .setMaxCount(9)
                         .setImagePaths(mImagePaths)

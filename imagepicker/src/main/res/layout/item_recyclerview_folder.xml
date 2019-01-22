@@ -33,7 +33,7 @@
             android:ellipsize="end"
             android:maxLength="12"
             android:singleLine="true"
-            android:text="@string/all_images"
+            android:text="@string/all_media"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 

@@ -66,7 +66,7 @@ public abstract class AbsMediaScanner<T> {
     }
 
     /**
-     * 根据查询条件进行媒体库查询
+     * 根据查询条件进行媒体库查询，隐藏查询细节，让开发者更专注业务
      *
      * @return
      */

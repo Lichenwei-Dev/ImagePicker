@@ -1,14 +1,12 @@
 package com.lcw.library.imagepicker.loader;
 
 import android.content.Context;
-import android.support.annotation.WorkerThread;
 
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.data.MediaFolder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -29,16 +27,21 @@ public class MediaHandler {
 
 
     /**
-     *
+     * 对查询到的图片和视频进行聚类（相册分类）
      * @param context
-     * @param mediaFileList
+     * @param imageFileList
      * @param videoFileList
      * @return
      */
-    public static List<MediaFolder> getMediaFolder(Context context, ArrayList<MediaFile> mediaFileList, ArrayList<MediaFile> videoFileList) {
+    public static List<MediaFolder> getMediaFolder(Context context, ArrayList<MediaFile> imageFileList, ArrayList<MediaFile> videoFileList) {
 
         //根据媒体所在文件夹Id进行聚类（相册）
         Map<Integer, MediaFolder> mediaFolderMap = new HashMap<>();
+
+        //全部图片、视频文件
+        ArrayList<MediaFile> mediaFileList = new ArrayList<>();
+        mediaFileList.addAll(imageFileList);
+        mediaFileList.addAll(videoFileList);
 
         //对媒体数据进行排序
         Collections.sort(mediaFileList, new Comparator<MediaFile>() {
@@ -55,11 +58,11 @@ public class MediaHandler {
         });
 
         //全部图片、视频
-        MediaFolder allMediaFolder = new MediaFolder(ALL_MEDIA_FOLDER, "所有图片", mediaFileList.get(0).getPath(), mediaFileList);
+        MediaFolder allMediaFolder = new MediaFolder(ALL_MEDIA_FOLDER, context.getString(R.string.all_media), mediaFileList.get(0).getPath(), mediaFileList);
         mediaFolderMap.put(ALL_MEDIA_FOLDER, allMediaFolder);
 
         //全部视频
-        MediaFolder allVideoFolder = new MediaFolder(ALL_VIDEO_FOLDER, "所有视频", videoFileList.get(0).getPath(), videoFileList);
+        MediaFolder allVideoFolder = new MediaFolder(ALL_VIDEO_FOLDER, context.getString(R.string.all_video), videoFileList.get(0).getPath(), videoFileList);
         mediaFolderMap.put(ALL_VIDEO_FOLDER, allVideoFolder);
 
         int size = mediaFileList.size();
