@@ -59,15 +59,6 @@ public abstract class AbsMediaScanner<T> {
      */
     protected abstract T parse(Cursor cursor);
 
-
-    /**
-     * 查询接口（包装对象，让开发者无需关心查询过程）
-     *
-     * @param list
-     */
-    protected abstract void allocate(ArrayList<T> list);
-
-
     private Context mContext;
 
     public AbsMediaScanner(Context context) {
@@ -91,13 +82,6 @@ public abstract class AbsMediaScanner<T> {
             cursor.close();
         }
         return list;
-    }
-
-    /**
-     * 开始执行查询任务
-     */
-    public void execute() {
-        allocate(queryMedia());
     }
 
 }

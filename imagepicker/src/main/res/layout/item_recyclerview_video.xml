@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="1dp">
+
+    <com.lcw.library.imagepicker.view.SquareImageView
+        android:id="@+id/iv_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@mipmap/icon_image_default"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/iv_item_check"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_image_checked" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_item_video"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/icon_video" />
+
+        <TextView
+            android:id="@+id/tv_item_videoDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textColor="@color/text_color_white" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

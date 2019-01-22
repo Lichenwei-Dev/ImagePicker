@@ -32,6 +32,7 @@ public class Utils {
 
     /**
      * 获取图片格式化时间
+     *
      * @param timestamp
      * @return
      */
@@ -51,6 +52,18 @@ public class Utils {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
             return sdf.format(date);
         }
+    }
+
+    /**
+     * 获取视频时长（格式化）
+     *
+     * @param timestamp
+     * @return
+     */
+    public static String getVideoDuration(long timestamp) {
+        Date date = new Date(timestamp);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
+        return simpleDateFormat.format(date);
     }
 
 }

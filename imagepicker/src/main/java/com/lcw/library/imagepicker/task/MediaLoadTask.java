@@ -2,9 +2,13 @@ package com.lcw.library.imagepicker.task;
 
 import android.content.Context;
 
+import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
 import com.lcw.library.imagepicker.loader.ImageScanner;
+import com.lcw.library.imagepicker.loader.MediaHandler;
 import com.lcw.library.imagepicker.loader.VideoScanner;
+
+import java.util.ArrayList;
 
 /**
  * 媒体库扫描任务
@@ -15,22 +19,42 @@ import com.lcw.library.imagepicker.loader.VideoScanner;
  */
 public class MediaLoadTask implements Runnable {
 
+    private Context mContext;
     private ImageScanner mImageScanner;
-//    private VideoScanner mVideoScanner;
+    private VideoScanner mVideoScanner;
+    private MediaLoadCallback mMediaLoadCallback;
 
     public MediaLoadTask(Context context, MediaLoadCallback mediaLoadCallback) {
-        mImageScanner = new ImageScanner(context, mediaLoadCallback);
-//        mVideoScanner = new VideoScanner(context, mediaLoadCallback);
+        this.mContext = context;
+        this.mMediaLoadCallback = mediaLoadCallback;
+        mImageScanner = new ImageScanner(context);
+        mVideoScanner = new VideoScanner(context);
     }
 
     @Override
     public void run() {
+        //存放所有照片
+        ArrayList<MediaFile> imageFileList = new ArrayList<>();
+        //存放所有视频
+        ArrayList<MediaFile> videoFileList = new ArrayList<>();
+        //存放所有照片/视频
+        ArrayList<MediaFile> mediaFileList = new ArrayList<>();
+
         if (mImageScanner != null) {
-            mImageScanner.execute();
+            imageFileList = mImageScanner.queryMedia();
         }
-//        if (mVideoScanner != null) {
-//            mVideoScanner.execute();
-//        }
+        if (mVideoScanner != null) {
+            videoFileList = mVideoScanner.queryMedia();
+        }
+
+        mediaFileList.addAll(imageFileList);
+        mediaFileList.addAll(videoFileList);
+
+        if (mMediaLoadCallback != null) {
+            mMediaLoadCallback.loadMediaSuccess(MediaHandler.getMediaFolder(mContext, mediaFileList, videoFileList));
+        }
+
+
     }
 
 }

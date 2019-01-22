@@ -13,6 +13,7 @@ public class MediaFile {
     private String mime;
     private Integer folderId;
     private String folderName;
+    private long duration;
     private long dateToken;
 
     public String getPath() {
@@ -45,6 +46,14 @@ public class MediaFile {
 
     public void setFolderName(String folderName) {
         this.folderName = folderName;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public long getDateToken() {
