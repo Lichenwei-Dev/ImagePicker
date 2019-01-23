@@ -44,6 +44,7 @@ public class SelectionManager {
 
     /**
      * 获取当前设置最大选择数
+     *
      * @return
      */
     public int getMaxCount() {
@@ -84,7 +85,6 @@ public class SelectionManager {
      */
     public void addImagePathsToSelectList(List<String> imagePaths) {
         if (imagePaths != null) {
-            removeAll();
             for (int i = 0; i < imagePaths.size(); i++) {
                 String imagePath = imagePaths.get(i);
                 if (!mSelectImagePaths.contains(imagePath) && mSelectImagePaths.size() < mMaxCount) {
@@ -107,6 +107,18 @@ public class SelectionManager {
         } else {
             return false;
         }
+    }
+
+    /**
+     * 是否还可以继续选择图片
+     *
+     * @return
+     */
+    public boolean isCanChoose() {
+        if (getSelectPaths().size() < mMaxCount) {
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.R;
-import com.lcw.library.imagepicker.activity.ImagePickerActivity;
 import com.lcw.library.imagepicker.data.ItemType;
 import com.lcw.library.imagepicker.data.MediaFile;
+import com.lcw.library.imagepicker.manager.ConfigManager;
 import com.lcw.library.imagepicker.manager.SelectionManager;
 import com.lcw.library.imagepicker.utils.Utils;
 import com.lcw.library.imagepicker.view.SquareImageView;
@@ -32,16 +31,16 @@ import java.util.List;
 public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.BaseHolder> {
 
     private Context mContext;
-    private int mSelectionMode;
     private List<MediaFile> mMediaFileList;
     private boolean isShowCamera;
+    private int mSelectionMode;
 
 
-    public ImagePickerAdapter(Context context, List<MediaFile> mediaFiles, boolean isShowCamera, int selectionMode) {
+    public ImagePickerAdapter(Context context, List<MediaFile> mediaFiles) {
         this.mContext = context;
         this.mMediaFileList = mediaFiles;
-        this.isShowCamera = isShowCamera;
-        this.mSelectionMode = selectionMode;
+        this.isShowCamera = ConfigManager.getInstance().isShowCamera();
+        this.mSelectionMode = ConfigManager.getInstance().getSelectionMode();
     }
 
 
@@ -92,7 +91,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         View view;
         if (viewType == ItemType.ITEM_TYPE_CAMERA) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_camera, null);
-            return new CameraHolder(view);
+            return new BaseHolder(view);
         }
         if (viewType == ItemType.ITEM_TYPE_IMAGE) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_image, null);
@@ -113,10 +112,8 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         switch (itemType) {
             //图片、视频Item
             case ItemType.ITEM_TYPE_IMAGE:
-                bind((MediaHolder) holder, mediaFile);
-                break;
             case ItemType.ITEM_TYPE_VIDEO:
-                bind((MediaHolder) holder, mediaFile);
+                bindMedia((MediaHolder) holder, mediaFile);
                 break;
             //相机Item
             default:
@@ -127,16 +124,16 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
             holder.mSquareRelativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mOnItemClickListener.onImageClick(view, position);
+                    mOnItemClickListener.onMediaClick(view, position);
                 }
             });
 
-            holder.mSquareRelativeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mOnItemClickListener.onImageCheck(view, position);
-                }
-            });
+//            holder.mSquareRelativeLayout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    mOnItemClickListener.onMediaCheck(view, position);
+//                }
+//            });
         }
     }
 
@@ -147,19 +144,15 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      * @param mediaHolder
      * @param mediaFile
      */
-    private void bind(MediaHolder mediaHolder, MediaFile mediaFile) {
+    private void bindMedia(MediaHolder mediaHolder, MediaFile mediaFile) {
 
         String imagePath = mediaFile.getPath();
 
-        //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
-        if (mSelectionMode == ImagePickerActivity.SELECT_MODE_SINGLE) {
-            //单选状态
+        //如果是单选模式，隐藏多选框
+        if (mSelectionMode == ConfigManager.SELECT_MODE_SINGLE) {
             mediaHolder.mImageCheck.setVisibility(View.GONE);
-            mediaHolder.mImageView.setColorFilter(null);
-            mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
         } else {
-            //多选状态
-            mediaHolder.mImageCheck.setVisibility(View.VISIBLE);
+            //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
             if (SelectionManager.getInstance().isImageSelect(imagePath)) {
                 mediaHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
                 mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
@@ -170,7 +163,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         }
 
         try {
-            ImagePicker.getInstance().getImageLoader().loadImage(mediaHolder.mImageView, imagePath);
+            ConfigManager.getInstance().getImageLoader().loadImage(mediaHolder.mImageView, imagePath);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -226,15 +219,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     }
 
     /**
-     * 相机Item
-     */
-    class CameraHolder extends BaseHolder {
-        public CameraHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    /**
      * 基础Item
      */
     class BaseHolder extends RecyclerView.ViewHolder {
@@ -258,8 +242,8 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     }
 
     public interface OnItemClickListener {
-        void onImageClick(View view, int position);
+        void onMediaClick(View view, int position);
 
-        void onImageCheck(View view, int position);
+        void onMediaCheck(View view, int position);
     }
 }

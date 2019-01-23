@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.lcw.library.imagepicker.activity.ImagePickerActivity;
+import com.lcw.library.imagepicker.manager.ConfigManager;
 import com.lcw.library.imagepicker.utils.ImageLoader;
 
 import java.util.ArrayList;
@@ -25,16 +26,6 @@ public class ImagePicker {
     public static final String EXTRA_SELECT_IMAGES = "selectItems";
 
     private static volatile ImagePicker mImagePicker;
-
-    private String mTitle;//标题
-    private boolean mShowCamera;//是否显示拍照Item，默认不显示
-    private boolean mShowImage = true;//是否显示图片，默认显示
-    private boolean mShowVideo = true;//是否显示视频，默认显示
-    private int mMaxCount;//最大选择数量
-    private ArrayList<String> mImagePaths;//上一次选择的图片地址集合
-
-    private ImageLoader mImageLoader;
-
 
     private ImagePicker() {
     }
@@ -63,7 +54,7 @@ public class ImagePicker {
      * @return
      */
     public ImagePicker setTitle(String title) {
-        this.mTitle = title;
+        ConfigManager.getInstance().setTitle(title);
         return mImagePicker;
     }
 
@@ -74,7 +65,7 @@ public class ImagePicker {
      * @return
      */
     public ImagePicker showCamera(boolean showCamera) {
-        this.mShowCamera = showCamera;
+        ConfigManager.getInstance().setShowCamera(showCamera);
         return mImagePicker;
     }
 
@@ -85,7 +76,7 @@ public class ImagePicker {
      * @return
      */
     public ImagePicker showImage(boolean showImage) {
-        this.mShowImage = showImage;
+        ConfigManager.getInstance().setShowImage(showImage);
         return mImagePicker;
     }
 
@@ -96,7 +87,7 @@ public class ImagePicker {
      * @return
      */
     public ImagePicker showVideo(boolean showVideo) {
-        this.mShowVideo = showVideo;
+        ConfigManager.getInstance().setShowVideo(showVideo);
         return mImagePicker;
     }
 
@@ -108,7 +99,7 @@ public class ImagePicker {
      * @return
      */
     public ImagePicker setMaxCount(int maxCount) {
-        this.mMaxCount = maxCount;
+        ConfigManager.getInstance().setMaxCount(maxCount);
         return mImagePicker;
     }
 
@@ -120,27 +111,14 @@ public class ImagePicker {
      * @return
      */
     public ImagePicker setImageLoader(ImageLoader imageLoader) {
-        this.mImageLoader = imageLoader;
+        ConfigManager.getInstance().setImageLoader(imageLoader);
         return mImagePicker;
     }
 
 
     public ImagePicker setImagePaths(ArrayList<String> imagePaths) {
-        this.mImagePaths = imagePaths;
+        ConfigManager.getInstance().setImagePaths(imagePaths);
         return mImagePicker;
-    }
-
-
-    /**
-     * 获取图片加载器
-     *
-     * @return
-     */
-    public ImageLoader getImageLoader() throws Exception {
-        if (mImageLoader == null) {
-            throw new Exception("imageLoader is null");
-        }
-        return mImageLoader;
     }
 
     /**
@@ -151,12 +129,6 @@ public class ImagePicker {
     public void start(Activity activity, int requestCode) {
         if (checkPermission(activity)) {
             Intent intent = new Intent(activity, ImagePickerActivity.class);
-            intent.putExtra(ImagePickerActivity.EXTRA_TITLE, mTitle);
-            intent.putExtra(ImagePickerActivity.EXTRA_SHOW_CAMERA, mShowCamera);
-            intent.putExtra(ImagePickerActivity.EXTRA_MAX_COUNT, mMaxCount);
-            intent.putExtra(ImagePickerActivity.EXTRA_IMAGE_PATHS, mImagePaths);
-            intent.putExtra(ImagePickerActivity.EXTRA_SHOW_IMAGE, mShowImage);
-            intent.putExtra(ImagePickerActivity.EXTRA_SHOW_VIDEO, mShowVideo);
             activity.startActivityForResult(intent, requestCode);
         } else {
             Toast.makeText(activity, activity.getString(R.string.permission_tip), Toast.LENGTH_SHORT).show();

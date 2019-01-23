@@ -27,6 +27,7 @@ import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.data.MediaFolder;
 import com.lcw.library.imagepicker.executors.CommonExecutor;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
+import com.lcw.library.imagepicker.manager.ConfigManager;
 import com.lcw.library.imagepicker.manager.SelectionManager;
 import com.lcw.library.imagepicker.task.ImageLoadTask;
 import com.lcw.library.imagepicker.task.MediaLoadTask;
@@ -50,20 +51,11 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     /**
      * 启动参数
      */
-    public static final int SELECT_MODE_SINGLE = 0;
-    public static final int SELECT_MODE_MULTI = 1;
-    public static final String EXTRA_TITLE = "title";
-    public static final String EXTRA_SHOW_CAMERA = "showCamera";
-    public static final String EXTRA_SHOW_IMAGE = "showImage";
-    public static final String EXTRA_SHOW_VIDEO = "showVideo";
-    public static final String EXTRA_MAX_COUNT = "maxCount";
-    public static final String EXTRA_IMAGE_PATHS = "imagePaths";
     private String mTitle;
     private boolean isShowCamera;
     private boolean isShowImage;
     private boolean isShowVideo;
     private int mMaxCount;
-    private int mSelectionMode;
     private List<String> mImagePaths;
 
     /**
@@ -119,22 +111,18 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     @Override
     protected void initConfig() {
-        mTitle = getIntent().getStringExtra(EXTRA_TITLE);
-        isShowCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, false);
-        isShowImage = getIntent().getBooleanExtra(EXTRA_SHOW_IMAGE, true);
-        isShowVideo = getIntent().getBooleanExtra(EXTRA_SHOW_VIDEO, true);
-        mMaxCount = getIntent().getIntExtra(EXTRA_MAX_COUNT, 1);
+        mTitle = ConfigManager.getInstance().getTitle();
+        isShowCamera = ConfigManager.getInstance().isShowCamera();
+        isShowImage = ConfigManager.getInstance().isShowImage();
+        isShowVideo = ConfigManager.getInstance().isShowVideo();
+        mMaxCount = ConfigManager.getInstance().getMaxCount();
         SelectionManager.getInstance().setMaxCount(mMaxCount);
-        if (mMaxCount > 1) {
-            mSelectionMode = SELECT_MODE_MULTI;
-        } else {
-            mSelectionMode = SELECT_MODE_SINGLE;
-        }
-        mImagePaths = getIntent().getStringArrayListExtra(EXTRA_IMAGE_PATHS);
-        if (mImagePaths == null) {
-            SelectionManager.getInstance().removeAll();
-        } else {
-            SelectionManager.getInstance().addImagePathsToSelectList(mImagePaths);
+        //如果是多选模式，载入历史记录
+        if (ConfigManager.getInstance().getSelectionMode() == ConfigManager.SELECT_MODE_MULTI) {
+            mImagePaths = ConfigManager.getInstance().getImagePaths();
+            if (mImagePaths != null&&!mImagePaths.isEmpty()) {
+                SelectionManager.getInstance().addImagePathsToSelectList(mImagePaths);
+            }
         }
     }
 
@@ -155,6 +143,9 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             mTvTitle.setText(mTitle);
         }
         mTvCommit = findViewById(R.id.tv_actionBar_commit);
+        if (ConfigManager.getInstance().getSelectionMode() == ConfigManager.SELECT_MODE_SINGLE) {
+            mTvCommit.setVisibility(View.GONE);
+        }
 
         //滑动悬浮标题相关
         mTvImageTime = findViewById(R.id.tv_image_time);
@@ -168,9 +159,10 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         mGridLayoutManager = new GridLayoutManager(this, 4);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         mMediaFileList = new ArrayList<>();
-        mImagePickerAdapter = new ImagePickerAdapter(this, mMediaFileList, isShowCamera, mSelectionMode);
+        mImagePickerAdapter = new ImagePickerAdapter(this, mMediaFileList);
         mImagePickerAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mImagePickerAdapter);
+
 
     }
 
@@ -351,17 +343,34 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      * @param position
      */
     @Override
-    public void onImageClick(View view, int position) {
+    public void onMediaClick(View view, int position) {
         if (isShowCamera) {
             if (position == 0) {
-                int selectCount = SelectionManager.getInstance().getSelectPaths().size();
-                if (selectCount == mMaxCount) {
+                if (!SelectionManager.getInstance().isCanChoose()) {
                     Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 showCamera();
                 return;
             }
+        }
+
+        //执行选中/取消操作
+        MediaFile mediaFile = mImagePickerAdapter.getMediaFile(position);
+        if (mediaFile != null) {
+            String imagePath = mediaFile.getPath();
+            boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imagePath);
+            if (addSuccess) {
+                mImagePickerAdapter.notifyItemChanged(position);
+            } else {
+                Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (ConfigManager.getInstance().getSelectionMode() == ConfigManager.SELECT_MODE_SINGLE) {
+            commitSelection();
+        } else {
+            updateCommitButton();
         }
 
 //        if (mMediaFileList != null) {
@@ -387,31 +396,35 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      * @param position
      */
     @Override
-    public void onImageCheck(View view, int position) {
-        if (isShowCamera) {
-            if (position == 0) {
-                int selectCount = SelectionManager.getInstance().getSelectPaths().size();
-                if (selectCount == mMaxCount) {
-                    Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                showCamera();
-                return;
-            }
-        }
-        //执行选中/取消操作
-        MediaFile mediaFile = mImagePickerAdapter.getMediaFile(position);
-        if (mediaFile != null) {
-            String imagePath = mediaFile.getPath();
-            boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imagePath);
-            if (addSuccess) {
-                mImagePickerAdapter.notifyItemChanged(position);
-            } else {
-                Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        updateCommitButton();
+    public void onMediaCheck(View view, int position) {
+//        if (isShowCamera) {
+//            if (position == 0) {
+//                if (!SelectionManager.getInstance().isCanChoose()) {
+//                    Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                showCamera();
+//                return;
+//            }
+//        }
+//
+//        //执行选中/取消操作
+//        MediaFile mediaFile = mImagePickerAdapter.getMediaFile(position);
+//        if (mediaFile != null) {
+//            String imagePath = mediaFile.getPath();
+//            boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imagePath);
+//            if (addSuccess) {
+//                mImagePickerAdapter.notifyItemChanged(position);
+//            } else {
+//                Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//        if (ConfigManager.getInstance().getSelectionMode() == ConfigManager.SELECT_MODE_SINGLE) {
+//            commitSelection();
+//        } else {
+//            updateCommitButton();
+//        }
     }
 
     /**
@@ -518,6 +531,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         Intent intent = new Intent();
         intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, list);
         setResult(RESULT_OK, intent);
+        SelectionManager.getInstance().removeAll();//清空选中记录
         finish();
     }
 

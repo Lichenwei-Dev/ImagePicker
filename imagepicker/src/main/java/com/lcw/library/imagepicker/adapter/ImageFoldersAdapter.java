@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFolder;
+import com.lcw.library.imagepicker.manager.ConfigManager;
 
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
         }
         //加载图片
         try {
-            ImagePicker.getInstance().getImageLoader().loadImage(holder.mImageCover, folderCover);
+            ConfigManager.getInstance().getImageLoader().loadImage(holder.mImageCover, folderCover);
         } catch (Exception e) {
             e.printStackTrace();
         }

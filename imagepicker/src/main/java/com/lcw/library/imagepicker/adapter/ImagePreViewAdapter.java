@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.lcw.library.imagepicker.ImagePicker;
+import com.lcw.library.imagepicker.manager.ConfigManager;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ImagePreViewAdapter extends PagerAdapter {
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         //加载图片
         try {
-            ImagePicker.getInstance().getImageLoader().loadPreImage(imageView, mImagePaths.get(position));
+            ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, mImagePaths.get(position));
         } catch (Exception e) {
             e.printStackTrace();
         }
