@@ -18,6 +18,7 @@ public class GlideLoader implements ImageLoader {
 
     private RequestOptions mOptions = new RequestOptions()
             .centerCrop()
+            .dontAnimate()
             .format(DecodeFormat.PREFER_RGB_565)
             .placeholder(R.mipmap.icon_image_default)
             .error(R.mipmap.icon_image_error);

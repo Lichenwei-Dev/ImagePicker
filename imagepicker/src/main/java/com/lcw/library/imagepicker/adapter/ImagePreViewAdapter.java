@@ -15,7 +15,7 @@ import com.lcw.library.imagepicker.manager.ConfigManager;
 import java.util.List;
 
 /**
- * 大图浏览适配器
+ * 大图浏览适配器（并不是比较好的方案，后期会用RecyclerView来实现）
  * Create by: chenWei.li
  * Date: 2018/8/30
  * Time: 上午12:57
