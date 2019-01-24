@@ -7,6 +7,31 @@
  ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot2.png)
  ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot3.png)
  ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot4.png)
+ 
+ 
+ 
+版本更新历史：
+####Version1.0.0：
+1、可预览各文件夹下的图片
+2、可配置是否支持相机拍照
+3、可配置选择图片模式（单选/多选）
+4、可配置选择图片数量
+5、可配置图片加载框架
+
+####Version1.1.0：
+1、新增大图预览功能（初步实现，考虑性能后期会改为Fragment承载，单一Activity架构）
+2、更改选择图片文件夹弹窗高度
+3、更改ImageLoader接口，开放小图加载、大图加载、清除缓存方法
+
+####Version2.0.0：
+高仿微信图片选择器界面，提供基础图片选择器功能
+1、重构了大量的代码，更加注重代码间的解耦，相比1.0版本简化了配置项（下沉FileProvider），让开发者可以更专注于业务。
+2、添加媒体库扫描对GIF、视频的支持，并开放接口让开发者自行实现视频播放逻辑。
+3、添加媒体库加载策略，开发者可自行配置加载图片或者视频，灵活运用于不同业务实现。
+4、完善大图预览功能，完善部分UI界面的显示。
+
+ 
+ 
 
 相比1.0.+版本，2.0版本进行了代码的大块重构，注重模块间的代码解耦，简化了配置，将兼容Android7.0所需要的FileProvider下沉到库中完成，不再需要开发者配置，并对GIF图，视频，大图预览等功能有了支持。
 
