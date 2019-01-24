@@ -3,6 +3,7 @@ package com.lcw.demo.imagepicker;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.lcw.library.imagepicker.utils.ImageLoader;
 
@@ -15,28 +16,31 @@ import com.lcw.library.imagepicker.utils.ImageLoader;
  */
 public class GlideLoader implements ImageLoader {
 
+    private RequestOptions mOptions = new RequestOptions()
+            .centerCrop()
+            .format(DecodeFormat.PREFER_RGB_565)
+            .placeholder(R.mipmap.icon_image_default)
+            .error(R.mipmap.icon_image_error);
+
+    private RequestOptions mPreOptions = new RequestOptions().error(R.mipmap.icon_image_error);
+
     @Override
     public void loadImage(ImageView imageView, String imagePath) {
         //小图加载
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.mipmap.icon_image_default)
-                .error(R.mipmap.icon_image_error);
-        Glide.with(imageView.getContext()).load(imagePath).apply(options).into(imageView);
+        Glide.with(imageView.getContext()).load(imagePath).apply(mOptions).into(imageView);
     }
 
     @Override
     public void loadPreImage(ImageView imageView, String imagePath) {
         //大图加载
-        RequestOptions options = new RequestOptions()
-                .error(R.mipmap.icon_image_error);
-        Glide.with(imageView.getContext()).load(imagePath).apply(options).into(imageView);
+        Glide.with(imageView.getContext()).load(imagePath).apply(mPreOptions).into(imageView);
 
     }
 
     @Override
     public void clearMemoryCache() {
         //清理缓存
+        Glide.get(MApplication.getContext()).clearMemory();
 
     }
 }

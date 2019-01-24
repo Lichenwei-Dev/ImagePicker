@@ -99,10 +99,10 @@ public class MediaHandler {
 
         //对图片进行文件夹分类
         if (imageFileList != null && !imageFileList.isEmpty()) {
-            int size = mediaFileList.size();
+            int size = imageFileList.size();
             //添加其他的图片文件夹
             for (int i = 0; i < size; i++) {
-                MediaFile mediaFile = mediaFileList.get(i);
+                MediaFile mediaFile = imageFileList.get(i);
                 int imageFolderId = mediaFile.getFolderId();
                 MediaFolder mediaFolder = mediaFolderMap.get(imageFolderId);
                 if (mediaFolder == null) {

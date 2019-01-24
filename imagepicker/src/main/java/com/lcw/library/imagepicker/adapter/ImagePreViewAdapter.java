@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.lcw.library.imagepicker.ImagePicker;
+import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.manager.ConfigManager;
 
 import java.util.List;
@@ -24,16 +25,16 @@ import java.util.List;
 public class ImagePreViewAdapter extends PagerAdapter {
 
     private Context mContext;
-    private List<String> mImagePaths;
+    private List<MediaFile> mMediaFileList;
 
-    public ImagePreViewAdapter(Context context, List<String> imagePaths) {
+    public ImagePreViewAdapter(Context context, List<MediaFile> mediaFileList) {
         this.mContext = context;
-        this.mImagePaths = imagePaths;
+        this.mMediaFileList = mediaFileList;
     }
 
     @Override
     public int getCount() {
-        return mImagePaths == null ? 0 : mImagePaths.size();
+        return mMediaFileList == null ? 0 : mMediaFileList.size();
     }
 
     @Override
@@ -48,7 +49,7 @@ public class ImagePreViewAdapter extends PagerAdapter {
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         //加载图片
         try {
-            ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, mImagePaths.get(position));
+            ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, mMediaFileList.get(position).getPath());
         } catch (Exception e) {
             e.printStackTrace();
         }

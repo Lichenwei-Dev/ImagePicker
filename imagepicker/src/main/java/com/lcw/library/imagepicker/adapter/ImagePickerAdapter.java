@@ -113,7 +113,8 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
             //图片、视频Item
             case ItemType.ITEM_TYPE_IMAGE:
             case ItemType.ITEM_TYPE_VIDEO:
-                bindMedia((MediaHolder) holder, mediaFile);
+                MediaHolder mediaHolder = (MediaHolder) holder;
+                bindMedia(mediaHolder, mediaFile);
                 break;
             //相机Item
             default:
@@ -128,12 +129,14 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
                 }
             });
 
-//            holder.mSquareRelativeLayout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    mOnItemClickListener.onMediaCheck(view, position);
-//                }
-//            });
+            if (holder instanceof MediaHolder) {
+                ((MediaHolder) holder).mImageCheck.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mOnItemClickListener.onMediaCheck(view, position);
+                    }
+                });
+            }
         }
     }
 
@@ -145,9 +148,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      * @param mediaFile
      */
     private void bindMedia(MediaHolder mediaHolder, MediaFile mediaFile) {
-
         String imagePath = mediaFile.getPath();
-
         //如果是单选模式，隐藏多选框
         if (mSelectionMode == ConfigManager.SELECT_MODE_SINGLE) {
             mediaHolder.mImageCheck.setVisibility(View.GONE);
@@ -161,6 +162,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
                 mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
             }
         }
+
 
         try {
             ConfigManager.getInstance().getImageLoader().loadImage(mediaHolder.mImageView, imagePath);

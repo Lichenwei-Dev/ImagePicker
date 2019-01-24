@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.adapter.ImagePreViewAdapter;
+import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.manager.SelectionManager;
+import com.lcw.library.imagepicker.utils.DataUtil;
 import com.lcw.library.imagepicker.view.HackyViewPager;
 
 import java.util.ArrayList;
@@ -30,9 +32,8 @@ import java.util.List;
  */
 public class ImagePreActivity extends BaseActivity {
 
-    public static final String IMAGE_LIST = "imageList";
     public static final String IMAGE_POSITION = "imagePosition";
-    private List<String> mImagePaths;
+    private List<MediaFile> mMediaFileList;
     private int mPosition = 0;
 
     private TextView mTvTitle;
@@ -79,8 +80,8 @@ public class ImagePreActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                mTvTitle.setText(String.format("%d/%d", position + 1, mImagePaths.size()));
-                updateSelectButton(mImagePaths.get(position));
+                mTvTitle.setText(String.format("%d/%d", position + 1, mMediaFileList.size()));
+                updateSelectButton(mMediaFileList.get(position).getPath());
             }
 
             @Override
@@ -92,9 +93,9 @@ public class ImagePreActivity extends BaseActivity {
         mLlPreSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(mImagePaths.get(mViewPager.getCurrentItem()));
+                boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(mMediaFileList.get(mViewPager.getCurrentItem()).getPath());
                 if (addSuccess) {
-                    updateSelectButton(mImagePaths.get(mViewPager.getCurrentItem()));
+                    updateSelectButton(mMediaFileList.get(mViewPager.getCurrentItem()).getPath());
                     updateCommitButton();
                 } else {
                     Toast.makeText(ImagePreActivity.this, String.format(getString(R.string.select_image_max), SelectionManager.getInstance().getMaxCount()), Toast.LENGTH_SHORT).show();
@@ -114,14 +115,14 @@ public class ImagePreActivity extends BaseActivity {
 
     @Override
     protected void getData() {
-        mImagePaths = getIntent().getStringArrayListExtra(IMAGE_LIST);
+        mMediaFileList = DataUtil.getInstance().getMediaData();
         mPosition = getIntent().getIntExtra(IMAGE_POSITION, 0);
-        mImagePreViewAdapter = new ImagePreViewAdapter(this, mImagePaths);
+        mImagePreViewAdapter = new ImagePreViewAdapter(this, mMediaFileList);
         mViewPager.setAdapter(mImagePreViewAdapter);
         mViewPager.setCurrentItem(mPosition);
-        mTvTitle.setText(String.format("%d/%d", mPosition + 1, mImagePaths.size()));
+        mTvTitle.setText(String.format("%d/%d", mPosition + 1, mMediaFileList.size()));
 
-        updateSelectButton(mImagePaths.get(mPosition));
+        updateSelectButton(mMediaFileList.get(mPosition).getPath());
         updateCommitButton();
     }
 
