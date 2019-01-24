@@ -26,14 +26,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ImagePicker.getInstance()
-                        .setTitle("多图选择器")
-                        .showCamera(true)
-                        .showImage(true)
-                        .showVideo(true)
-                        .setMaxCount(9)
-                        .setImagePaths(mImagePaths)
-                        .setImageLoader(new GlideLoader())
-                        .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
+                        .setTitle("标题")//设置标题
+                        .showCamera(true)//设置是否显示拍照按钮
+                        .showImage(true)//设置是否展示图片
+                        .showVideo(true)//设置是否展示视频
+                        .setMaxCount(9)//设置最大选择图片数目(默认为1，单选)
+                        .setImageLoader(new GlideLoader())//设置自定义图片加载器
+                        .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
             }
         });
 

@@ -21,5 +21,15 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_image_checked" />
 
+    <ImageView
+        android:id="@+id/iv_item_gif"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="6dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_gif"
+        android:visibility="visible" />
+
 
 </com.lcw.library.imagepicker.view.SquareRelativeLayout>

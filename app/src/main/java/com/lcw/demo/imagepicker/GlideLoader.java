@@ -23,7 +23,9 @@ public class GlideLoader implements ImageLoader {
             .placeholder(R.mipmap.icon_image_default)
             .error(R.mipmap.icon_image_error);
 
-    private RequestOptions mPreOptions = new RequestOptions().error(R.mipmap.icon_image_error);
+    private RequestOptions mPreOptions = new RequestOptions()
+            .skipMemoryCache(true)
+            .error(R.mipmap.icon_image_error);
 
     @Override
     public void loadImage(ImageView imageView, String imagePath) {
@@ -41,12 +43,12 @@ public class GlideLoader implements ImageLoader {
     @Override
     public void loadVideoPlay(ImageView imageView, String path) {
         //实现播放视频的跳转逻辑
+
     }
 
     @Override
     public void clearMemoryCache() {
         //清理缓存
         Glide.get(MApplication.getContext()).clearMemory();
-
     }
 }

@@ -533,4 +533,13 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         super.onBackPressed();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            ConfigManager.getInstance().getImageLoader().clearMemoryCache();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

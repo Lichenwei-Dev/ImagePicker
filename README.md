@@ -1,6 +1,6 @@
 # 高仿微信图片选择器
 
-#### 注意开发细节，尽可能的做到加载速度最快，目前支持图片单选，多选，多文件夹切换，自定义图片加载器等功能。
+#### 注意开发细节，尽可能的做到加载速度最快，目前支持图片，视频单选，多选，多文件夹切换，大图预览，自定义图片加载器等功能。
 
 #### 效果图：
  ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot1.png)
@@ -8,27 +8,28 @@
  ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot3.png)
  ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot4.png)
 
-
+相比1.0.+版本，2.0版本进行了代码的大块重构，注重模块间的代码解耦，简化了配置，将兼容Android7.0所需要的FileProvider下沉到库中完成，不再需要开发者配置，并对GIF图，视频，大图预览等功能有了支持。
 
 ### 使用方式:
-1、在项目下的build.gradle文件中引入（注意gradle的版本）：
+
+1、如何 在项目中引入该图片加载库：
 ```
 //gradle版本在3.0以下引入此行
-compile 'com.lcw.library:imagepicker:1.1.4'
+compile 'com.lcw.library:imagepicker:2.0.0'
 
 //gradle版本在3.0以上引入此行
-implementation 'com.lcw.library:imagepicker:1.1.4'
+implementation 'com.lcw.library:imagepicker:2.0.0'
 ```
 
-2、然后需要在AndroidManifest.xml里声明组件：
+2、需要在AndroidManifest.xml里声明组件：
 ```
 <application>
 ....
-   <!--图片选择器的主Activity-->
+   <!--图片列表Activity-->
         <activity
             android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity"
             android:screenOrientation="portrait" />
-  <!--图片大图预览-->
+  <!--大图预览Activity-->
          <activity
             android:name="com.lcw.library.imagepicker.activity.ImagePreActivity"
             android:screenOrientation="portrait" />
@@ -37,18 +38,20 @@ implementation 'com.lcw.library:imagepicker:1.1.4'
 
 ```
 
-
-3、调用方式非常简单，只需要简单一行代码：
+3、一行代码调用：
 ```
- ImagePicker.getInstance()
+                ImagePicker.getInstance()
                         .setTitle("标题")//设置标题
                         .showCamera(true)//设置是否显示拍照按钮
+                        .showImage(true)//设置是否展示图片
+                        .showVideo(true)//设置是否展示视频
                         .setMaxCount(9)//设置最大选择图片数目(默认为1，单选)
+                        .setImagePaths(mImageList)//保存上一次选择图片的状态，如果不需要可以忽略
                         .setImageLoader(new GlideLoader())//设置自定义图片加载器
-                        .start(mContext, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
+                        .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
 ```
 
-4、获取选择图片返回的数据：
+4、如何获取选中的图片集合：
 ```
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -58,74 +61,22 @@ implementation 'com.lcw.library:imagepicker:1.1.4'
     }
 ```
 
-5、关于自定义图片加载器，不具体指定图片加载框架，让开发者更加灵活的定制，只需要去实现ImageLoader接口即可：
+5、如何自定义图片加载器（让开发者更加灵活的定制，只需要去实现ImageLoader接口即可）：
 ```
 public class GlideLoader implements ImageLoader {
-
-    @Override
-    public void loadImage(ImageView imageView, String imagePah) {
-        //小图加载，这里以Glide图片加载框架为例
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.mipmap.icon_image_default)
-                .error(R.mipmap.icon_image_error);
-        Glide.with(imageView.getContext()).load(imagePah).apply(options).into(imageView);
-    }
-
+    //to do something 可以参考Demo用法
 }
 ```
 
-6、关于权限，6.0以后危险权限需要动态申请，不了解的同学可以看下我之前写过的一篇文章[《适配Android6.0动态权限管理》](https://www.jianshu.com/p/a37f4827079a)，由于国内各大厂商的ROM存在差异化，需要经常处理一些兼容上的问题，也有比较成熟的开源库，为了简洁，本Library就不提供此功能，请开发者自行处理，所需权限：
+6、关于权限，6.0以后危险权限需要动态申请，不了解的同学可以看下我之前写过的一篇文章[《适配Android6.0动态权限管理》](https://www.jianshu.com/p/a37f4827079a)，由于国内各大厂商的ROM存在差异化，需要经常处理一些兼容上的问题，也有比较成熟的开源库支持，为了简洁，本Library就不提供此功能，请开发者自行处理，所需权限：
 ```
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 ```
 
-7、最后需要注意的是在Android7.0后私有目录被限制访问，这里做了兼容处理，在开启拍照按钮的时候需要注意：
 
-（1）首先需要在AndroidManifest.xml里声明组件：
-```
-<application>
-....
- <!-- Android 7.0 文件共享配置 -->
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.lcw.library.imagepicker.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/image_picker" />
-        </provider>
-....
-</application>
-```
-（2）然后在res文件夹下建立一个xml文件夹，放置xml文件（image_picker.xml）即可，xml内容如下：
-```
-<?xml version="1.0" encoding="utf-8"?>
-<paths>
-    <external-path
-        name="imagePicker"
-        path="" />
-</paths>
-```
-
-8、其他：
-根据业务的需求，有时候我们在选择一部分图片后，再次跳转图片选择器的时候，想要去保存已经勾选的图片状态，这边也提供了对应的方法，只需要把onActivityResult返回的图片路径List集合，重新设置进来即可，代码如下：
-```
-    ImagePicker.getInstance()
-                        .setTitle("标题")
-                        .showCamera(true)
-                        .setMaxCount(9)
-                        .setImagePaths(mImagePaths)//设置list
-                        .setImageLoader(new GlideLoader())
-                        .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);
- ```
-
-
-
-版本会持续迭代，未完待续。。。（欢迎Star，欢迎Fork）
+版本会持续迭代，欢迎大家给建议。。。（欢迎Star，欢迎Fork）
 
  
 

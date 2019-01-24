@@ -163,7 +163,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
             }
         }
 
-
         try {
             ConfigManager.getInstance().getImageLoader().loadImage(mediaHolder.mImageView, imagePath);
         } catch (Exception e) {
@@ -171,7 +170,13 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         }
 
         if (mediaHolder instanceof ImageHolder) {
-            // TODO: 2019/1/22  如果是图片且是gif，需要展示gif图标
+            //如果是gif图，显示gif标识
+            String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1);
+            if (suffix.equals("gif") || suffix.equals("GIF")) {
+                ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.VISIBLE);
+            } else {
+                ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.GONE);
+            }
         }
 
         if (mediaHolder instanceof VideoHolder) {
@@ -187,8 +192,12 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      * 图片Item
      */
     class ImageHolder extends MediaHolder {
+
+        public ImageView mImageGif;
+
         public ImageHolder(View itemView) {
             super(itemView);
+            mImageGif = itemView.findViewById(R.id.iv_item_gif);
         }
     }
 
