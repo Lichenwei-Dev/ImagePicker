@@ -115,7 +115,11 @@ public class ImagePicker {
         return mImagePicker;
     }
 
-
+    /**
+     * 设置图片选择历史记录
+     * @param imagePaths
+     * @return
+     */
     public ImagePicker setImagePaths(ArrayList<String> imagePaths) {
         ConfigManager.getInstance().setImagePaths(imagePaths);
         return mImagePicker;

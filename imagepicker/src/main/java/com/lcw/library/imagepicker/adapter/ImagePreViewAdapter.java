@@ -3,13 +3,12 @@ package com.lcw.library.imagepicker.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.github.chrisbanes.photoview.PhotoView;
-import com.github.chrisbanes.photoview.PhotoViewAttacher;
-import com.lcw.library.imagepicker.ImagePicker;
+import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.manager.ConfigManager;
 
@@ -45,16 +44,36 @@ public class ImagePreViewAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        PhotoView imageView = new PhotoView(mContext);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        //加载图片
+        final MediaFile mediaFile = mMediaFileList.get(position);
+        long duration = mediaFile.getDuration();
+        final String path = mediaFile.getPath();
+        final View view;
+        final ImageView imageView;
+        if (duration > 0) {
+            //视频
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_video, null);
+        } else {
+            //图片
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_image, null);
+        }
+        imageView = view.findViewById(R.id.iv_item_image);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    ConfigManager.getInstance().getImageLoader().loadVideoPlay(imageView, path);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         try {
-            ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, mMediaFileList.get(position).getPath());
+            ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, path);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        container.addView(imageView);
-        return imageView;
+        container.addView(view);
+        return view;
     }
 
     @Override

@@ -38,6 +38,11 @@ public class GlideLoader implements ImageLoader {
     }
 
     @Override
+    public void loadVideoPlay(ImageView imageView, String path) {
+        //实现播放视频的跳转逻辑
+    }
+
+    @Override
     public void clearMemoryCache() {
         //清理缓存
         Glide.get(MApplication.getContext()).clearMemory();

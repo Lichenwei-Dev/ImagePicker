@@ -3,10 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.github.chrisbanes.photoview.PhotoView
+    <ImageView
         android:id="@+id/iv_item_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/iv_item_play"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/icon_video_play" />
 
 </RelativeLayout>
