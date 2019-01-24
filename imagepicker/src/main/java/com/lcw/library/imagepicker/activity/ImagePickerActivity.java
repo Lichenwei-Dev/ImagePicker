@@ -29,6 +29,7 @@ import com.lcw.library.imagepicker.executors.CommonExecutor;
 import com.lcw.library.imagepicker.listener.MediaLoadCallback;
 import com.lcw.library.imagepicker.manager.ConfigManager;
 import com.lcw.library.imagepicker.manager.SelectionManager;
+import com.lcw.library.imagepicker.provider.ImagePickerProvider;
 import com.lcw.library.imagepicker.task.ImageLoadTask;
 import com.lcw.library.imagepicker.task.MediaLoadTask;
 import com.lcw.library.imagepicker.task.VideoLoadTask;
@@ -447,7 +448,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
-            uri = FileProvider.getUriForFile(this, "com.lcw.library.imagepicker.provider", new File(mFilePath));
+            uri = FileProvider.getUriForFile(this, ImagePickerProvider.getFileProviderName(this), new File(mFilePath));
         } else {
             uri = Uri.fromFile(new File(mFilePath));
         }
