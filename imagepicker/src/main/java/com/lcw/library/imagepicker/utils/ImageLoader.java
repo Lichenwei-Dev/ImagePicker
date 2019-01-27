@@ -36,7 +36,7 @@ public interface ImageLoader extends Serializable {
      * @param imageView
      * @param path
      */
-    void loadVideoPlay(ImageView imageView, String path);
+//    void loadVideoPlay(ImageView imageView, String path);
 
     /**
      * 缓存管理

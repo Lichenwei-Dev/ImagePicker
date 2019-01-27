@@ -5,7 +5,7 @@ publish {
     userOrg = 'lichenwei'
     groupId = 'com.lcw.library'
     artifactId = 'imagepicker'
-    publishVersion = '2.0.0'
+    publishVersion = '2.0.1'
     desc = 'Android image picker library'
     website = 'https://github.com/Lichenwei-Dev/ImagePicker'
 }
@@ -15,8 +15,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 200
-        versionName "2.0.0"
+        versionCode 201
+        versionName "2.0.1"
     }
 
     buildTypes {

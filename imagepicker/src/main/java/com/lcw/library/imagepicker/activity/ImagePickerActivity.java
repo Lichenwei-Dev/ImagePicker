@@ -99,7 +99,12 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      * 拍照相关
      */
     private String mFilePath;
-    private static final int REQUEST_CODE_CAPTURE = 1000;
+    private static final int REQUEST_CODE_CAPTURE = 0x02;//点击拍照标识
+
+    /**
+     * 大图预览页相关
+     */
+    private static final int REQUEST_SELECT_IMAGES_CODE = 0x01;//用于在大图预览页中点击提交按钮标识
 
 
     @Override
@@ -339,8 +344,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
         getWindow().setAttributes(layoutParams);
     }
-
-    private static final int REQUEST_SELECT_IMAGES_CODE = 0x01;
 
     /**
      * 点击图片
