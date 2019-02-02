@@ -1,12 +1,7 @@
 package com.lcw.library.imagepicker;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 
 import com.lcw.library.imagepicker.activity.ImagePickerActivity;
 import com.lcw.library.imagepicker.manager.ConfigManager;
@@ -117,6 +112,7 @@ public class ImagePicker {
 
     /**
      * 设置图片选择历史记录
+     *
      * @param imagePaths
      * @return
      */
@@ -131,23 +127,8 @@ public class ImagePicker {
      * @param activity
      */
     public void start(Activity activity, int requestCode) {
-        if (checkPermission(activity)) {
-            Intent intent = new Intent(activity, ImagePickerActivity.class);
-            activity.startActivityForResult(intent, requestCode);
-        } else {
-            Toast.makeText(activity, activity.getString(R.string.permission_tip), Toast.LENGTH_SHORT).show();
-        }
+        Intent intent = new Intent(activity, ImagePickerActivity.class);
+        activity.startActivityForResult(intent, requestCode);
     }
-
-    /**
-     * 权限检查
-     *
-     * @param context
-     * @return
-     */
-    private boolean checkPermission(Context context) {
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-    }
-
 
 }

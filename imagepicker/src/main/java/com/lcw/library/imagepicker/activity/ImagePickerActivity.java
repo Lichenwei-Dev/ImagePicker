@@ -1,13 +1,17 @@
 package com.lcw.library.imagepicker.activity;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +38,7 @@ import com.lcw.library.imagepicker.task.ImageLoadTask;
 import com.lcw.library.imagepicker.task.MediaLoadTask;
 import com.lcw.library.imagepicker.task.VideoLoadTask;
 import com.lcw.library.imagepicker.utils.DataUtil;
+import com.lcw.library.imagepicker.utils.PermissionUtil;
 import com.lcw.library.imagepicker.utils.Utils;
 import com.lcw.library.imagepicker.view.ImageFolderPopupWindow;
 
@@ -95,6 +100,13 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
     };
 
+
+    /**
+     * 大图预览页相关
+     */
+    private static final int REQUEST_SELECT_IMAGES_CODE = 0x01;//用于在大图预览页中点击提交按钮标识
+
+
     /**
      * 拍照相关
      */
@@ -102,9 +114,9 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     private static final int REQUEST_CODE_CAPTURE = 0x02;//点击拍照标识
 
     /**
-     * 大图预览页相关
+     * 权限相关
      */
-    private static final int REQUEST_SELECT_IMAGES_CODE = 0x01;//用于在大图预览页中点击提交按钮标识
+    private static final int REQUEST_PERMISSION_CAMERA_CODE = 0x03;
 
 
     @Override
@@ -229,7 +241,47 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     @Override
     protected void getData() {
+        //进行权限的判断
+        boolean hasPermission = PermissionUtil.checkPermission(this);
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CAMERA_CODE);
+        } else {
+            startScannerTask();
+        }
+    }
 
+    /**
+     * 权限申请回调
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_CAMERA_CODE) {
+            if (grantResults.length >= 1) {
+                int cameraResult = grantResults[0];//相机权限
+                int sdResult = grantResults[1];//sd卡权限
+                boolean cameraGranted = cameraResult == PackageManager.PERMISSION_GRANTED;//拍照权限
+                boolean sdGranted = sdResult == PackageManager.PERMISSION_GRANTED;//拍照权限
+                if (cameraGranted && sdGranted) {
+                    //具有拍照权限，sd卡权限，开始扫描任务
+                    startScannerTask();
+                } else {
+                    //没有权限
+                    Toast.makeText(this, getString(R.string.permission_tip), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 开启扫描任务
+     */
+    private void startScannerTask() {
         Runnable mediaLoadTask = null;
 
         //照片、视频全部加载
@@ -254,6 +306,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
 
         CommonExecutor.getInstance().execute(mediaLoadTask);
     }
+
 
     /**
      * 处理媒体数据加载成功后的UI渲染
@@ -324,7 +377,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             mMyHandler.removeCallbacks(mHideRunnable);
             mMyHandler.postDelayed(mHideRunnable, 1500);
         }
-
     }
 
     /**
@@ -545,4 +597,5 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             e.printStackTrace();
         }
     }
+
 }

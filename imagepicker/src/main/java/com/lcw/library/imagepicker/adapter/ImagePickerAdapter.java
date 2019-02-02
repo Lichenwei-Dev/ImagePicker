@@ -172,7 +172,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         if (mediaHolder instanceof ImageHolder) {
             //如果是gif图，显示gif标识
             String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1);
-            if (suffix.equals("gif") || suffix.equals("GIF")) {
+            if (suffix.toUpperCase().equals("GIF")) {
                 ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.VISIBLE);
             } else {
                 ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.GONE);
@@ -186,7 +186,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         }
 
     }
-
 
     /**
      * 图片Item
