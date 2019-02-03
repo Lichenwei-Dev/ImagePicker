@@ -100,7 +100,7 @@ public class GlideLoader implements ImageLoader {
 }
 ```
 
-8、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：
+7、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：
 ```
 allprojects {
     repositories {
