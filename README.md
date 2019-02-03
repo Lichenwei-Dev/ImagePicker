@@ -40,10 +40,10 @@
 1、如何在项目中引入该图片加载库：
 ```
 //gradle版本在3.0以下引入此行
-compile 'com.lcw.library:imagepicker:2.0.1'
+compile 'com.lcw.library:imagepicker:2.0.2'
 
 //gradle版本在3.0以上引入此行
-implementation 'com.lcw.library:imagepicker:2.0.1'
+implementation 'com.lcw.library:imagepicker:2.0.2'
 ```
 
 2、需要申请的权限：
