@@ -6,8 +6,8 @@ android {
         applicationId "com.lcw.demo.imagepicker"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 201
-        versionName "2.0.1"
+        versionCode 202
+        versionName "2.0.2"
     }
     buildTypes {
         release {
@@ -28,7 +28,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     implementation project(':imagepicker')
-//    implementation 'com.lcw.library:imagepicker:2.0.0'
+//    implementation 'com.lcw.library:imagepicker:2.0.1'
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
 //    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 

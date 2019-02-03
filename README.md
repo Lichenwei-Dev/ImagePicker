@@ -37,7 +37,7 @@
 
 ### 使用方式:
 
-1、如何 在项目中引入该图片加载库：
+1、如何在项目中引入该图片加载库：
 ```
 //gradle版本在3.0以下引入此行
 compile 'com.lcw.library:imagepicker:2.0.1'
@@ -46,7 +46,14 @@ compile 'com.lcw.library:imagepicker:2.0.1'
 implementation 'com.lcw.library:imagepicker:2.0.1'
 ```
 
-2、需要在AndroidManifest.xml里声明组件：
+2、需要申请的权限：
+```
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+```
+
+3、需要在AndroidManifest.xml里声明组件：
 ```
 <application>
 ....
@@ -63,7 +70,7 @@ implementation 'com.lcw.library:imagepicker:2.0.1'
 
 ```
 
-3、一行代码调用：
+4、一行代码调用：
 ```
                 ImagePicker.getInstance()
                         .setTitle("标题")//设置标题
@@ -76,7 +83,7 @@ implementation 'com.lcw.library:imagepicker:2.0.1'
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
 ```
 
-4、如何获取选中的图片集合：
+5、如何获取选中的图片集合：
 ```
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -86,21 +93,14 @@ implementation 'com.lcw.library:imagepicker:2.0.1'
     }
 ```
 
-5、如何自定义图片加载器（让开发者更加灵活的定制，只需要去实现ImageLoader接口即可）：
+6、如何自定义图片加载器（让开发者更加灵活的定制，只需要去实现ImageLoader接口即可）：
 ```
 public class GlideLoader implements ImageLoader {
     //to do something 可以参考Demo用法
 }
 ```
 
-6、关于权限，6.0以后危险权限需要动态申请，不了解的同学可以看下我之前写过的一篇文章[《适配Android6.0动态权限管理》](https://www.jianshu.com/p/a37f4827079a)，由于国内各大厂商的ROM存在差异化，需要经常处理一些兼容上的问题，也有比较成熟的开源库支持，为了简洁，本Library就不提供此功能，请开发者自行处理，所需权限：
-```
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-```
-
-7、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：
+8、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：
 ```
 allprojects {
     repositories {
