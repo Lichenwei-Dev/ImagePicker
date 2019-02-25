@@ -40,10 +40,10 @@
 1、如何在项目中引入该图片加载库：
 ```
 //gradle版本在3.0以下引入此行
-compile 'com.lcw.library:imagepicker:2.0.2'
+compile 'com.lcw.library:imagepicker:2.0.3'
 
 //gradle版本在3.0以上引入此行
-implementation 'com.lcw.library:imagepicker:2.0.2'
+implementation 'com.lcw.library:imagepicker:2.0.3'
 ```
 2、一行代码调用：
 ```
