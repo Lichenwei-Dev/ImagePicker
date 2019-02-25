@@ -45,32 +45,7 @@ compile 'com.lcw.library:imagepicker:2.0.2'
 //gradle版本在3.0以上引入此行
 implementation 'com.lcw.library:imagepicker:2.0.2'
 ```
-
-2、需要申请的权限：
-```
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-```
-
-3、需要在AndroidManifest.xml里声明组件：
-```
-<application>
-....
-   <!--图片列表Activity-->
-        <activity
-            android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity"
-            android:screenOrientation="portrait" />
-  <!--大图预览Activity-->
-         <activity
-            android:name="com.lcw.library.imagepicker.activity.ImagePreActivity"
-            android:screenOrientation="portrait" />
-...
-</application>
-
-```
-
-4、一行代码调用：
+2、一行代码调用：
 ```
                 ImagePicker.getInstance()
                         .setTitle("标题")//设置标题
@@ -83,7 +58,7 @@ implementation 'com.lcw.library:imagepicker:2.0.2'
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
 ```
 
-5、如何获取选中的图片集合：
+3、如何获取选中的图片集合：
 ```
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -93,14 +68,14 @@ implementation 'com.lcw.library:imagepicker:2.0.2'
     }
 ```
 
-6、如何自定义图片加载器（让开发者更加灵活的定制，只需要去实现ImageLoader接口即可）：
+4、如何自定义图片加载器（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可）：
 ```
 public class GlideLoader implements ImageLoader {
     //to do something 可以参考Demo用法
 }
 ```
 
-7、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：
+5、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：
 ```
 allprojects {
     repositories {

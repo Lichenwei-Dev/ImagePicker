@@ -18,16 +18,6 @@
             </intent-filter>
         </activity>
 
-        <!--图片选择器的主Activity-->
-        <activity
-            android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity"
-            android:screenOrientation="portrait" />
-
-        <!--图片大图预览-->
-        <activity
-            android:name="com.lcw.library.imagepicker.activity.ImagePreActivity"
-            android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>

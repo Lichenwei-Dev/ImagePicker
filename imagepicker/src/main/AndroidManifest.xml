@@ -7,6 +7,15 @@
 
     <application>
 
+        <!--图片列表Activity-->
+        <activity
+            android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity"
+            android:screenOrientation="portrait" />
+        <!--大图预览Activity-->
+        <activity
+            android:name="com.lcw.library.imagepicker.activity.ImagePreActivity"
+            android:screenOrientation="portrait" />
+
         <!-- Android 7.0 文件共享配置，必须配置 -->
         <provider
             android:name=".provider.ImagePickerProvider"
