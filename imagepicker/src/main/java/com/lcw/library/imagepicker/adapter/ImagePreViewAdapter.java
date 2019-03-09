@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.manager.ConfigManager;
@@ -51,40 +52,10 @@ public class ImagePreViewAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        final MediaFile mediaFile = mMediaFileList.get(position);
-        long duration = mediaFile.getDuration();
-        final String path = mediaFile.getPath();
-        final View view;
-        final ImageView imageView;
-        if (duration > 0) {
-            //视频
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_video, null);
-            ImageView playView = view.findViewById(R.id.iv_item_play);
-            playView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //实现播放视频的跳转逻辑(调用原生视频播放器)
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    Uri uri = FileProvider.getUriForFile(mContext, ImagePickerProvider.getFileProviderName(mContext), new File(path));
-                    intent.setDataAndType(uri, "video/*");
-                    //给所有符合跳转条件的应用授权
-                    List<ResolveInfo> resInfoList = mContext.getPackageManager()
-                            .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-                    for (ResolveInfo resolveInfo : resInfoList) {
-                        String packageName = resolveInfo.activityInfo.packageName;
-                        mContext.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                    }
-                    mContext.startActivity(intent);
-                }
-            });
-        } else {
-            //图片
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_image, null);
-        }
-        imageView = view.findViewById(R.id.iv_item_image);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_image, null);
+        ImageView imageView = view.findViewById(R.id.iv_item_image);
         try {
-            ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, path);
+            ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, mMediaFileList.get(position).getPath());
         } catch (Exception e) {
             e.printStackTrace();
         }

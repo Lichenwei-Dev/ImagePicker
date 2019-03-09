@@ -33,7 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int bindLayout();
 
-    protected abstract void initConfig();
+    protected void initConfig() {
+    }
 
     protected abstract void initView();
 

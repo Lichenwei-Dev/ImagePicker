@@ -1,26 +1,26 @@
 package com.lcw.library.imagepicker.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.adapter.ImagePreViewAdapter;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.manager.SelectionManager;
+import com.lcw.library.imagepicker.provider.ImagePickerProvider;
 import com.lcw.library.imagepicker.utils.DataUtil;
 import com.lcw.library.imagepicker.view.HackyViewPager;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -38,10 +38,12 @@ public class ImagePreActivity extends BaseActivity {
 
     private TextView mTvTitle;
     private TextView mTvCommit;
+    private ImageView mIvPlay;
     private HackyViewPager mViewPager;
     private LinearLayout mLlPreSelect;
     private ImageView mIvPreCheck;
     private ImagePreViewAdapter mImagePreViewAdapter;
+
 
     @Override
     protected int bindLayout() {
@@ -49,14 +51,10 @@ public class ImagePreActivity extends BaseActivity {
     }
 
     @Override
-    protected void initConfig() {
-
-    }
-
-    @Override
     protected void initView() {
         mTvTitle = findViewById(R.id.tv_actionBar_title);
         mTvCommit = findViewById(R.id.tv_actionBar_commit);
+        mIvPlay = findViewById(R.id.iv_main_play);
         mViewPager = findViewById(R.id.vp_main_preImage);
         mLlPreSelect = findViewById(R.id.ll_pre_select);
         mIvPreCheck = findViewById(R.id.iv_item_check);
@@ -81,6 +79,12 @@ public class ImagePreActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 mTvTitle.setText(String.format("%d/%d", position + 1, mMediaFileList.size()));
+
+                if (mMediaFileList.get(position).getDuration() > 0) {
+                    mIvPlay.setVisibility(View.VISIBLE);
+                } else {
+                    mIvPlay.setVisibility(View.GONE);
+                }
                 updateSelectButton(mMediaFileList.get(position).getPath());
             }
 
@@ -111,6 +115,25 @@ public class ImagePreActivity extends BaseActivity {
             }
         });
 
+        mIvPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //实现播放视频的跳转逻辑(调用原生视频播放器)
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = FileProvider.getUriForFile(ImagePreActivity.this, ImagePickerProvider.getFileProviderName(ImagePreActivity.this), new File(mMediaFileList.get(mViewPager.getCurrentItem()).getPath()));
+                intent.setDataAndType(uri, "video/*");
+                //给所有符合跳转条件的应用授权
+                List<ResolveInfo> resInfoList = getPackageManager()
+                        .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                for (ResolveInfo resolveInfo : resInfoList) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                }
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -122,6 +145,7 @@ public class ImagePreActivity extends BaseActivity {
         mViewPager.setCurrentItem(mPosition);
         mTvTitle.setText(String.format("%d/%d", mPosition + 1, mMediaFileList.size()));
 
+        //更新当前页面状态
         updateSelectButton(mMediaFileList.get(mPosition).getPath());
         updateCommitButton();
     }

@@ -47,12 +47,24 @@
 
     </RelativeLayout>
 
-    <com.lcw.library.imagepicker.view.HackyViewPager
-        android:id="@+id/vp_main_preImage"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/rl_main_bottom"
-        android:layout_below="@id/layout_actionBar" />
+        android:layout_below="@id/layout_actionBar">
+
+        <com.lcw.library.imagepicker.view.HackyViewPager
+            android:id="@+id/vp_main_preImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_main_play"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/icon_video_play" />
+    </RelativeLayout>
 
 
 </RelativeLayout>
