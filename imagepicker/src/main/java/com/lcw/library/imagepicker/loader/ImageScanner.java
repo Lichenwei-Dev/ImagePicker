@@ -47,7 +47,7 @@ public class ImageScanner extends AbsMediaScanner<MediaFile> {
 
     @Override
     protected String getSelection() {
-        return MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?" + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?";
+        return MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?" + " or " + MediaStore.Images.Media.MIME_TYPE + "=?";
     }
 
     @Override

@@ -49,7 +49,6 @@ public class MediaLoadTask implements Runnable {
             mMediaLoadCallback.loadMediaSuccess(MediaHandler.getMediaFolder(mContext, imageFileList, videoFileList));
         }
 
-
     }
 
 }
