@@ -32,18 +32,18 @@
 
 # 使用方式:
 
-**1、如何在项目中引入该图片加载库：
+1、如何在项目中引入该图片加载库：
 ```
                 //gradle版本在3.0以上引入此行
-                implementation 'com.lcw.library:imagepicker:2.0.4'
+                implementation 'com.lcw.library:imagepicker:2.0.5'
 ```
-**2、如何自定义图片加载器（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可）：
+2、如何自定义图片加载器（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可）：
 ```
             public class GlideLoader implements ImageLoader {
                 //to do something 可以参考Demo用法
             }
 ```
-**3、一行代码调用：
+3、一行代码调用：
 ```
                 ImagePicker.getInstance()
                         .setTitle("标题")//设置标题
@@ -56,7 +56,7 @@
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
 ```
 
-**4、如何获取选中的图片集合：
+4、如何获取选中的图片集合：
 ```
                 @Override
                 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -66,7 +66,7 @@
                 }
 ```
 
-**5、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：（如果已配置，请忽略）
+5、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：（如果已配置，请忽略）
 ```
                 allprojects {
                     repositories {
@@ -77,7 +77,7 @@
                 }
 ```
 
-**版本会持续迭代，欢迎大家给建议。。。（欢迎Star，欢迎Fork）
+版本会持续迭代，欢迎大家给建议。。。（欢迎Star，欢迎Fork）
 
  
 
