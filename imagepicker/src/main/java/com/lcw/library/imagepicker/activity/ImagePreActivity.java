@@ -79,12 +79,7 @@ public class ImagePreActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 mTvTitle.setText(String.format("%d/%d", position + 1, mMediaFileList.size()));
-
-                if (mMediaFileList.get(position).getDuration() > 0) {
-                    mIvPlay.setVisibility(View.VISIBLE);
-                } else {
-                    mIvPlay.setVisibility(View.GONE);
-                }
+                setIvPlayShow(mMediaFileList.get(position));
                 updateSelectButton(mMediaFileList.get(position).getPath());
             }
 
@@ -140,12 +135,12 @@ public class ImagePreActivity extends BaseActivity {
     protected void getData() {
         mMediaFileList = DataUtil.getInstance().getMediaData();
         mPosition = getIntent().getIntExtra(IMAGE_POSITION, 0);
+        mTvTitle.setText(String.format("%d/%d", mPosition + 1, mMediaFileList.size()));
         mImagePreViewAdapter = new ImagePreViewAdapter(this, mMediaFileList);
         mViewPager.setAdapter(mImagePreViewAdapter);
         mViewPager.setCurrentItem(mPosition);
-        mTvTitle.setText(String.format("%d/%d", mPosition + 1, mMediaFileList.size()));
-
         //更新当前页面状态
+        setIvPlayShow(mMediaFileList.get(mPosition));
         updateSelectButton(mMediaFileList.get(mPosition).getPath());
         updateCommitButton();
     }
@@ -185,6 +180,18 @@ public class ImagePreActivity extends BaseActivity {
             mIvPreCheck.setImageDrawable(getResources().getDrawable(R.mipmap.icon_image_checked));
         } else {
             mIvPreCheck.setImageDrawable(getResources().getDrawable(R.mipmap.icon_image_check));
+        }
+    }
+
+    /**
+     * 设置是否显示视频播放按钮
+     * @param mediaFile
+     */
+    private void setIvPlayShow(MediaFile mediaFile) {
+        if (mediaFile.getDuration() > 0) {
+            mIvPlay.setVisibility(View.VISIBLE);
+        } else {
+            mIvPlay.setVisibility(View.GONE);
         }
     }
 
