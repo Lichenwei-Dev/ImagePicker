@@ -1,25 +1,17 @@
 package com.lcw.library.imagepicker.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.manager.ConfigManager;
-import com.lcw.library.imagepicker.provider.ImagePickerProvider;
+import com.lcw.library.imagepicker.view.PinchImageView;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -53,7 +45,7 @@ public class ImagePreViewAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_image, null);
-        ImageView imageView = view.findViewById(R.id.iv_item_image);
+        PinchImageView imageView = view.findViewById(R.id.iv_item_image);
         try {
             ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, mMediaFileList.get(position).getPath());
         } catch (Exception e) {
