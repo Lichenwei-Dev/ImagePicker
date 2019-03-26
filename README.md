@@ -66,17 +66,6 @@
                 }
 ```
 
-5、由于大图预览手势处理是依赖PhotoView三方库的，请在你的项目级别里的build.gradle加入：（如果已配置，请忽略）
-```
-                allprojects {
-                    repositories {
-                        google()
-                        jcenter()
-                        maven { url "https://jitpack.io" }
-                    }
-                }
-```
-
 版本会持续迭代，欢迎大家给建议。。。（欢迎Star，欢迎Fork）
 
  
