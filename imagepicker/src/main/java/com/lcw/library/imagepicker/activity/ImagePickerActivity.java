@@ -252,6 +252,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
 
     /**
      * 权限申请回调
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -318,22 +319,24 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //默认加载全部照片
-                    mMediaFileList.addAll(mediaFolderList.get(0).getMediaFileList());
-                    mImagePickerAdapter.notifyDataSetChanged();
+                    if (!mediaFolderList.isEmpty()) {
+                        //默认加载全部照片
+                        mMediaFileList.addAll(mediaFolderList.get(0).getMediaFileList());
+                        mImagePickerAdapter.notifyDataSetChanged();
 
-                    //图片文件夹数据
-                    mMediaFolderList = new ArrayList<>(mediaFolderList);
-                    mImageFolderPopupWindow = new ImageFolderPopupWindow(ImagePickerActivity.this, mMediaFolderList);
-                    mImageFolderPopupWindow.setAnimationStyle(R.style.imageFolderAnimator);
-                    mImageFolderPopupWindow.getAdapter().setOnImageFolderChangeListener(ImagePickerActivity.this);
-                    mImageFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            setLightMode(LIGHT_ON);
-                        }
-                    });
-                    updateCommitButton();
+                        //图片文件夹数据
+                        mMediaFolderList = new ArrayList<>(mediaFolderList);
+                        mImageFolderPopupWindow = new ImageFolderPopupWindow(ImagePickerActivity.this, mMediaFolderList);
+                        mImageFolderPopupWindow.setAnimationStyle(R.style.imageFolderAnimator);
+                        mImageFolderPopupWindow.getAdapter().setOnImageFolderChangeListener(ImagePickerActivity.this);
+                        mImageFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                setLightMode(LIGHT_ON);
+                            }
+                        });
+                        updateCommitButton();
+                    }
                     mProgressDialog.cancel();
                 }
             });

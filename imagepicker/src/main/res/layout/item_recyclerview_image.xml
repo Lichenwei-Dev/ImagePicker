@@ -29,7 +29,7 @@
         android:layout_marginLeft="6dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_gif"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
 </com.lcw.library.imagepicker.view.SquareRelativeLayout>
