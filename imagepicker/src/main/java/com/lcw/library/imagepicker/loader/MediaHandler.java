@@ -121,6 +121,21 @@ public class MediaHandler {
             mediaFolderList.add(mediaFolderMap.get(folderId));
         }
 
+        //按照图片文件夹的数量排序
+        Collections.sort(mediaFolderList, new Comparator<MediaFolder>() {
+            @Override
+            public int compare(MediaFolder o1, MediaFolder o2) {
+                if (o1.getMediaFileList().size() > o2.getMediaFileList().size()) {
+                    return -1;
+                } else if (o1.getMediaFileList().size() < o2.getMediaFileList().size()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+
         return mediaFolderList;
     }
 
