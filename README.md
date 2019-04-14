@@ -37,10 +37,11 @@
                 //gradle版本在3.0以上引入此行
                 implementation 'com.lcw.library:imagepicker:2.1.1'
 ```
-2、如何自定义图片加载器（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可）：
+2、如何自定义图片加载器（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可，如果需要显示视频，优先推荐Glide加载框架，可以参考Demo实现）：
 ```
             public class GlideLoader implements ImageLoader {
                 //to do something 可以参考Demo用法
+                
             }
 ```
 3、一行代码调用：
