@@ -35,7 +35,7 @@
 1、如何在项目中引入该图片加载库：
 ```
                 //gradle版本在3.0以上引入此行
-                implementation 'com.lcw.library:imagepicker:2.1.1'
+                implementation 'com.lcw.library:imagepicker:2.1.2'
 ```
 2、如何自定义图片加载器（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可，如果需要显示视频，优先推荐Glide加载框架，可以参考Demo实现）：
 ```
