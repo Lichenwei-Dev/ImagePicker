@@ -3,15 +3,14 @@ package com.lcw.library.imagepicker.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.manager.ConfigManager;
 import com.lcw.library.imagepicker.view.PinchImageView;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,6 +24,8 @@ public class ImagePreViewAdapter extends PagerAdapter {
 
     private Context mContext;
     private List<MediaFile> mMediaFileList;
+
+    LinkedList<PinchImageView> viewCache = new LinkedList<PinchImageView>();
 
     public ImagePreViewAdapter(Context context, List<MediaFile> mediaFileList) {
         this.mContext = context;
@@ -44,19 +45,26 @@ public class ImagePreViewAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_image, null);
-        PinchImageView imageView = view.findViewById(R.id.iv_item_image);
+        PinchImageView imageView;
+        if (viewCache.size() > 0) {
+            imageView = viewCache.remove();
+            imageView.reset();
+        } else {
+            imageView = new PinchImageView(mContext);
+        }
         try {
             ConfigManager.getInstance().getImageLoader().loadPreImage(imageView, mMediaFileList.get(position).getPath());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        container.addView(view);
-        return view;
+        container.addView(imageView);
+        return imageView;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View) object);
+        PinchImageView imageView = (PinchImageView) object;
+        container.removeView(imageView);
+        viewCache.add(imageView);
     }
 }
