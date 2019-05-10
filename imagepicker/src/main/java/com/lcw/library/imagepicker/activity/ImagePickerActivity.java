@@ -136,12 +136,11 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         isShowVideo = ConfigManager.getInstance().isShowVideo();
         mMaxCount = ConfigManager.getInstance().getMaxCount();
         SelectionManager.getInstance().setMaxCount(mMaxCount);
-        //如果是多选模式，载入历史记录
-        if (ConfigManager.getInstance().getSelectionMode() == ConfigManager.SELECT_MODE_MULTI) {
-            mImagePaths = ConfigManager.getInstance().getImagePaths();
-            if (mImagePaths != null && !mImagePaths.isEmpty()) {
-                SelectionManager.getInstance().addImagePathsToSelectList(mImagePaths);
-            }
+
+        //载入历史选择记录
+        mImagePaths = ConfigManager.getInstance().getImagePaths();
+        if (mImagePaths != null && !mImagePaths.isEmpty()) {
+            SelectionManager.getInstance().addImagePathsToSelectList(mImagePaths);
         }
     }
 
@@ -162,9 +161,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             mTvTitle.setText(mTitle);
         }
         mTvCommit = findViewById(R.id.tv_actionBar_commit);
-        if (ConfigManager.getInstance().getSelectionMode() == ConfigManager.SELECT_MODE_SINGLE) {
-            mTvCommit.setVisibility(View.GONE);
-        }
 
         //滑动悬浮标题相关
         mTvImageTime = findViewById(R.id.tv_image_time);
@@ -461,12 +457,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
                 Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show();
             }
         }
-
-        if (ConfigManager.getInstance().getSelectionMode() == ConfigManager.SELECT_MODE_SINGLE) {
-            commitSelection();
-        } else {
-            updateCommitButton();
-        }
+        updateCommitButton();
     }
 
     /**

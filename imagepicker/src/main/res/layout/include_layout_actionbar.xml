@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="44dp"
-    android:background="@color/colorPrimary">
+    android:background="@color/tool_bar_color">
 
     <ImageView
         android:id="@+id/iv_actionBar_back"

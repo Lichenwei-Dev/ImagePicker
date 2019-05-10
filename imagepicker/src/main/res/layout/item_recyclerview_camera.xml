@@ -3,7 +3,7 @@
     android:id="@+id/srl_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:background="@color/bg_color"
     android:padding="1dp">
 
     <com.lcw.library.imagepicker.view.SquareImageView

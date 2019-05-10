@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#303030</color>
     <color name="colorAccent">#303030</color>
 
+    <color name="tool_bar_color">#303030</color>
+    <color name="bg_color">#303030</color>
+
     <color name="text_color_white">#FFFFFF</color>
     <color name="text_bg_gray">#99000000</color>
 

@@ -33,14 +33,12 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     private Context mContext;
     private List<MediaFile> mMediaFileList;
     private boolean isShowCamera;
-    private int mSelectionMode;
 
 
     public ImagePickerAdapter(Context context, List<MediaFile> mediaFiles) {
         this.mContext = context;
         this.mMediaFileList = mediaFiles;
         this.isShowCamera = ConfigManager.getInstance().isShowCamera();
-        this.mSelectionMode = ConfigManager.getInstance().getSelectionMode();
     }
 
 
@@ -148,19 +146,15 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      * @param mediaFile
      */
     private void bindMedia(MediaHolder mediaHolder, MediaFile mediaFile) {
+
         String imagePath = mediaFile.getPath();
-        //如果是单选模式，隐藏多选框
-        if (mSelectionMode == ConfigManager.SELECT_MODE_SINGLE) {
-            mediaHolder.mImageCheck.setVisibility(View.GONE);
+        //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
+        if (SelectionManager.getInstance().isImageSelect(imagePath)) {
+            mediaHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
+            mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
         } else {
-            //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
-            if (SelectionManager.getInstance().isImageSelect(imagePath)) {
-                mediaHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
-                mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
-            } else {
-                mediaHolder.mImageView.setColorFilter(null);
-                mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
-            }
+            mediaHolder.mImageView.setColorFilter(null);
+            mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
         }
 
         try {
