@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
                         .showImage(true)//设置是否展示图片
                         .showVideo(true)//设置是否展示视频
                         .setMaxCount(9)//设置最大选择图片数目(默认为1，单选)
-                        .setSingleType(true)
-                        .setImagePaths(mImagePaths)
+                        .setSingleType(true)//设置图片视频不能同时选择
+                        .setImagePaths(mImagePaths)//设置历史选择记录
                         .setImageLoader(new GlideLoader())//设置自定义图片加载器
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
             }

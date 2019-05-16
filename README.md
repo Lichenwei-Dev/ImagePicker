@@ -35,7 +35,7 @@
 1、如何在项目中引入该图片加载库：
 ```
                 //gradle版本在3.0以上引入此行
-                implementation 'com.lcw.library:imagepicker:2.1.3'
+                implementation 'com.lcw.library:imagepicker:2.2.0'
 ```
 2、如何自定义图片加载器（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可，如果需要显示视频，优先推荐Glide加载框架，可以参考Demo实现）：
 ```
@@ -51,6 +51,8 @@
                         .showCamera(true)//设置是否显示拍照按钮
                         .showImage(true)//设置是否展示图片
                         .showVideo(true)//设置是否展示视频
+                        .showVideo(true)//设置是否展示视频
+                        .setSingleType(true)//设置图片视频不能同时选择
                         .setMaxCount(9)//设置最大选择图片数目(默认为1，单选)
                         .setImagePaths(mImageList)//保存上一次选择图片的状态，如果不需要可以忽略
                         .setImageLoader(new GlideLoader())//设置自定义图片加载器
