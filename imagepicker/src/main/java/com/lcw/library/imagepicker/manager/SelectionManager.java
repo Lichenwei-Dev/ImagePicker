@@ -1,8 +1,7 @@
 package com.lcw.library.imagepicker.manager;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 媒体选择集合管理类
@@ -15,7 +14,7 @@ public class SelectionManager {
 
     private static volatile SelectionManager mSelectionManager;
 
-    private Set<String> mSelectImagePaths = new HashSet<>();
+    private ArrayList<String> mSelectImagePaths = new ArrayList<>();
 
     private int mMaxCount = 1;
 
@@ -56,7 +55,7 @@ public class SelectionManager {
      *
      * @return
      */
-    public Set<String> getSelectPaths() {
+    public ArrayList<String> getSelectPaths() {
         return mSelectImagePaths;
     }
 

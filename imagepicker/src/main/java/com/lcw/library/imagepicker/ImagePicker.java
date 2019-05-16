@@ -98,6 +98,17 @@ public class ImagePicker {
         return mImagePicker;
     }
 
+    /**
+     * 设置单类型选择（只能选图片或者视频）
+     *
+     * @param isSingleType
+     * @return
+     */
+    public ImagePicker setSingleType(boolean isSingleType) {
+        ConfigManager.getInstance().setSingleType(isSingleType);
+        return mImagePicker;
+    }
+
 
     /**
      * 设置图片加载器

@@ -38,6 +38,7 @@ import com.lcw.library.imagepicker.task.ImageLoadTask;
 import com.lcw.library.imagepicker.task.MediaLoadTask;
 import com.lcw.library.imagepicker.task.VideoLoadTask;
 import com.lcw.library.imagepicker.utils.DataUtil;
+import com.lcw.library.imagepicker.utils.MediaFileUtil;
 import com.lcw.library.imagepicker.utils.PermissionUtil;
 import com.lcw.library.imagepicker.utils.Utils;
 import com.lcw.library.imagepicker.view.ImageFolderPopupWindow;
@@ -62,6 +63,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     private boolean isShowCamera;
     private boolean isShowImage;
     private boolean isShowVideo;
+    private boolean isSingleType;
     private int mMaxCount;
     private List<String> mImagePaths;
 
@@ -134,6 +136,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         isShowCamera = ConfigManager.getInstance().isShowCamera();
         isShowImage = ConfigManager.getInstance().isShowImage();
         isShowVideo = ConfigManager.getInstance().isShowVideo();
+        isSingleType = ConfigManager.getInstance().isSingleType();
         mMaxCount = ConfigManager.getInstance().getMaxCount();
         SelectionManager.getInstance().setMaxCount(mMaxCount);
 
@@ -450,6 +453,20 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         MediaFile mediaFile = mImagePickerAdapter.getMediaFile(position);
         if (mediaFile != null) {
             String imagePath = mediaFile.getPath();
+            if (isSingleType) {
+                //单类型选取，判断添加类型
+                ArrayList<String> selectPathList = SelectionManager.getInstance().getSelectPaths();
+                if (!selectPathList.isEmpty()) {
+                    //判断选中集合中第一项是否为视频
+                    String path = selectPathList.get(0);
+                    boolean isVideo = MediaFileUtil.isVideoFileType(path);
+                    if ((!isVideo && mediaFile.getDuration() != 0) || isVideo && mediaFile.getDuration() == 0) {
+                        //类型不同
+                        Toast.makeText(this, getString(R.string.single_type_choose), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            }
             boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(imagePath);
             if (addSuccess) {
                 mImagePickerAdapter.notifyItemChanged(position);
@@ -543,9 +560,9 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
                 //添加到选中集合
                 SelectionManager.getInstance().addImageToSelectList(mFilePath);
 
-                List<String> list = new ArrayList<>(SelectionManager.getInstance().getSelectPaths());
+                ArrayList<String> list = new ArrayList<>(SelectionManager.getInstance().getSelectPaths());
                 Intent intent = new Intent();
-                intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, (ArrayList<String>) list);
+                intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, list);
                 setResult(RESULT_OK, intent);
                 finish();
             }

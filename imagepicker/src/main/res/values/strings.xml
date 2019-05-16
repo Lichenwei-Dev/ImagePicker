@@ -13,4 +13,5 @@
     <string name="take_photo">拍摄图片</string>
     <string name="permission_tip">当前没有读取存储卡或摄像头权限</string>
     <string name="image_select">选择</string>
+    <string name="single_type_choose">不能同时选择图片与视频</string>
 </resources>

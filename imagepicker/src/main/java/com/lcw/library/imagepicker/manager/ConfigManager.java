@@ -22,6 +22,7 @@ public class ConfigManager {
     private boolean showVideo = true;//是否显示视频，默认显示
     private int selectionMode = SELECT_MODE_SINGLE;//选择模式，默认单选
     private int maxCount = 1;//最大选择数量，默认为1
+    private boolean singleType;//是否只支持选单类型（图片或者视频）
     private ArrayList<String> imagePaths;//上一次选择的图片地址集合
 
     private ImageLoader imageLoader;
@@ -106,6 +107,14 @@ public class ConfigManager {
             throw new Exception("imageLoader is null");
         }
         return imageLoader;
+    }
+
+    public boolean isSingleType() {
+        return singleType;
+    }
+
+    public void setSingleType(boolean singleType) {
+        this.singleType = singleType;
     }
 
     public void setImageLoader(ImageLoader imageLoader) {
