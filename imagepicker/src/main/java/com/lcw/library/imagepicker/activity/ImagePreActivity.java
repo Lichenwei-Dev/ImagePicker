@@ -15,12 +15,14 @@ import android.widget.Toast;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.adapter.ImagePreViewAdapter;
 import com.lcw.library.imagepicker.data.MediaFile;
+import com.lcw.library.imagepicker.manager.ConfigManager;
 import com.lcw.library.imagepicker.manager.SelectionManager;
 import com.lcw.library.imagepicker.provider.ImagePickerProvider;
 import com.lcw.library.imagepicker.utils.DataUtil;
 import com.lcw.library.imagepicker.view.HackyViewPager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -92,6 +94,20 @@ public class ImagePreActivity extends BaseActivity {
         mLlPreSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //如果是单类型选取，判断添加类型是否满足（照片视频不能共存）
+                if (ConfigManager.getInstance().isSingleType()) {
+                    ArrayList<String> selectPathList = SelectionManager.getInstance().getSelectPaths();
+                    if (!selectPathList.isEmpty()) {
+                        //判断选中集合中第一项是否为视频
+                        if (!SelectionManager.isCanAddSelectionPaths(mMediaFileList.get(mViewPager.getCurrentItem()).getPath(), selectPathList.get(0))) {
+                            //类型不同
+                            Toast.makeText(ImagePreActivity.this, getString(R.string.single_type_choose), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                }
+
                 boolean addSuccess = SelectionManager.getInstance().addImageToSelectList(mMediaFileList.get(mViewPager.getCurrentItem()).getPath());
                 if (addSuccess) {
                     updateSelectButton(mMediaFileList.get(mViewPager.getCurrentItem()).getPath());
@@ -185,6 +201,7 @@ public class ImagePreActivity extends BaseActivity {
 
     /**
      * 设置是否显示视频播放按钮
+     *
      * @param mediaFile
      */
     private void setIvPlayShow(MediaFile mediaFile) {

@@ -454,13 +454,11 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         if (mediaFile != null) {
             String imagePath = mediaFile.getPath();
             if (isSingleType) {
-                //单类型选取，判断添加类型
+                //如果是单类型选取，判断添加类型是否满足（照片视频不能共存）
                 ArrayList<String> selectPathList = SelectionManager.getInstance().getSelectPaths();
                 if (!selectPathList.isEmpty()) {
                     //判断选中集合中第一项是否为视频
-                    String path = selectPathList.get(0);
-                    boolean isVideo = MediaFileUtil.isVideoFileType(path);
-                    if ((!isVideo && mediaFile.getDuration() != 0) || isVideo && mediaFile.getDuration() == 0) {
+                    if (!SelectionManager.isCanAddSelectionPaths(imagePath, selectPathList.get(0))) {
                         //类型不同
                         Toast.makeText(this, getString(R.string.single_type_choose), Toast.LENGTH_SHORT).show();
                         return;
@@ -504,6 +502,19 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      * 跳转相机拍照
      */
     private void showCamera() {
+
+        if (isSingleType) {
+            //如果是单类型选取，判断添加类型是否满足（照片视频不能共存）
+            ArrayList<String> selectPathList = SelectionManager.getInstance().getSelectPaths();
+            if (!selectPathList.isEmpty()) {
+                if (MediaFileUtil.isVideoFileType(selectPathList.get(0))) {
+                    //如果存在视频，就不能拍照了
+                    Toast.makeText(this, getString(R.string.single_type_choose), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        }
+
         //拍照存放路径
         File fileDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
         if (!fileDir.exists()) {

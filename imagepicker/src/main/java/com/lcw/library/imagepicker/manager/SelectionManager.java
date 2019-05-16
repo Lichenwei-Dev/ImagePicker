@@ -1,5 +1,7 @@
 package com.lcw.library.imagepicker.manager;
 
+import com.lcw.library.imagepicker.utils.MediaFileUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +120,20 @@ public class SelectionManager {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 是否可以添加到选择集合（在singleType模式下，图片视频不能一起选）
+     *
+     * @param currentPath
+     * @param filePath
+     * @return
+     */
+    public static boolean isCanAddSelectionPaths(String currentPath, String filePath) {
+        if ((MediaFileUtil.isVideoFileType(currentPath) && !MediaFileUtil.isVideoFileType(filePath)) || (!MediaFileUtil.isVideoFileType(currentPath) && MediaFileUtil.isVideoFileType(filePath))) {
+            return false;
+        }
+        return true;
     }
 
     /**
