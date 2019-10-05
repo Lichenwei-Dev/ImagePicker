@@ -368,16 +368,18 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     private void updateImageTime() {
         int position = mGridLayoutManager.findFirstVisibleItemPosition();
-        MediaFile mediaFile = mImagePickerAdapter.getMediaFile(position);
-        if (mediaFile != null) {
-            if (mTvImageTime.getVisibility() != View.VISIBLE) {
-                mTvImageTime.setVisibility(View.VISIBLE);
+        if (position != RecyclerView.NO_POSITION) {
+            MediaFile mediaFile = mImagePickerAdapter.getMediaFile(position);
+            if (mediaFile != null) {
+                if (mTvImageTime.getVisibility() != View.VISIBLE) {
+                    mTvImageTime.setVisibility(View.VISIBLE);
+                }
+                String time = Utils.getImageTime(mediaFile.getDateToken());
+                mTvImageTime.setText(time);
+                showImageTime();
+                mMyHandler.removeCallbacks(mHideRunnable);
+                mMyHandler.postDelayed(mHideRunnable, 1500);
             }
-            String time = Utils.getImageTime(mediaFile.getDateToken());
-            mTvImageTime.setText(time);
-            showImageTime();
-            mMyHandler.removeCallbacks(mHideRunnable);
-            mMyHandler.postDelayed(mHideRunnable, 1500);
         }
     }
 

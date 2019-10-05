@@ -6,8 +6,8 @@ android {
         applicationId "com.lcw.demo.imagepicker"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 226
-        versionName "2.2.6"
+        versionCode 227
+        versionName "2.2.7"
     }
     buildTypes {
         release {
@@ -27,7 +27,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
-//    implementation 'com.lcw.library:imagepicker:2.2.6'
+//    implementation 'com.lcw.library:imagepicker:2.2.7'
     implementation project(':imagepicker')
 
 }
