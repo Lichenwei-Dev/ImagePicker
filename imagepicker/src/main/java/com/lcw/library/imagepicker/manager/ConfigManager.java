@@ -20,6 +20,7 @@ public class ConfigManager {
     private boolean showCamera;//是否显示拍照Item，默认不显示
     private boolean showImage = true;//是否显示图片，默认显示
     private boolean showVideo = true;//是否显示视频，默认显示
+    private boolean filterGif = false;//是否过滤GIF图片，默认不过滤
     private int selectionMode = SELECT_MODE_SINGLE;//选择模式，默认单选
     private int maxCount = 1;//最大选择数量，默认为1
     private boolean singleType;//是否只支持选单类型（图片或者视频）
@@ -84,6 +85,14 @@ public class ConfigManager {
             setSelectionMode(SELECT_MODE_MULTI);
         }
         this.maxCount = maxCount;
+    }
+
+    public boolean isFilterGif() {
+        return filterGif;
+    }
+
+    public void setFilterGif(boolean filterGif) {
+        this.filterGif = filterGif;
     }
 
     public int getSelectionMode() {

@@ -9,6 +9,7 @@ import android.support.annotation.WorkerThread;
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFile;
 import com.lcw.library.imagepicker.data.MediaFolder;
+import com.lcw.library.imagepicker.manager.ConfigManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,11 +48,19 @@ public class ImageScanner extends AbsMediaScanner<MediaFile> {
 
     @Override
     protected String getSelection() {
+        if (ConfigManager.getInstance().isFilterGif()) {
+            //过滤GIF
+            return MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?";
+        }
         return MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?" + " or " + MediaStore.Images.Media.MIME_TYPE + "=?";
     }
 
     @Override
     protected String[] getSelectionArgs() {
+        if (ConfigManager.getInstance().isFilterGif()) {
+            //过滤GIF
+            return new String[]{"image/jpeg", "image/png"};
+        }
         return new String[]{"image/jpeg", "image/png", "image/gif"};
     }
 
