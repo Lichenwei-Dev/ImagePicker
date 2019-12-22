@@ -51,7 +51,7 @@
                         .showCamera(true)//设置是否显示拍照按钮
                         .showImage(true)//设置是否展示图片
                         .showVideo(true)//设置是否展示视频
-                        .showVideo(true)//设置是否展示视频
+                        .filterGif(false)//设置是否过滤gif图片
                         .setSingleType(true)//设置图片视频不能同时选择
                         .setMaxCount(9)//设置最大选择图片数目(默认为1，单选)
                         .setImagePaths(mImageList)//保存上一次选择图片的状态，如果不需要可以忽略

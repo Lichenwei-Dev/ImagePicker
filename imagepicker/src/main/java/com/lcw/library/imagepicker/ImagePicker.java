@@ -86,6 +86,17 @@ public class ImagePicker {
         return mImagePicker;
     }
 
+    /**
+     * 是否过滤GIF图片(默认不过滤)
+     *
+     * @param filterGif
+     * @return
+     */
+    public ImagePicker filterGif(boolean filterGif) {
+        ConfigManager.getInstance().setFilterGif(filterGif);
+        return mImagePicker;
+    }
+
 
     /**
      * 图片最大选择数
