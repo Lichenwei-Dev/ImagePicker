@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,35 +149,37 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     private void bindMedia(MediaHolder mediaHolder, MediaFile mediaFile) {
 
         String imagePath = mediaFile.getPath();
-        //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
-        if (SelectionManager.getInstance().isImageSelect(imagePath)) {
-            mediaHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
-            mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
-        } else {
-            mediaHolder.mImageView.setColorFilter(null);
-            mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
-        }
-
-        try {
-            ConfigManager.getInstance().getImageLoader().loadImage(mediaHolder.mImageView, imagePath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (mediaHolder instanceof ImageHolder) {
-            //如果是gif图，显示gif标识
-            String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1);
-            if (suffix.toUpperCase().equals("GIF")) {
-                ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(imagePath)) {
+            //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
+            if (SelectionManager.getInstance().isImageSelect(imagePath)) {
+                mediaHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
+                mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
             } else {
-                ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.GONE);
+                mediaHolder.mImageView.setColorFilter(null);
+                mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
             }
-        }
 
-        if (mediaHolder instanceof VideoHolder) {
-            //如果是视频，需要显示视频时长
-            String duration = Utils.getVideoDuration(mediaFile.getDuration());
-            ((VideoHolder) mediaHolder).mVideoDuration.setText(duration);
+            try {
+                ConfigManager.getInstance().getImageLoader().loadImage(mediaHolder.mImageView, imagePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (mediaHolder instanceof ImageHolder) {
+                //如果是gif图，显示gif标识
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1);
+                if (suffix.toUpperCase().equals("GIF")) {
+                    ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.VISIBLE);
+                } else {
+                    ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.GONE);
+                }
+            }
+
+            if (mediaHolder instanceof VideoHolder) {
+                //如果是视频，需要显示视频时长
+                String duration = Utils.getVideoDuration(mediaFile.getDuration());
+                ((VideoHolder) mediaHolder).mVideoDuration.setText(duration);
+            }
         }
 
     }
@@ -199,9 +202,9 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      */
     class VideoHolder extends MediaHolder {
 
-        private TextView mVideoDuration;
+        TextView mVideoDuration;
 
-        public VideoHolder(View itemView) {
+        VideoHolder(View itemView) {
             super(itemView);
             mVideoDuration = itemView.findViewById(R.id.tv_item_videoDuration);
         }
@@ -212,10 +215,10 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      */
     class MediaHolder extends BaseHolder {
 
-        public SquareImageView mImageView;
-        public ImageView mImageCheck;
+        SquareImageView mImageView;
+        ImageView mImageCheck;
 
-        public MediaHolder(View itemView) {
+        MediaHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.iv_item_image);
             mImageCheck = itemView.findViewById(R.id.iv_item_check);
@@ -227,9 +230,9 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      */
     class BaseHolder extends RecyclerView.ViewHolder {
 
-        public SquareRelativeLayout mSquareRelativeLayout;
+        SquareRelativeLayout mSquareRelativeLayout;
 
-        public BaseHolder(View itemView) {
+        BaseHolder(View itemView) {
             super(itemView);
             mSquareRelativeLayout = itemView.findViewById(R.id.srl_item);
         }
