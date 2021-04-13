@@ -115,6 +115,25 @@ public class MediaHandler {
             }
         }
 
+        //对视频进行文件夹分类
+        if (videoFileList != null && !videoFileList.isEmpty()) {
+            int size = videoFileList.size();
+            //添加其他的视频文件夹
+            for (int i = 0; i < size; i++) {
+                MediaFile mediaFile = videoFileList.get(i);
+                int videoFolderId = mediaFile.getFolderId();
+                MediaFolder mediaFolder = mediaFolderMap.get(videoFolderId);
+                if (mediaFolder == null) {
+                    mediaFolder = new MediaFolder(videoFolderId, mediaFile.getFolderName(), mediaFile.getPath(), new ArrayList<MediaFile>());
+                }
+                ArrayList<MediaFile> videoList = mediaFolder.getMediaFileList();
+                videoList.add(mediaFile);
+                mediaFolder.setMediaFileList(videoList);
+                mediaFolder.setMediaFileList(videoList);
+                mediaFolderMap.put(videoFolderId, mediaFolder);
+            }
+        }
+
         //整理聚类数据
         List<MediaFolder> mediaFolderList = new ArrayList<>();
         for (Integer folderId : mediaFolderMap.keySet()) {
