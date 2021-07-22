@@ -68,6 +68,4 @@ public class Utils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
         return simpleDateFormat.format(date);
     }
-
-
 }

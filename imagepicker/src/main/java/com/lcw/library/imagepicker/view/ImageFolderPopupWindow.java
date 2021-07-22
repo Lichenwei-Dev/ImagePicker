@@ -2,12 +2,13 @@ package com.lcw.library.imagepicker.view;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.PopupWindow;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.adapter.ImageFoldersAdapter;
@@ -24,7 +25,6 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImageFolderPopupWindow extends PopupWindow {
-
     private static final int DEFAULT_IMAGE_FOLDER_SELECT = 0;//默认选中文件夹
 
     private Context mContext;
@@ -78,5 +78,4 @@ public class ImageFolderPopupWindow extends PopupWindow {
     public ImageFoldersAdapter getAdapter() {
         return mImageFoldersAdapter;
     }
-
 }

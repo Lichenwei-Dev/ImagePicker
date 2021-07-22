@@ -3,7 +3,8 @@ package com.lcw.library.imagepicker.utils;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Create by: chenWei.li
@@ -12,7 +13,6 @@ import android.support.v4.content.ContextCompat;
  * Email: lichenwei.me@foxmail.com
  */
 public class PermissionUtil {
-
     /**
      * 权限检查
      *

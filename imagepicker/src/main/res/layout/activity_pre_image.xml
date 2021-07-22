@@ -41,9 +41,7 @@
                 android:textColor="@color/text_color_white"
                 android:textSize="14sp" />
 
-
         </LinearLayout>
-
 
     </RelativeLayout>
 
@@ -62,10 +60,9 @@
             android:id="@+id/iv_main_play"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:visibility="gone"
             android:layout_centerInParent="true"
-            android:src="@mipmap/icon_video_play" />
+            android:src="@mipmap/icon_video_play"
+            android:visibility="gone" />
     </RelativeLayout>
-
 
 </RelativeLayout>

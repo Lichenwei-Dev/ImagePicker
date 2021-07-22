@@ -1,6 +1,6 @@
 package com.lcw.library.imagepicker.executors;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,5 +44,4 @@ public class CommonExecutor {
     public void execute(Runnable runnable) {
         mExecutorService.execute(runnable);
     }
-
 }

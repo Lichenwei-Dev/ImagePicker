@@ -95,7 +95,6 @@ public class SelectionManager {
         }
     }
 
-
     /**
      * 判断当前图片是否被选择
      *
@@ -142,5 +141,4 @@ public class SelectionManager {
     public void removeAll() {
         mSelectImagePaths.clear();
     }
-
 }

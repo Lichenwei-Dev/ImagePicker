@@ -33,10 +33,10 @@
         android:background="@drawable/selector_bt_commit"
         android:enabled="false"
         android:gravity="center"
-        android:paddingBottom="5dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
         android:text="@string/confirm"
         android:textColor="@color/text_color_white"
         android:textSize="14sp" />

@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.Queue;
  * Time: 下午5:29
  * Email: lichenwei.me@foxmail.com
  */
-public class PinchImageView extends android.support.v7.widget.AppCompatImageView {
+public class PinchImageView extends AppCompatImageView {
 
     ////////////////////////////////配置参数////////////////////////////////
 

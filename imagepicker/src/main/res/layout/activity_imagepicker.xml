@@ -23,8 +23,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
-            android:drawablePadding="4dp"
             android:drawableRight="@mipmap/icon_album_index"
+            android:drawablePadding="4dp"
             android:gravity="center"
             android:text="@string/all_media"
             android:textColor="@android:color/white"
@@ -39,7 +39,7 @@
         android:layout_above="@id/rl_main_bottom"
         android:layout_below="@id/layout_actionBar">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main_images"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,6 +55,5 @@
             android:textColor="@color/text_color_white"
             android:visibility="gone" />
     </RelativeLayout>
-
 
 </RelativeLayout>

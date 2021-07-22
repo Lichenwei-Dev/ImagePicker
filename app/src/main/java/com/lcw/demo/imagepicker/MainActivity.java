@@ -2,18 +2,17 @@ package com.lcw.demo.imagepicker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.lcw.library.imagepicker.ImagePicker;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     private TextView mTextView;
-
     private static final int REQUEST_SELECT_IMAGES_CODE = 0x01;
     private ArrayList<String> mImagePaths;
 
@@ -38,17 +37,18 @@ public class MainActivity extends AppCompatActivity {
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
             }
         });
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_SELECT_IMAGES_CODE && resultCode == RESULT_OK) {
             mImagePaths = data.getStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES);
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuffer = new StringBuilder();
             stringBuffer.append("当前选中图片路径：\n\n");
             for (int i = 0; i < mImagePaths.size(); i++) {
-                stringBuffer.append(mImagePaths.get(i) + "\n\n");
+                stringBuffer.append(mImagePaths.get(i)).append("\n\n");
             }
             mTextView.setText(stringBuffer.toString());
         }

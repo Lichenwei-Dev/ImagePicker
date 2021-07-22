@@ -179,5 +179,4 @@ public class MediaFileUtil {
         Integer value = sMimeTypeMap.get(mimeType);
         return (value == null ? 0 : value.intValue());
     }
-
 }

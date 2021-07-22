@@ -63,6 +63,4 @@ public class MediaFolder {
     public void setMediaFileList(ArrayList<MediaFile> mediaFileList) {
         this.mediaFileList = mediaFileList;
     }
-
-
 }

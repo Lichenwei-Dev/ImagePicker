@@ -135,8 +135,6 @@ public class MediaHandler {
             }
         });
 
-
         return mediaFolderList;
     }
-
 }

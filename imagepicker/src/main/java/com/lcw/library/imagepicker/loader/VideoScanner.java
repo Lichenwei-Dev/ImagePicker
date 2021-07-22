@@ -1,20 +1,12 @@
 package com.lcw.library.imagepicker.loader;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.WorkerThread;
-import android.util.Log;
 
-import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFile;
-import com.lcw.library.imagepicker.data.MediaFolder;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 媒体库扫描类(视频)
@@ -75,12 +67,12 @@ public class VideoScanner extends AbsMediaScanner<MediaFile> {
     @Override
     protected MediaFile parse(Cursor cursor) {
 
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-        String mime = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.MIME_TYPE));
-        Integer folderId = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID));
-        String folderName = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME));
-        long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
-        long dateToken = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DATE_TAKEN));
+        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+        @SuppressLint("Range") String mime = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.MIME_TYPE));
+        @SuppressLint("Range") Integer folderId = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID));
+        @SuppressLint("Range") String folderName = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME));
+        @SuppressLint("Range") long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
+        @SuppressLint("Range") long dateToken = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DATE_TAKEN));
 
         MediaFile mediaFile = new MediaFile();
         mediaFile.setPath(path);
@@ -92,6 +84,4 @@ public class VideoScanner extends AbsMediaScanner<MediaFile> {
 
         return mediaFile;
     }
-
-
 }

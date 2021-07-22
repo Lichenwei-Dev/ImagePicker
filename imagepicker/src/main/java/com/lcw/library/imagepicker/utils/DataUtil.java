@@ -15,7 +15,6 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public class DataUtil {
-
     private static volatile DataUtil mDataUtilInstance;
     private List<MediaFile> mData = new ArrayList<>();
 
@@ -40,6 +39,4 @@ public class DataUtil {
     public void setMediaData(List<MediaFile> data) {
         this.mData = data;
     }
-
-
 }

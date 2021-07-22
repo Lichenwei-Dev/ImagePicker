@@ -40,8 +40,5 @@ public class ImageLoadTask implements Runnable {
         if (mMediaLoadCallback != null) {
             mMediaLoadCallback.loadMediaSuccess(MediaHandler.getImageFolder(mContext, imageFileList));
         }
-
-
     }
-
 }

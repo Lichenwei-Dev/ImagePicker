@@ -42,5 +42,4 @@ public interface ImageLoader extends Serializable {
      * 缓存管理
      */
     void clearMemoryCache();
-
 }
