@@ -103,12 +103,10 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
     };
 
-
     /**
      * 大图预览页相关
      */
     private static final int REQUEST_SELECT_IMAGES_CODE = 0x01;//用于在大图预览页中点击提交按钮标识
-
 
     /**
      * 拍照相关
@@ -121,12 +119,10 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     private static final int REQUEST_PERMISSION_CAMERA_CODE = 0x03;
 
-
     @Override
     protected int bindLayout() {
         return R.layout.activity_imagepicker;
     }
-
 
     /**
      * 初始化配置
@@ -147,7 +143,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             SelectionManager.getInstance().addImagePathsToSelectList(mImagePaths);
         }
     }
-
 
     /**
      * 初始化布局控件
@@ -185,8 +180,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         mImagePickerAdapter = new ImagePickerAdapter(this, mMediaFileList);
         mImagePickerAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mImagePickerAdapter);
-
-
     }
 
     /**
@@ -233,7 +226,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
                 updateImageTime();
             }
         });
-
     }
 
     /**
@@ -278,7 +270,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
     }
 
-
     /**
      * 开启扫描任务
      */
@@ -307,7 +298,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
 
         CommonExecutor.getInstance().execute(mediaLoadTask);
     }
-
 
     /**
      * 处理媒体数据加载成功后的UI渲染
@@ -342,7 +332,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             });
         }
     }
-
 
     /**
      * 隐藏时间
@@ -489,15 +478,16 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             mTvCommit.setText(getString(R.string.confirm));
             return;
         }
+
         if (selectCount < mMaxCount) {
             mTvCommit.setEnabled(true);
             mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
             return;
         }
+
         if (selectCount == mMaxCount) {
             mTvCommit.setEnabled(true);
             mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
-            return;
         }
     }
 
@@ -601,7 +591,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         finish();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -624,5 +613,4 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             e.printStackTrace();
         }
     }
-
 }

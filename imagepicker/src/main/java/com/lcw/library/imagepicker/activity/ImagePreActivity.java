@@ -34,7 +34,6 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImagePreActivity extends BaseActivity {
-
     public static final String IMAGE_POSITION = "imagePosition";
     private List<MediaFile> mMediaFileList;
     private int mPosition = 0;
@@ -46,7 +45,6 @@ public class ImagePreActivity extends BaseActivity {
     private LinearLayout mLlPreSelect;
     private ImageView mIvPreCheck;
     private ImagePreViewAdapter mImagePreViewAdapter;
-
 
     @Override
     protected int bindLayout() {
@@ -65,7 +63,6 @@ public class ImagePreActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-
         findViewById(R.id.iv_actionBar_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +142,6 @@ public class ImagePreActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -166,7 +162,6 @@ public class ImagePreActivity extends BaseActivity {
      * 更新确认按钮状态
      */
     private void updateCommitButton() {
-
         int maxCount = SelectionManager.getInstance().getMaxCount();
 
         //改变确定按钮UI
@@ -184,7 +179,6 @@ public class ImagePreActivity extends BaseActivity {
         if (selectCount == maxCount) {
             mTvCommit.setEnabled(true);
             mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, maxCount));
-            return;
         }
     }
 
@@ -212,5 +206,4 @@ public class ImagePreActivity extends BaseActivity {
             mIvPlay.setVisibility(View.GONE);
         }
     }
-
 }
