@@ -16,7 +16,6 @@ import java.util.Date;
  * Email: lichenwei.me@foxmail.com
  */
 public class Utils {
-
     /**
      * 获取屏幕的宽和高
      *

@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * Email: lichenwei.me@foxmail.com
  */
 public class MediaFolder {
-
     private int folderId;
     private String folderName;
     private String folderCover;

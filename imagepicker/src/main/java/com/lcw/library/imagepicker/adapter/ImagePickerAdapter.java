@@ -32,18 +32,15 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.BaseHolder> {
-
     private Context mContext;
     private List<MediaFile> mMediaFileList;
     private boolean isShowCamera;
-
 
     public ImagePickerAdapter(Context context, List<MediaFile> mediaFiles) {
         this.mContext = context;
         this.mMediaFileList = mediaFiles;
         this.isShowCamera = ConfigManager.getInstance().isShowCamera();
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -85,7 +82,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         return mMediaFileList.get(position);
     }
 
-
     @NonNull
     @Override
     public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -104,7 +100,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         }
         return null;
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull BaseHolder holder, @SuppressLint("RecyclerView") final int position) {
@@ -141,7 +136,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         }
     }
 
-
     /**
      * 绑定数据（图片、视频）
      *
@@ -149,7 +143,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      * @param mediaFile
      */
     private void bindMedia(MediaHolder mediaHolder, MediaFile mediaFile) {
-
         String imagePath = mediaFile.getPath();
         if (!TextUtils.isEmpty(imagePath)) {
             //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
@@ -183,14 +176,12 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
                 ((VideoHolder) mediaHolder).mVideoDuration.setText(duration);
             }
         }
-
     }
 
     /**
      * 图片Item
      */
     class ImageHolder extends MediaHolder {
-
         public ImageView mImageGif;
 
         public ImageHolder(View itemView) {
@@ -203,7 +194,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      * 视频Item
      */
     class VideoHolder extends MediaHolder {
-
         TextView mVideoDuration;
 
         VideoHolder(View itemView) {
@@ -216,7 +206,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      * 媒体Item
      */
     class MediaHolder extends BaseHolder {
-
         SquareImageView mImageView;
         ImageView mImageCheck;
 
@@ -231,7 +220,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      * 基础Item
      */
     class BaseHolder extends RecyclerView.ViewHolder {
-
         SquareRelativeLayout mSquareRelativeLayout;
 
         BaseHolder(View itemView) {
@@ -239,7 +227,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
             mSquareRelativeLayout = itemView.findViewById(R.id.srl_item);
         }
     }
-
 
     /**
      * 接口回调，将点击事件向外抛

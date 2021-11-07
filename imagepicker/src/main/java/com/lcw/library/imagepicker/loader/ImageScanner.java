@@ -17,11 +17,9 @@ import com.lcw.library.imagepicker.manager.ConfigManager;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImageScanner extends AbsMediaScanner<MediaFile> {
-
     public ImageScanner(Context context) {
         super(context);
     }
-
 
     @Override
     protected Uri getScanUri() {

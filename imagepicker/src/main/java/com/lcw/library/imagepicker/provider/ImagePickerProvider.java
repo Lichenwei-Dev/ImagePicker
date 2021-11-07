@@ -12,7 +12,6 @@ import androidx.core.content.FileProvider;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImagePickerProvider extends FileProvider {
-
     public static String getFileProviderName(Context context) {
         return context.getPackageName() + ".provider";
     }

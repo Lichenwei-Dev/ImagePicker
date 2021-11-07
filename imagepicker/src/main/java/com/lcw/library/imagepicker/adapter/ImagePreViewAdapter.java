@@ -22,7 +22,6 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImagePreViewAdapter extends PagerAdapter {
-
     private Context mContext;
     private List<MediaFile> mMediaFileList;
 

@@ -16,9 +16,7 @@ import com.lcw.library.imagepicker.data.MediaFile;
  * Email: lichenwei.me@foxmail.com
  */
 public class VideoScanner extends AbsMediaScanner<MediaFile> {
-
     public static final int ALL_IMAGES_FOLDER = -1;//全部图片
-
     private Context mContext;
 
     public VideoScanner(Context context) {
@@ -66,7 +64,6 @@ public class VideoScanner extends AbsMediaScanner<MediaFile> {
      */
     @Override
     protected MediaFile parse(Cursor cursor) {
-
         @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
         @SuppressLint("Range") String mime = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.MIME_TYPE));
         @SuppressLint("Range") Integer folderId = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID));

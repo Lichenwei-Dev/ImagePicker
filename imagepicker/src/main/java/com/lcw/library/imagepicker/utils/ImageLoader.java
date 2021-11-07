@@ -12,7 +12,6 @@ import java.io.Serializable;
  * Email: lichenwei.me@foxmail.com
  */
 public interface ImageLoader extends Serializable {
-
     /**
      * 缩略图加载方案
      *
@@ -28,7 +27,6 @@ public interface ImageLoader extends Serializable {
      * @param imagePath
      */
     void loadPreImage(ImageView imageView, String imagePath);
-
 
     /**
      * 视频播放方案

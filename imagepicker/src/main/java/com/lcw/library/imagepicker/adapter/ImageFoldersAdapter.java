@@ -26,11 +26,9 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapter.ViewHolder> {
-
     private Context mContext;
     private List<MediaFolder> mMediaFolderList;
     private int mCurrentImageFolderIndex;
-
 
     public ImageFoldersAdapter(Context context, List<MediaFolder> mediaFolderList, int position) {
         this.mContext = context;
@@ -46,7 +44,6 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-
         final MediaFolder mediaFolder = mMediaFolderList.get(position);
         String folderCover = mediaFolder.getFolderCover();
         String folderName = mediaFolder.getFolderName();
@@ -89,7 +86,6 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
         private ImageView mImageCover;
         private TextView mFolderName;
         private TextView mImageSize;
