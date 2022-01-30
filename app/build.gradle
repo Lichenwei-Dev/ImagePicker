@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 32
-	buildToolsVersion '32.0.0'
+	buildToolsVersion '32.1.0-rc1'
     defaultConfig {
         applicationId "com.lcw.demo.imagepicker"
         minSdkVersion 16
@@ -20,8 +20,8 @@ android {
         abortOnError false
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
