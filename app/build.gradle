@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkPreview "Tiramisu"
-    buildToolsVersion '33.0.0-rc2'
+    compileSdkVersion 33
+    buildToolsVersion '33.0.0'
     defaultConfig {
         applicationId "com.lcw.demo.imagepicker"
         minSdkVersion 26
-        targetSdkPreview "Tiramisu"
+        targetSdkVersion 33
         versionCode 228
         versionName "2.2.8"
         ndk.abiFilters 'arm64-v8a'
@@ -28,8 +28,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.6.0-alpha01'
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0-alpha05'
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
     implementation project(':imagepicker')
 }
