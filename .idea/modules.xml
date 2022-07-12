@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImagePicker.iml" filepath="$PROJECT_DIR$/.idea/modules/ImagePicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ImagePicker.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ImagePicker.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ImagePicker.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ImagePicker.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ImagePicker.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ImagePicker.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ImagePicker.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ImagePicker.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/imagepicker/ImagePicker.imagepicker.iml" filepath="$PROJECT_DIR$/.idea/modules/imagepicker/ImagePicker.imagepicker.iml" />
