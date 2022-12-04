@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     namespace 'com.lcw.demo.imagepicker'
     compileSdkVersion 33
-    buildToolsVersion '33.0.0'
+    buildToolsVersion '33.0.1'
     defaultConfig {
         applicationId "com.lcw.demo.imagepicker"
         minSdkVersion 26
