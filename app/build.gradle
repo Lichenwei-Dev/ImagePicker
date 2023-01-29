@@ -2,8 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace 'com.lcw.demo.imagepicker'
-    compileSdkVersion 33
-    buildToolsVersion '33.0.1'
+    compileSdk 33
     defaultConfig {
         applicationId "com.lcw.demo.imagepicker"
         minSdkVersion 26
@@ -19,7 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions {
+    lint {
         abortOnError false
     }
     compileOptions {
@@ -27,6 +26,9 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 }
+
+group = 'io.ruibu'
+version = '1.0.0'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
