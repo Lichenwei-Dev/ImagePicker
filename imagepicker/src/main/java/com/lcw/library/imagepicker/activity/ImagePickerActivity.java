@@ -10,11 +10,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,6 +17,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lcw.library.imagepicker.ImagePicker;
 import com.lcw.library.imagepicker.R;
@@ -102,12 +103,10 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
     };
 
-
     /**
      * 大图预览页相关
      */
     private static final int REQUEST_SELECT_IMAGES_CODE = 0x01;//用于在大图预览页中点击提交按钮标识
-
 
     /**
      * 拍照相关
@@ -120,12 +119,10 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     private static final int REQUEST_PERMISSION_CAMERA_CODE = 0x03;
 
-
     @Override
     protected int bindLayout() {
         return R.layout.activity_imagepicker;
     }
-
 
     /**
      * 初始化配置
@@ -146,7 +143,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             SelectionManager.getInstance().addImagePathsToSelectList(mImagePaths);
         }
     }
-
 
     /**
      * 初始化布局控件
@@ -184,8 +180,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         mImagePickerAdapter = new ImagePickerAdapter(this, mMediaFileList);
         mImagePickerAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mImagePickerAdapter);
-
-
     }
 
     /**
@@ -232,7 +226,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
                 updateImageTime();
             }
         });
-
     }
 
     /**
@@ -243,7 +236,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         //进行权限的判断
         boolean hasPermission = PermissionUtil.checkPermission(this);
         if (!hasPermission) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CAMERA_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_MEDIA_IMAGES}, REQUEST_PERMISSION_CAMERA_CODE);
         } else {
             startScannerTask();
         }
@@ -277,7 +270,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
     }
 
-
     /**
      * 开启扫描任务
      */
@@ -306,7 +298,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
 
         CommonExecutor.getInstance().execute(mediaLoadTask);
     }
-
 
     /**
      * 处理媒体数据加载成功后的UI渲染
@@ -341,7 +332,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             });
         }
     }
-
 
     /**
      * 隐藏时间
@@ -488,15 +478,16 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             mTvCommit.setText(getString(R.string.confirm));
             return;
         }
+
         if (selectCount < mMaxCount) {
             mTvCommit.setEnabled(true);
             mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
             return;
         }
+
         if (selectCount == mMaxCount) {
             mTvCommit.setEnabled(true);
             mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
-            return;
         }
     }
 
@@ -566,6 +557,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_CAPTURE) {
                 //通知媒体库刷新
@@ -599,7 +591,6 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         finish();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -622,5 +613,4 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
             e.printStackTrace();
         }
     }
-
 }

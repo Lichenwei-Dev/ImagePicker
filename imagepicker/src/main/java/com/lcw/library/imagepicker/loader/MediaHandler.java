@@ -21,7 +21,6 @@ import java.util.Map;
  * Email: lichenwei.me@foxmail.com
  */
 public class MediaHandler {
-
     public static final int ALL_MEDIA_FOLDER = -1;//全部媒体
     public static final int ALL_VIDEO_FOLDER = -2;//全部视频
 
@@ -36,7 +35,6 @@ public class MediaHandler {
         return getMediaFolder(context, imageFileList, null);
     }
 
-
     /**
      * 对查询到的视频进行聚类（相册分类）
      *
@@ -48,7 +46,6 @@ public class MediaHandler {
         return getMediaFolder(context, null, imageFileList);
     }
 
-
     /**
      * 对查询到的图片和视频进行聚类（相册分类）
      *
@@ -58,7 +55,6 @@ public class MediaHandler {
      * @return
      */
     public static List<MediaFolder> getMediaFolder(Context context, ArrayList<MediaFile> imageFileList, ArrayList<MediaFile> videoFileList) {
-
         //根据媒体所在文件夹Id进行聚类（相册）
         Map<Integer, MediaFolder> mediaFolderMap = new HashMap<>();
 
@@ -135,8 +131,6 @@ public class MediaHandler {
             }
         });
 
-
         return mediaFolderList;
     }
-
 }

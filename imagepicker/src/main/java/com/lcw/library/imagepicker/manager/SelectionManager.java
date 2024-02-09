@@ -13,11 +13,8 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public class SelectionManager {
-
     private static volatile SelectionManager mSelectionManager;
-
     private ArrayList<String> mSelectImagePaths = new ArrayList<>();
-
     private int mMaxCount = 1;
 
     private SelectionManager() {
@@ -95,7 +92,6 @@ public class SelectionManager {
         }
     }
 
-
     /**
      * 判断当前图片是否被选择
      *
@@ -142,5 +138,4 @@ public class SelectionManager {
     public void removeAll() {
         mSelectImagePaths.clear();
     }
-
 }

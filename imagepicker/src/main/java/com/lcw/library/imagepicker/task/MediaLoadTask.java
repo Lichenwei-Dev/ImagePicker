@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * Email: lichenwei.me@foxmail.com
  */
 public class MediaLoadTask implements Runnable {
-
     private Context mContext;
     private ImageScanner mImageScanner;
     private VideoScanner mVideoScanner;
@@ -48,7 +47,5 @@ public class MediaLoadTask implements Runnable {
         if (mMediaLoadCallback != null) {
             mMediaLoadCallback.loadMediaSuccess(MediaHandler.getMediaFolder(mContext, imageFileList, videoFileList));
         }
-
     }
-
 }

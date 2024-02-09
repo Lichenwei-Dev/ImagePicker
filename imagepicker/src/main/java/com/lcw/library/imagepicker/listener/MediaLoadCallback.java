@@ -12,6 +12,5 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public interface MediaLoadCallback {
-
     void loadMediaSuccess(List<MediaFolder> mediaFolderList);
 }

@@ -1,35 +1,27 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
-
-publish {
-    userOrg = 'lichenwei'
-    groupId = 'com.lcw.library'
-    artifactId = 'imagepicker'
-    publishVersion = '2.2.8'
-    desc = 'Android image picker library'
-    website = 'https://github.com/Lichenwei-Dev/ImagePicker'
-}
 
 android {
-    compileSdkVersion 27
+    namespace 'com.lcw.library.imagepicker'
+    compileSdk 34
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 228
-        versionName "2.2.8"
+        minSdkVersion 26
+        targetSdkVersion 34
+        //noinspection ChromeOsAbiSupport
+        ndk.abiFilters 'arm64-v8a'
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
+    lint {
         abortOnError false
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }
 
 repositories {
@@ -39,6 +31,6 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0-alpha03'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
 }

@@ -83,5 +83,4 @@ public abstract class AbsMediaScanner<T> {
         }
         return list;
     }
-
 }

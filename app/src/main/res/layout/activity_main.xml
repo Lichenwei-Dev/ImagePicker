@@ -19,5 +19,4 @@
         android:layout_marginTop="20dp"
         android:textColor="@color/text_color_white" />
 
-
 </LinearLayout>

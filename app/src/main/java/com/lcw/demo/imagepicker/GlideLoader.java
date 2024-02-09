@@ -36,7 +36,6 @@ public class GlideLoader implements ImageLoader {
     public void loadPreImage(ImageView imageView, String imagePath) {
         //大图加载
         Glide.with(imageView.getContext()).load(imagePath).apply(mPreOptions).into(imageView);
-
     }
 
     @Override

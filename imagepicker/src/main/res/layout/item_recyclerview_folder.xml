@@ -11,10 +11,10 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:background="@mipmap/icon_image_folder"
-        android:paddingBottom="17dp"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:paddingTop="9dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="17dp"
         android:scaleType="fitXY" />
 
     <LinearLayout
@@ -66,6 +66,5 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@android:color/darker_gray" />
-
 
 </RelativeLayout>

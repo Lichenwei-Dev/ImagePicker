@@ -9,7 +9,6 @@ import java.util.Iterator;
  * E-Mail Address：xingzhe@gaoding.com
  */
 public class MediaFileUtil {
-
     // comma separated list of all file extensions supported by the media scanner
     public static String sFileExtensions;
 
@@ -58,7 +57,6 @@ public class MediaFileUtil {
 
     //静态内部类
     static class MediaFileType {
-
         int fileType;
         String mimeType;
 
@@ -75,7 +73,7 @@ public class MediaFileUtil {
 
     static void addFileType(String extension, int fileType, String mimeType) {
         sFileTypeMap.put(extension, new MediaFileType(fileType, mimeType));
-        sMimeTypeMap.put(mimeType, new Integer(fileType));
+        sMimeTypeMap.put(mimeType, Integer.valueOf(fileType));
     }
 
     static {
@@ -177,7 +175,6 @@ public class MediaFileUtil {
     //根据mime类型查看文件类型
     public static int getFileTypeForMimeType(String mimeType) {
         Integer value = sMimeTypeMap.get(mimeType);
-        return (value == null ? 0 : value.intValue());
+        return (value == null ? 0 : value);
     }
-
 }

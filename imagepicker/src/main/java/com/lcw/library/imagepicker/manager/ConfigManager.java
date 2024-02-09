@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * Email: lichenwei.me@foxmail.com
  */
 public class ConfigManager {
-
     public static final int SELECT_MODE_SINGLE = 0;
     public static final int SELECT_MODE_MULTI = 1;
 

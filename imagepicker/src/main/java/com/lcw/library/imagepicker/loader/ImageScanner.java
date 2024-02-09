@@ -1,20 +1,13 @@
 package com.lcw.library.imagepicker.loader;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.WorkerThread;
 
-import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFile;
-import com.lcw.library.imagepicker.data.MediaFolder;
 import com.lcw.library.imagepicker.manager.ConfigManager;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 媒体库扫描类(图片)
@@ -24,11 +17,9 @@ import java.util.Map;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImageScanner extends AbsMediaScanner<MediaFile> {
-
     public ImageScanner(Context context) {
         super(context);
     }
-
 
     @Override
     protected Uri getScanUri() {
@@ -77,12 +68,11 @@ public class ImageScanner extends AbsMediaScanner<MediaFile> {
      */
     @Override
     protected MediaFile parse(Cursor cursor) {
-
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-        String mime = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE));
-        Integer folderId = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID));
-        String folderName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
-        long dateToken = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
+        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        @SuppressLint("Range") String mime = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE));
+        @SuppressLint("Range") Integer folderId = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID));
+        @SuppressLint("Range") String folderName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
+        @SuppressLint("Range") long dateToken = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
 
         MediaFile mediaFile = new MediaFile();
         mediaFile.setPath(path);
@@ -93,6 +83,4 @@ public class ImageScanner extends AbsMediaScanner<MediaFile> {
 
         return mediaFile;
     }
-
-
 }

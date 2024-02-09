@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImageLoadTask implements Runnable {
-
     private Context mContext;
     private ImageScanner mImageScanner;
     private MediaLoadCallback mMediaLoadCallback;
@@ -40,8 +39,5 @@ public class ImageLoadTask implements Runnable {
         if (mMediaLoadCallback != null) {
             mMediaLoadCallback.loadMediaSuccess(MediaHandler.getImageFolder(mContext, imageFileList));
         }
-
-
     }
-
 }

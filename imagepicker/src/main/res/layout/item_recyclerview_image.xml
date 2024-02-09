@@ -31,5 +31,4 @@
         android:src="@mipmap/icon_gif"
         android:visibility="gone" />
 
-
 </com.lcw.library.imagepicker.view.SquareRelativeLayout>

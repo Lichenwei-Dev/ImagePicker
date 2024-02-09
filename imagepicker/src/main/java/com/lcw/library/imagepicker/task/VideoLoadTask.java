@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * Email: lichenwei.me@foxmail.com
  */
 public class VideoLoadTask implements Runnable {
-
     private Context mContext;
     private VideoScanner mVideoScanner;
     private MediaLoadCallback mMediaLoadCallback;
@@ -30,7 +29,6 @@ public class VideoLoadTask implements Runnable {
 
     @Override
     public void run() {
-
         //存放所有视频
         ArrayList<MediaFile> videoFileList = new ArrayList<>();
 
@@ -41,8 +39,5 @@ public class VideoLoadTask implements Runnable {
         if (mMediaLoadCallback != null) {
             mMediaLoadCallback.loadMediaSuccess(MediaHandler.getVideoFolder(mContext, videoFileList));
         }
-
-
     }
-
 }

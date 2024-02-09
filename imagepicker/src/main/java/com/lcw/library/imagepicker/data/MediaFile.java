@@ -8,7 +8,6 @@ package com.lcw.library.imagepicker.data;
  * Email: lichenwei.me@foxmail.com
  */
 public class MediaFile {
-
     private String path;
     private String mime;
     private Integer folderId;
@@ -64,4 +63,3 @@ public class MediaFile {
         this.dateToken = dateToken;
     }
 }
-

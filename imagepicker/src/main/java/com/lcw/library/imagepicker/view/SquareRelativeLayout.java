@@ -1,10 +1,10 @@
 package com.lcw.library.imagepicker.view;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
 
 /**
  * 正方形RelativeLayout
@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
  * Email: lichenwei.me@foxmail.com
  */
 public class SquareRelativeLayout extends RelativeLayout {
-
     public SquareRelativeLayout(Context context) {
         this(context, null);
     }

@@ -1,8 +1,7 @@
 package com.lcw.library.imagepicker.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lcw.library.imagepicker.ImagePicker;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.lcw.library.imagepicker.R;
 import com.lcw.library.imagepicker.data.MediaFolder;
 import com.lcw.library.imagepicker.manager.ConfigManager;
@@ -25,11 +26,9 @@ import java.util.List;
  * Email: lichenwei.me@foxmail.com
  */
 public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapter.ViewHolder> {
-
     private Context mContext;
     private List<MediaFolder> mMediaFolderList;
     private int mCurrentImageFolderIndex;
-
 
     public ImageFoldersAdapter(Context context, List<MediaFolder> mediaFolderList, int position) {
         this.mContext = context;
@@ -44,8 +43,7 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final MediaFolder mediaFolder = mMediaFolderList.get(position);
         String folderCover = mediaFolder.getFolderCover();
         String folderName = mediaFolder.getFolderName();
@@ -88,7 +86,6 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
         private ImageView mImageCover;
         private TextView mFolderName;
         private TextView mImageSize;
